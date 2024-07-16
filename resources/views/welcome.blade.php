@@ -14,9 +14,49 @@
         {{-- Font icon --}}
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
         <style>
+            @font-face {
+                font-family: 'quesha';
+                src: url({{asset('font/Quesha-gndR.ttf')}});
+            }
+            :root{
+                --warna-utama : #F8F4E1;
+                --warna-kedua : #AF8F6F;
+                --warna-ketiga : #74512D;
+                --warna-keempat : #543310;
+            }
             a {
                 color: black;
             }
+            .bg-utama {
+                background-color: var(--warna-utama)
+            }
+            .bg-kedua {
+                background-color: var(--warna-kedua)
+            }
+            .bg-ketiga {
+                background-color: var(--warna-ketiga)
+            }
+            .bg-keempat {
+                background-color: var(--warna-keempat)
+            }
+            
+            .color-utama {
+                color: var(--warna-utama)
+            }
+            .color-kedua {
+                color: var(--warna-utama)
+            }
+            .color-ketiga {
+                color: var(--warna-ketiga)
+            }
+            .color-keempat {
+                color: var(--warna-keempat)
+            }
+
+            body {
+                font-family: 'quesha';
+            }
+
         </style>
     </head>
     <body class="antialiased">

@@ -1,3 +1,9 @@
-<div>
-    <!-- Breathing in, I calm body and mind. Breathing out, I smile. - Thich Nhat Hanh -->
+@extends('welcome')
+
+@section('title', 'Menu')
+@section('content')
+@yield('filter')
+<div class="d-flex justify-content-center">
+     
 </div>
+@endsection

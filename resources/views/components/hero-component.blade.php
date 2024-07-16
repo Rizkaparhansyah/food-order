@@ -1,6 +1,6 @@
 @extends('welcome')
 
-@section('title', 'Cart')
+@section('title', 'Badami')
 @section('content')
 
 <div></div>
