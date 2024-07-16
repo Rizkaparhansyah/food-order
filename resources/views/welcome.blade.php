@@ -22,9 +22,10 @@
     <body class="antialiased">
        
 
-       <div>
+       <div class="container">
         <x-navbar-component/>
         @yield('content')
+
        </div>
 
 
