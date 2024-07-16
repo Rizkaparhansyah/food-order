@@ -19,3 +19,8 @@ Route::get('/', function () {
 Route::get('cart', function () {
     return view('components.cart-component');
 });
+
+
+Route::get('/admin', function(){
+    return view('admin.index');
+});
