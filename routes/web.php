@@ -21,10 +21,10 @@ Route::get('cart', function () {
 });
 
 
+// Admin
 Route::get('/admin', function(){
     return view('admin.index');
 });
-
-Route::get('/menu/tambah', function(){
-    return view('admin.menu.tambah');
+Route::get('/admin/makanan/tambah', function(){
+    return view('admin.makanan.tambah');
 });
