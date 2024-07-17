@@ -22,3 +22,20 @@ Route::get('cart', function () {
 Route::get('menu', function () {
     return view('components.menu-component');
 })->name('menu');
+
+
+// Admin
+Route::get('/admin', function(){
+    return view('admin.index');
+})->name('admin');
+
+Route::get('/admin/makanan', function(){
+    return view('admin.makanan.index');
+})->name('menuMakanan');
+
+Route::get('/admin/makanan/tambah', function(){
+    return view('admin.makanan.tambah');
+})->name('makananTambah');
+
+
+
