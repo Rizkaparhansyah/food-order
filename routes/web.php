@@ -16,6 +16,6 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('cart', function () {
-    return view('components.cart-component');
+Route::get('/', function () {
+    return view('components.hero-component');
 });

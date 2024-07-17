@@ -2,8 +2,6 @@
 
 @section('filter')
 
-<div>
-    ad
-</div>
+<div></div>
 
 @endsection
