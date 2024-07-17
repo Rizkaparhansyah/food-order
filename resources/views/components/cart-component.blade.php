@@ -2,5 +2,8 @@
 
 @section('title', 'Cart')
 @section('content')
-<div></div>
+<div>
+    
+</div>
+
 @endsection
