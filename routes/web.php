@@ -14,8 +14,28 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
-});
+    return view('components.hero-component');
+})->name('home');
 Route::get('cart', function () {
     return view('components.cart-component');
-});
+})->name('cart');
+Route::get('menu', function () {
+    return view('components.menu-component');
+})->name('menu');
+
+
+// Admin
+Route::get('/admin', function(){
+    return view('admin.index');
+})->name('admin');
+
+Route::get('/admin/makanan', function(){
+    return view('admin.makanan.index');
+})->name('menuMakanan');
+
+Route::get('/admin/makanan/tambah', function(){
+    return view('admin.makanan.tambah');
+})->name('makananTambah');
+
+
+
