@@ -11,8 +11,6 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header">
-                    {{-- <a href="#" class="btn btn-primary"><i class="fa fa-plus"></i> Tambah</a> --}}
-
                     <a href="#" class="btn btn-primary"><i class="fa fa-arrow-left"></i> Kembali</a>
                 </div> 
                 <div class="card-body">
