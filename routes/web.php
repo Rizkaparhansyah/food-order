@@ -14,8 +14,11 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
-});
-Route::get('/', function () {
     return view('components.hero-component');
-});
+})->name('home');
+Route::get('cart', function () {
+    return view('components.cart-component');
+})->name('cart');
+Route::get('menu', function () {
+    return view('components.menu-component');
+})->name('menu');
