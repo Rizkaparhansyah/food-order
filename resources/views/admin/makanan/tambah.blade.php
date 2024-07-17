@@ -11,22 +11,52 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header">
-                    <a href="#" class="btn btn-primary"><i class="fa fa-arrow-left"></i> Kembali</a>
+                    <a href="{{ route('menuMakanan') }}" class="btn btn-primary"><i class="fa fa-arrow-left"></i> Kembali</a>
                 </div> 
                 <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <x-adm.input type="text" label="Nama" name="nama" value="" attr="" />
-
-                            <x-adm.input type="file" label="Nama" name="nama"  value="" attr="" />
-
-                            <x-adm.textarea tlabel="Alamat" tname="alamat" tvalue="" tattr="" />
-
-                            <x-adm.submit />
+                    <form action="#">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <x-adm.input type="text" label="Nama" name="nama" value="" attr="required" />
+                            </div>
+                            <div class="col-md-4">
+                                <x-adm.input type="text" label="Harga" name="harga" value="" attr="required" />
+                            </div>
+                            <div class="col-md-4">
+                                <x-adm.input type="text" label="Diskon" name="diskon" value="" attr="required" />
+                            </div>
+                            <div class="col-md-6 mt-2">
+                                <x-adm.textarea tlabel="Deskripsi" tname="deskripsi" tvalue="" tattr="required style=height:100px" /> 
+                            </div>
+                            <div class="col-md-6 mt-2">
+                                <x-adm.input type="file" label="Gambar" name="gambar" value="" attr="required onchange=tampilGambar()" />
+                                <img src="" alt="preview-gambar" class="preview-gambar mt-2" style="display: none; width: 100px">
+                            </div>
+                            <div class="col-md-12 mt-2">
+                                <x-adm.submit />
+                            </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
 @endsection
+
+@push('script')
+    <script>
+        function tampilGambar() {
+            var gambar = document.querySelector('#gambar');
+            var tampil = document.querySelector('.preview-gambar');
+            var fileGambar = new FileReader();
+
+            fileGambar.readAsDataURL(gambar.files[0]);
+
+            fileGambar.onload = function(e) {
+                tampil.src = e.target.result;
+            }
+
+            tampil.style.display = 'block';
+        }
+    </script>
+@endpush
