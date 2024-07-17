@@ -24,3 +24,7 @@ Route::get('cart', function () {
 Route::get('/admin', function(){
     return view('admin.index');
 });
+
+Route::get('/menu/tambah', function(){
+    return view('admin.menu.tambah');
+});
