@@ -21,8 +21,10 @@
                             <x-adm.input type="text" label="Nama" name="nama" value="" attr="" />
 
                             <x-adm.input type="file" label="Nama" name="nama"  value="" attr="" />
-                            
+
                             <x-adm.textarea tlabel="Alamat" tname="alamat" tvalue="" tattr="" />
+
+                            <x-adm.submit />
                         </div>
                     </div>
                 </div>
