@@ -3,8 +3,8 @@
 @section('title', 'Menu')
 @section('content')
 <x-filter-component/>
-<div class="container mt-3">
-    <div class="d-flex gap-3 flex-wrap">
+<div class="container mt-3  col-sm-12">
+    <div class="d-flex gap-3 flex-wrap ">
         <div class="card" style="width: 18rem;">
             <div class="p-1">
 
