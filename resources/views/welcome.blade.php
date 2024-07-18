@@ -58,6 +58,12 @@
                 color: var(--warna-keempat)
             }
 
+            .btn-purple {
+            background-color: #6f42c1;
+            color: #fff;
+            border: none;
+            }
+
         </style>
     </head>
     <body class="antialiased">
