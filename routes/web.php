@@ -16,4 +16,6 @@ Route::get('menu', function () {
 })->name('menu');
 
 Route::get('/search', [MenuController::class, 'search'])->name('search');
+Route::post('/proses-form', [FormController::class, 'prosesForm'])->name('proses_form');
+
 
