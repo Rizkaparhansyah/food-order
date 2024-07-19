@@ -1,6 +1,6 @@
 <!-- Sidebar -->
 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
-    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ route('admin') }}">
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ route('kasir') }}">
         <div class="sidebar-brand-icon rotate-n-15">
             <i class="fas fa-laugh-wink"></i>
         </div>
@@ -26,7 +26,7 @@
         </a>
         <div id="menu" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="{{ route('menuMakanan') }}">Makanan</a>
+                <a class="collapse-item" href="{{ route('menuMakananKasir') }}">Makanan</a>
                 <a class="collapse-item" href="#">Minuman</a>
             </div>
         </div>
