@@ -74,6 +74,11 @@
 
         <script>
             $(document).ready(function() {
+                
+                const cartButton = $('#cart');
+                const nameLoginForm = $('#formUser');
+                const nameLoginModal = new bootstrap.Modal(document.getElementById('authModal'));
+
                 // Set CSRF token in AJAX setup
                 $.ajaxSetup({
                     headers: {
@@ -92,6 +97,7 @@
                         },
                         success: function (data) {
                             if (!data.authenticated) {
+                                $('#logoutButton').attr('hidden', true)
                                 alert('berhasil.');
                                 window.location.href = '/'; // Redirect ke halaman yang diinginkan
                             } else {
@@ -101,13 +107,7 @@
                     });
                 });
 
-                const cartButton = $('#cart');
-                const nameLoginModal = new bootstrap.Modal(document.getElementById('authModal'));
-                const nameLoginForm = $('#formUser');
-
-                cartButton.on('click', function (event) {
-                    event.preventDefault();
-
+                const cekAuthUser = url => {
                     $.ajax({
                         url: '{{ route('check.auth') }}',
                         method: 'POST',
@@ -115,13 +115,19 @@
                             'Content-Type': 'application/json',
                         },
                         success: function (data) {
+                            // console.log('data', data)
                             if (!data.authenticated) {
                                 nameLoginModal.show();
                             } else {
-                                window.location.href = '{{ route('cart') }}';
+                                window.location.href = url;
                             }
                         }
                     });
+                }
+                cartButton.on('click', function (event) {
+                    event.preventDefault();
+                    const url = $(this).data('url')
+                    cekAuthUser(url)
                 });
 
                 nameLoginForm.on('submit', function (event) {

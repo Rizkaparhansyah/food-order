@@ -16,9 +16,7 @@ return new class extends Migration
             $table->string('name')->nullable();
             $table->string('email')->unique();
             $table->string('password')->nullable();
-            $table->string('table')->nullable();
-            $table->string('kode')->nullable();
-            $table->enum('role', ['kasir', 'admin', 'user']);
+            $table->enum('role', ['kasir', 'admin']);
             $table->timestamps();
         });
     }

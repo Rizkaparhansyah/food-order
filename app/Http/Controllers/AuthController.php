@@ -14,13 +14,25 @@ class AuthController extends Controller
     }  
 
     public function verify(Request $request) {
-        if (Auth::guard('admin')->attempt(['email' => $request->email, 'password' => $request->password, 'role' => 'admin'])) {
-            return redirect()->intended('admin');
+
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return back()->withErrors([
+                'mesg' => 'Email atau password anda salah!',
+            ]);
+        }else{
+            if (Auth::guard('admin')->attempt(['email' => $request->email, 'password' => $request->password, 'role' => 'admin'])) {
+                return redirect()->intended('admin');
+            }
+            else if (Auth::guard('kasir')->attempt(['email' => $request->email, 'password' => $request->password, 'role' => 'kasir'])) {
+                return redirect()->intended('kasir');
+            }
+     
         }
-        else if (Auth::guard('kasir')->attempt(['email' => $request->email, 'password' => $request->password, 'role' => 'kasir'])) {
-            return redirect()->intended('kasir');
-        }
- 
         return back()->withErrors([
             'mesg' => 'Email atau password anda salah!',
         ]);
@@ -30,12 +42,17 @@ class AuthController extends Controller
     public function checkAuth(Request $request)
     {
         return response()->json(['authenticated' => $request->session()->has('user_name')
-        // , 'authenticatedKode' => $request->session()->has('kode')
+        , 'auth_kode' => $request->session()->get('kode', false)
+        , 'auth_name' => $request->session()->get('user_name', false)
     ]);
     }
 
     public function ajaxLoginWithName(Request $request)
     {
+        function generateFourDigitCode() {
+            return str_pad(mt_rand(0, 9999), 4, '0', STR_PAD_LEFT);
+        }
+
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'table' => 'required|string|max:255',
@@ -48,9 +65,9 @@ class AuthController extends Controller
         }else{
             $request->session()->put([
                 'user_name' => $request->name,
-                'kode' => $request->kode
+                'kode' => generateFourDigitCode()
             ]);
-            return response()->json(['authenticated' => true]);
+            return response()->json(['authenticated' => true, 'authenticatedKode' => $request->session()->has('kode')]);
         }
         return;
     }

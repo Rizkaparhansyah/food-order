@@ -4,7 +4,7 @@
         <div class="sidebar-brand-icon rotate-n-15">
             <i class="fas fa-laugh-wink"></i>
         </div>
-        <div class="sidebar-brand-text mx-3">KASIR</div>
+        <div class="sidebar-brand-text mx-3">Kasir</div>
     </a>
     <hr class="sidebar-divider my-0">
 
@@ -19,44 +19,24 @@
     </div>
 
     <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#menu"
-            aria-expanded="true" aria-controls="menu">
-            <i class="fas fa-fw fa-mug-saucer"></i>
-            <span>Menu</span>
-        </a>
-        <div id="menu" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="{{ route('menuMakananKasir') }}">Makanan</a>
-                <a class="collapse-item" href="#">Minuman</a>
-            </div>
-        </div>
-    </li>
-
-    <li class="nav-item">
         <a class="nav-link" href="#">
-            <i class="fas fa-fw fa-user"></i>
-            <span>Kasir</span></a>
+            <i class="fas fa-fw fa-list"></i>
+            <span>Daftar Pesanan</span></a>
     </li>
 
     <li class="nav-item">
         <a class="nav-link" href="#">
             <i class="fas fa-fw fa-cart-shopping"></i>
-            <span>Data Penjualan</span></a>
+            <span>Order</span></a>
     </li>
 
+
     <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#laporan"
-            aria-expanded="true" aria-controls="laporan">
-            <i class="fas fa-fw fa-print"></i>
-            <span>Laporan</span>
-        </a>
-        <div id="laporan" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="#">Laporan 1</a>
-                <a class="collapse-item" href="#">Laporan 2</a>
-            </div>
-        </div>
+        <a class="nav-link" href="#">
+            <i class="fas fa-fw fa-history"></i>
+            <span>Riwayat</span></a>
     </li>
+
 
     <hr class="sidebar-divider d-none d-md-block">
     <!-- Sidebar Toggler (Sidebar) -->

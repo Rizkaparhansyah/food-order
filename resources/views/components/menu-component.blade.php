@@ -2,7 +2,9 @@
 
 @section('title', 'Menu')
 @section('content')
+
 <x-filter-component/>
+
 <div class="container mt-3">
     <div class="row">
         <div class="col-sm-12 mt-2 col-md-6 col-lg-4">
