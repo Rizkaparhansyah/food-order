@@ -1,7 +1,19 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MenuController;
+
+
+
+
+Route::post('/admin/auth', [AuthController::class, 'verify'])->name('auth.verify');
+
+Route::get('admin/login', [AuthController::class, 'index'])->name('login');
+
+
+
+
 
 Route::get('/', function () {
     return view('components.hero-component');
