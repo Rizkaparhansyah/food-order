@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 class AuthController extends Controller
 {
     public function index() {
-        return view('admin.login.index');
+        return view('components.login-component');
     }  
 
     public function verify(Request $request) {

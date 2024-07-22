@@ -9,7 +9,7 @@ use App\Http\Controllers\MenuController;
 
 Route::post('/admin/auth', [AuthController::class, 'verify'])->name('auth.verify');
 
-Route::get('admin/login', [AuthController::class, 'index'])->name('login');
+Route::get('admin/login', [AuthController::class, 'index'])->name('admin.login.index');
 
 
 
@@ -28,6 +28,6 @@ Route::get('menu', function () {
 })->name('menu');
 
 Route::get('/search', [MenuController::class, 'search'])->name('search');
-Route::post('/proses-form', [FormController::class, 'prosesForm'])->name('proses_form');
+// Route::post('/proses-form', [FormController::class, 'prosesForm'])->name('proses_form');
 
 
