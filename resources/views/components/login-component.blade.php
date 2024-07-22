@@ -76,7 +76,7 @@
 
         <div class="card bg-glass">
           <div class="card-body px-4 py-5 px-md-5">
-            <form method="POST">
+            <form method="POST" action="{{ route('auth.verify') }}">
             @csrf
               <!-- Email input -->
               <div data-mdb-input-init class="form-outline mb-4">

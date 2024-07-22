@@ -1,3 +1,4 @@
+
 <?php
 
 return [
@@ -40,6 +41,18 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+        'admin' => [
+            'driver' => 'session',
+            'provider' => 'admin',
+        ],
+        'kasir' => [
+            'driver' => 'session',
+            'provider' => 'kasir',
+        ],
+        'user' => [
+            'driver' => 'session',
+            'provider' => 'user',
+        ],
     ],
 
     /*
@@ -63,6 +76,14 @@ return [
         'users' => [
             'driver' => 'eloquent',
             'model' => App\Models\User::class,
+        ],
+        'admin' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Admin::class,
+        ],
+        'kasir' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Admin::class,
         ],
 
         // 'users' => [

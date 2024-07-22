@@ -7,11 +7,18 @@ use App\Http\Controllers\MenuController;
 
 
 
+// Admin
+Route::get('/logout', [AuthController::class, 'logout'])->name('auth.logout');
+Route::get('/admin/login', [AuthController::class, 'index'])->name('auth.index');
 Route::post('/admin/auth', [AuthController::class, 'verify'])->name('auth.verify');
 
-Route::get('admin/login', [AuthController::class, 'index'])->name('admin.login.index');
+Route::get('/kasir', function () {
+    return view('kasir.index');
+})->name('kasir')->middleware('auth:kasir');
 
-
+Route::get('/admin', function () {
+    return view('admin.index');
+})->name('admin')->middleware('auth:admin');
 
 
 
