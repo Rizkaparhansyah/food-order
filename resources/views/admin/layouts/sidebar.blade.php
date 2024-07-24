@@ -25,14 +25,14 @@
     </li>
 
     <li class="nav-item">
-        <a class="nav-link" href="{{ route('menuMakanan') }}">
+        <a class="nav-link" href="{{ route('list-menu') }}">
             <i class="fas fa-fw fa-list"></i>
             <span>Menu</span></a>
     </li>
 
 
     <li class="nav-item">
-        <a class="nav-link" href="#">
+        <a class="nav-link" href="{{ route('list-kategori') }}">
             <i class="fas fa-fw fa-barcode"></i>
             <span>Kategori</span></a>
     </li>

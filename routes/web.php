@@ -1,6 +1,9 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\KategoriController;
+use App\Http\Controllers\MenuController;
+use App\Models\Menu;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -27,15 +30,19 @@ Route::middleware('auth:admin')->group(function () {
         return view('admin.index');
     })->name('admin');
 
-    Route::get('/admin/makanan', function(){
-        return view('admin.makanan.index');
-    })->name('menuMakanan');
+    Route::get('/admin/menu', [MenuController::class, 'index'])->name('list-menu');
 
-    Route::get('/admin/makanan/tambah', function(){
-        return view('admin.makanan.tambah');
-    })->name('makananTambah');
+    Route::get('/admin/kategori', [KategoriController::class, 'index'])->name('list-kategori');
+
+    Route::get('/admin/menu/tambah', function(){
+        return view('admin.menu.tambah');
+    })->name('menuTambah');
     
 });
+
+// DATA
+Route::get('list-kategoris', [KategoriController::class, 'kategori'])->name('data.kategori');
+Route::get('list-menu', [MenuController::class, 'menu'])->name('data.menu');
 
 Route::middleware('auth:kasir')->group(function () {
     
@@ -43,13 +50,13 @@ Route::middleware('auth:kasir')->group(function () {
         return view('kasir.index');
     })->name('kasir');
 
-    Route::get('/kasir/makanan', function(){
-        return view('kasir.makanan.index');
-    })->name('menuMakananKasir');
+    Route::get('/kasir/menu', function(){
+        return view('kasir.menu.index');
+    })->name('menumenuKasir');
 
-    Route::get('/kasir/makanan/tambah', function(){
-        return view('kasir.makanan.tambah');
-    })->name('makananTambahKasir');
+    Route::get('/kasir/menu/tambah', function(){
+        return view('kasir.menu.tambah');
+    })->name('menuTambahKasir');
 
 });
 
@@ -64,7 +71,8 @@ Route::post('/logout-user', [AuthController::class, 'logoutUser'])->name('logout
 
 
 Route::get('menu', function () {
-    return view('components.menu-component');
+    $data = Menu::with('kategori')->get();
+    return view('components.menu-component', compact('data'));
 })->name('menu');
 
 

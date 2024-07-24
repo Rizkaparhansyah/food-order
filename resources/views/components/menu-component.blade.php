@@ -7,153 +7,29 @@
 
 <div class="container mt-3">
     <div class="row">
-        <div class="col-sm-12 mt-2 col-md-6 col-lg-4">
-            <div class="card p-2">
-                <div class="p-0">
-                    <img src="https://images.unsplash.com/photo-1542372147193-a7aca54189cd?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" style="height: 300px; object-fit:cover" class="col-sm-12 card-img-top rounded" alt="...">
-                </div>
-                <div class="card-body p-0 mt-2">
-                    <div class="d-flex justify-content-between">
-                        <h4 class="card-title fw-bold">Redvelvet</h4>
-                        <h6 class="card-title fw-medium">Minuman</h6>
+        @foreach ($data as $item)
+            <div class="col-sm-12 mt-2 col-md-6 col-lg-4">
+                <div class="card p-2">
+                    <div class="p-0">
+                        <img src="{{$item->foto}}" style="height: 300px; object-fit:cover" class="col-sm-12 card-img-top rounded" alt="...">
                     </div>
-                    <div class="d-flex gap-2 flex-wrap">
-                        <p class="card-text text-success"><strong>Rp. 70.999</strong></p>
-                        <p class="card-text text-danger"><small><del>Rp. 99.999</del></small></p>
-                    </div>
-                    <div class="d-flex gap-2">
-                        <button class="btn bg-kedua color-utama fs-5 col-10">Pesan</button>
-                        <button class="btn color-utama w-100 d-flex justify-content-center align-items-center" style="border-color: var(--warna-kedua)" data-bs-toggle="modal" data-bs-target="#productModal"><i class="fa-solid fa-magnifying-glass color-keempat"></i></button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-12 mt-2 col-md-6 col-lg-4">
-            <div class="card p-2">
-                <div class="p-0">
-                    <img src="https://images.unsplash.com/photo-1542372147193-a7aca54189cd?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" style="height: 300px; object-fit:cover" class="col-sm-12 card-img-top rounded" alt="...">
-                </div>
-                <div class="card-body p-0 mt-2">
-                    <div class="d-flex justify-content-between">
-                        <h4 class="card-title fw-bold">Redvelvet</h4>
-                        <h6 class="card-title fw-medium">Minuman</h6>
-                    </div>
-                    <div class="d-flex gap-2 flex-wrap">
-                        <p class="card-text text-success"><strong>Rp. 70.999</strong></p>
-                        <p class="card-text text-danger"><small><del>Rp. 99.999</del></small></p>
-                    </div>
-                    <div class="d-flex gap-2">
-                        <button class="btn bg-kedua color-utama fs-5 col-10">Pesan</button>
-                        <button class="btn color-utama w-100 d-flex justify-content-center align-items-center" style="border-color: var(--warna-kedua)" data-bs-toggle="modal" data-bs-target="#productModal"><i class="fa-solid fa-magnifying-glass color-keempat"></i></button>
+                    <div class="card-body p-0 mt-2">
+                        <div class="d-flex justify-content-between">
+                            <h2 class="card-title fw-bold">{{$item->nama}}</h2>
+                            <h3 class="card-title fw-medium">{{ $item->kategori->nama }}</h3>
+                        </div>
+                        <div class="d-flex gap-2 flex-wrap">
+                            <p class="card-text text-success"><strong>Rp. {{ number_format($item->harga * (1 - $item->diskon / 100), 0, ',', '.') }}</strong></p>
+                            <p class="card-text text-danger"><small><del>Rp. {{ number_format($item->harga, 0, ',', '.') }}</del></small></p>
+                        </div>
+                        <div class="d-flex gap-2">
+                            <button class="btn bg-kedua color-utama fs-5 col-10">Pesan</button>
+                            <button class="btn color-utama w-100 d-flex justify-content-center align-items-center" style="border-color: var(--warna-kedua)" data-bs-toggle="modal" data-bs-target="#productModal"><i class="fa-solid fa-magnifying-glass color-keempat"></i></button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="col-sm-12 mt-2 col-md-6 col-lg-4">
-            <div class="card p-2">
-                <div class="p-0">
-                    <img src="https://images.unsplash.com/photo-1542372147193-a7aca54189cd?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" style="height: 300px; object-fit:cover" class="col-sm-12 card-img-top rounded" alt="...">
-                </div>
-                <div class="card-body p-0 mt-2">
-                    <div class="d-flex justify-content-between">
-                        <h4 class="card-title fw-bold">Redvelvet</h4>
-                        <h6 class="card-title fw-medium">Minuman</h6>
-                    </div>
-                    <div class="d-flex gap-2 flex-wrap">
-                        <p class="card-text text-success"><strong>Rp. 70.999</strong></p>
-                        <p class="card-text text-danger"><small><del>Rp. 99.999</del></small></p>
-                    </div>
-                    <div class="d-flex gap-2">
-                        <button class="btn bg-kedua color-utama fs-5 col-10">Pesan</button>
-                        <button class="btn color-utama w-100 d-flex justify-content-center align-items-center" style="border-color: var(--warna-kedua)" data-bs-toggle="modal" data-bs-target="#productModal"><i class="fa-solid fa-magnifying-glass color-keempat"></i></button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-12 mt-2 col-md-6 col-lg-4">
-            <div class="card p-2">
-                <div class="p-0">
-                    <img src="https://images.unsplash.com/photo-1542372147193-a7aca54189cd?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" style="height: 300px; object-fit:cover" class="col-sm-12 card-img-top rounded" alt="...">
-                </div>
-                <div class="card-body p-0 mt-2">
-                    <div class="d-flex justify-content-between">
-                        <h4 class="card-title fw-bold">Redvelvet</h4>
-                        <h6 class="card-title fw-medium">Minuman</h6>
-                    </div>
-                    <div class="d-flex gap-2 flex-wrap">
-                        <p class="card-text text-success"><strong>Rp. 70.999</strong></p>
-                        <p class="card-text text-danger"><small><del>Rp. 99.999</del></small></p>
-                    </div>
-                    <div class="d-flex gap-2">
-                        <button class="btn bg-kedua color-utama fs-5 col-10">Pesan</button>
-                        <button class="btn color-utama w-100 d-flex justify-content-center align-items-center" style="border-color: var(--warna-kedua)" data-bs-toggle="modal" data-bs-target="#productModal"><i class="fa-solid fa-magnifying-glass color-keempat"></i></button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-12 mt-2 col-md-6 col-lg-4">
-            <div class="card p-2">
-                <div class="p-0">
-                    <img src="https://images.unsplash.com/photo-1542372147193-a7aca54189cd?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" style="height: 300px; object-fit:cover" class="col-sm-12 card-img-top rounded" alt="...">
-                </div>
-                <div class="card-body p-0 mt-2">
-                    <div class="d-flex justify-content-between">
-                        <h4 class="card-title fw-bold">Redvelvet</h4>
-                        <h6 class="card-title fw-medium">Minuman</h6>
-                    </div>
-                    <div class="d-flex gap-2 flex-wrap">
-                        <p class="card-text text-success"><strong>Rp. 70.999</strong></p>
-                        <p class="card-text text-danger"><small><del>Rp. 99.999</del></small></p>
-                    </div>
-                    <div class="d-flex gap-2">
-                        <button class="btn bg-kedua color-utama fs-5 col-10">Pesan</button>
-                        <button class="btn color-utama w-100 d-flex justify-content-center align-items-center" style="border-color: var(--warna-kedua)" data-bs-toggle="modal" data-bs-target="#productModal"><i class="fa-solid fa-magnifying-glass color-keempat"></i></button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-12 mt-2 col-md-6 col-lg-4">
-            <div class="card p-2">
-                <div class="p-0">
-                    <img src="https://images.unsplash.com/photo-1542372147193-a7aca54189cd?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" style="height: 300px; object-fit:cover" class="col-sm-12 card-img-top rounded" alt="...">
-                </div>
-                <div class="card-body p-0 mt-2">
-                    <div class="d-flex justify-content-between">
-                        <h4 class="card-title fw-bold">Redvelvet</h4>
-                        <h6 class="card-title fw-medium">Minuman</h6>
-                    </div>
-                    <div class="d-flex gap-2 flex-wrap">
-                        <p class="card-text text-success"><strong>Rp. 70.999</strong></p>
-                        <p class="card-text text-danger"><small><del>Rp. 99.999</del></small></p>
-                    </div>
-                    <div class="d-flex gap-2">
-                        <button class="btn bg-kedua color-utama fs-5 col-10">Pesan</button>
-                        <button class="btn color-utama w-100 d-flex justify-content-center align-items-center" style="border-color: var(--warna-kedua)" data-bs-toggle="modal" data-bs-target="#productModal"><i class="fa-solid fa-magnifying-glass color-keempat"></i></button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-12 mt-2 col-md-6 col-lg-4">
-            <div class="card p-2">
-                <div class="p-0">
-                    <img src="https://images.unsplash.com/photo-1542372147193-a7aca54189cd?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" style="height: 300px; object-fit:cover" class="col-sm-12 card-img-top rounded" alt="...">
-                </div>
-                <div class="card-body p-0 mt-2">
-                    <div class="d-flex justify-content-between">
-                        <h4 class="card-title fw-bold">Redvelvet</h4>
-                        <h6 class="card-title fw-medium">Minuman</h6>
-                    </div>
-                    <div class="d-flex gap-2 flex-wrap">
-                        <p class="card-text text-success"><strong>Rp. 70.999</strong></p>
-                        <p class="card-text text-danger"><small><del>Rp. 99.999</del></small></p>
-                    </div>
-                    <div class="d-flex gap-2">
-                        <button class="btn bg-kedua color-utama fs-5 col-10" id='checkout'>Pesan</button>
-                        <button class="btn color-utama w-100 d-flex justify-content-center align-items-center" style="border-color: var(--warna-kedua)" data-bs-toggle="modal" data-bs-target="#productModal"><i class="fa-solid fa-magnifying-glass color-keempat"></i></button>
-                    </div>
-                </div>
-            </div>
-        </div>
+        @endforeach
     </div>
 </div>
 
