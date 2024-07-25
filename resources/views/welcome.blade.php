@@ -72,19 +72,40 @@
          @yield('content')
 
 
-        <script>
-            $(document).ready(function() {
-                
-                const cartButton = $('#cart');
-                const nameLoginForm = $('#formUser');
-                const nameLoginModal = new bootstrap.Modal(document.getElementById('authModal'));
-
-                // Set CSRF token in AJAX setup
-                $.ajaxSetup({
+        <script> 
+        
+            // Set CSRF token in AJAX setup
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            
+            window.cekAuthUser = url => {
+                $.ajax({
+                    url: '{{ route('check.auth') }}',
+                    method: 'POST',
                     headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        'Content-Type': 'application/json',
+                    },
+                    success: function (data) {
+                        // console.log('data', data)
+                        if (!data.authenticated) {
+                            $('#authModal').modal('show');
+                        } else {
+                            window.location.href = url;
+                        }
                     }
                 });
+            }
+            
+            $(document).ready(function() {
+                const nameLoginModal = new bootstrap.Modal(document.getElementById('authModal'));
+                const cartButton = $('#cart');
+                const pesanButton = $('#pesan');
+                const nameLoginForm = $('#formUser');
+
+               
 
                 $('#logoutButton').on('click', function (event) {
                     event.preventDefault();
@@ -107,24 +128,14 @@
                     });
                 });
 
-                const cekAuthUser = url => {
-                    $.ajax({
-                        url: '{{ route('check.auth') }}',
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        success: function (data) {
-                            // console.log('data', data)
-                            if (!data.authenticated) {
-                                nameLoginModal.show();
-                            } else {
-                                window.location.href = url;
-                            }
-                        }
-                    });
-                }
+                
                 cartButton.on('click', function (event) {
+                    event.preventDefault();
+                    const url = $(this).data('url')
+                    cekAuthUser(url)
+                });
+
+                pesanButton.on('click', function (event) {
                     event.preventDefault();
                     const url = $(this).data('url')
                     cekAuthUser(url)
@@ -159,6 +170,8 @@
              
             });
         </script>
+
+        @stack('script')
 
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>

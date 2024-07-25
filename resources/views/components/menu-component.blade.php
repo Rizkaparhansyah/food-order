@@ -23,7 +23,7 @@
                             <p class="card-text text-danger"><small><del>Rp. {{ number_format($item->harga, 0, ',', '.') }}</del></small></p>
                         </div>
                         <div class="d-flex gap-2">
-                            <button class="btn bg-kedua color-utama fs-5 col-10">Pesan</button>
+                            <button class="btn bg-kedua color-utama fs-5 col-10" data-url="{{route('cart')}}" id='pesan' data-id="{{$item->id}}">Pesan</button>
                             <button class="btn color-utama w-100 d-flex justify-content-center align-items-center" style="border-color: var(--warna-kedua)" data-bs-toggle="modal" data-bs-target="#productModal"><i class="fa-solid fa-magnifying-glass color-keempat"></i></button>
                         </div>
                     </div>
@@ -52,24 +52,30 @@
     </div>
 </div>
 
-<script>
-    
-    document.getElementById('searchButton').addEventListener('click', function() {
-        let query = 'Redvelvet'; // Hardcoded for example, you can fetch this from an input field
-
-        fetch(`/search?query=${query}`)
-            .then(response => response.json())
-            .then(data => {
-                if (data.status === 'success') {
-                    let product = data.product;
-                    document.getElementById('productModalLabel').textContent = product.name;
-                    document.getElementById('productImage').src = product.image_url;
-                    document.getElementById('productDescription').textContent = product.description;
-                    new bootstrap.Modal(document.getElementById('productModal')).show();
-                } else {
-                    alert(data.message);
-                }
-            });
-    });
-</script>
 @endsection
+
+@push('script')
+    
+    <script>
+        
+
+        
+        document.getElementById('searchButton').addEventListener('click', function() {
+            let query = 'Redvelvet'; // Hardcoded for example, you can fetch this from an input field
+
+            fetch(`/search?query=${query}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        let product = data.product;
+                        document.getElementById('productModalLabel').textContent = product.name;
+                        document.getElementById('productImage').src = product.image_url;
+                        document.getElementById('productDescription').textContent = product.description;
+                        new bootstrap.Modal(document.getElementById('productModal')).show();
+                    } else {
+                        alert(data.message);
+                    }
+                });
+        });
+    </script>
+@endpush
