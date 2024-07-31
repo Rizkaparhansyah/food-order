@@ -1,24 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="robots" content="noindex, nofollow">
     <title>Cafe</title>
 
+    <!-- CSRF Token -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
+    <!-- Font Awesome -->
     <link href="{{ asset('adm/css/all.min.css') }}" rel="stylesheet" type="text/css">
-    <link
-        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-        rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+    <!-- SB Admin CSS -->
     <link href="{{ asset('adm/css/sb-admin-2.css') }}" rel="stylesheet">
+    <!-- DataTables CSS -->
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/2.0.8/css/dataTables.dataTables.min.css">
   
     @stack('css')
 </head>
-
 <body id="page-top">
     <div id="wrapper">
         <!-- Sidebar -->
@@ -44,20 +46,17 @@
     <!-- Logout Modal-->
     @include('admin.layouts.logoutModal')
 
-    <!-- Bootstrap core JavaScript-->
+    <!-- jQuery -->
     <script src="{{ asset('adm/vendor/jquery/jquery.min.js') }}"></script>
+    <!-- Bootstrap JavaScript -->
     <script src="{{ asset('adm/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-    <!-- Core plugin JavaScript-->
+    <!-- jQuery Easing -->
     <script src="{{ asset('adm/vendor/jquery-easing/jquery.easing.min.js') }}"></script>
-    <!-- Custom scripts for all pages-->
+    <!-- SB Admin Custom Scripts -->
     <script src="{{ asset('adm/js/sb-admin-2.min.js') }}"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
-    {{-- <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script> --}}
-    
+    <!-- DataTables JavaScript -->
     <script src="https://cdn.datatables.net/2.0.8/js/dataTables.min.js"></script>
-    {{-- <script src="https://cdn.datatables.net/2.1.0/js/dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap4.min.js"></script> --}}
+
     @stack('script')
 </body>
 </html>

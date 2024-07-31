@@ -75,6 +75,20 @@ Route::get('menu', function () {
     return view('components.menu-component', compact('data'));
 })->name('menu');
 
+
 Route::get('cart', function () {
     return view('components.cart-component');
 })->middleware('name.auth')->name('cart');
+
+Route::middleware('auth:admin')->group(function () {
+    Route::get('/admin/kategori', [KategoriController::class, 'index'])->name('list-kategori');
+    Route::get('list-kategoris', [KategoriController::class, 'kategori'])->name('data.kategori');
+    Route::post('/admin/kategori', [KategoriController::class, 'store'])->name('kategori.store');
+    Route::get('/admin/kategori/{id}/edit', [KategoriController::class, 'edit'])->name('kategori.edit');
+    Route::put('/admin/kategori/{id}', [KategoriController::class, 'update'])->name('kategori.update');
+    Route::delete('/admin/kategori/{id}', [KategoriController::class, 'destroy'])->name('kategori.destroy');
+});
+
+
+
+
