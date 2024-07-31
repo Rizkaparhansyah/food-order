@@ -1,37 +1,80 @@
 <?php
 
 use App\Http\Controllers\AuthController;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\MenuController;
+use App\Models\Menu;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
+
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider and all of them will
+| be assigned to the "web" middleware group. Make something great!
+|
+*/
 
 
 // Admin
 Route::get('/logout', [AuthController::class, 'logout'])->name('auth.logout');
+Route::get('/admin/login', [AuthController::class, 'index'])->name('auth.index');
 Route::post('/admin/auth', [AuthController::class, 'verify'])->name('auth.verify');
-Route::get('admin/login', [AuthController::class, 'index'])->name('admin.login.index');
 
+Route::middleware('auth:admin')->group(function () {
+    
+    Route::get('/admin', function(){
+        return view('admin.index');
+    })->name('admin');
 
+    Route::get('/admin/menu', [MenuController::class, 'index'])->name('list-menu');
 
+    Route::get('/admin/kategori', [KategoriController::class, 'index'])->name('list-kategori');
+
+    Route::get('/admin/menu/tambah', function(){
+        return view('admin.menu.tambah');
+    })->name('menuTambah');
+    
+});
+
+// DATA
+Route::get('list-kategoris', [KategoriController::class, 'kategori'])->name('data.kategori');
+Route::get('list-menu', [MenuController::class, 'menu'])->name('data.menu');
+
+Route::middleware('auth:kasir')->group(function () {
+    
+    Route::get('/kasir', function(){
+        return view('kasir.index');
+    })->name('kasir');
+
+    Route::get('/kasir/menu', function(){
+        return view('kasir.menu.index');
+    })->name('menumenuKasir');
+
+    Route::get('/kasir/menu/tambah', function(){
+        return view('kasir.menu.tambah');
+    })->name('menuTambahKasir');
+
+});
+
+Route::post('/user/auth', [AuthController::class,'checkAuth'])->name('check.auth');
+Route::post('/user/auth-success', [AuthController::class,'ajaxLoginWithName'])->name('user.login');
 
 Route::get('/', function () {
     return view('components.hero-component');
 })->name('home');
 
-Route::get('cart', function () {
-    return view('components.cart-component');
-})->name('cart');
+Route::post('/logout-user', [AuthController::class, 'logoutUser'])->name('logout.user');
+
 
 Route::get('menu', function () {
-    return view('components.menu-component');
+    $data = Menu::with('kategori')->get();
+    return view('components.menu-component', compact('data'));
 })->name('menu');
 
-Route::get('/admin', function () {
-    return view('admin.index');
-})->name('admin')->middleware('auth:admin');
-
-Route::get('/kasir', function () {
-    return view('kasir.index');
-})->name('kasir')->middleware('auth:kasir');
-
-Route::get('/search', [MenuController::class, 'search'])->name('search');
-// Route::post('/proses-form', [FormController::class, 'prosesForm'])->name('proses_form');
+Route::get('cart', function () {
+    return view('components.cart-component');
+})->middleware('name.auth')->name('cart');

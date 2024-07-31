@@ -17,12 +17,14 @@ class RedirectIfAuthenticated
      */
     public function handle(Request $request, Closure $next, string ...$guards): Response
     {
-        if( Auth::guard('admin')->check()){
+
+        if (Auth::guard('admin')->check()) {
             return redirect('/admin');
         }
-        else if (Auth::guard('kasir')->check()){
+        else if (Auth::guard('kasir')->check()) {
             return redirect('/kasir');
         }
+
         return $next($request);
     }
 }

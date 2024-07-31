@@ -1,19 +1,24 @@
 <?php
 
-namespace App\View\Components;
+namespace App\View\Components\Adm;
 
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-class MenuComponent extends Component
+class Textarea extends Component
 {
     /**
      * Create a new component instance.
      */
-    public function __construct(public $data)
+    public function __construct(
+        public $tlabel,
+        public $tname,
+        public $tvalue,
+        public $tattr,
+    )
     {
-        
+        //
     }
 
     /**
@@ -21,6 +26,6 @@ class MenuComponent extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.menu-component');
+        return view('components.adm.textarea');
     }
 }
