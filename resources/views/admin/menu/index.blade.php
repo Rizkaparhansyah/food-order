@@ -193,10 +193,13 @@
             { data: 'nama', name: 'nama' },
             { data: 'kategori', name: 'kategori' },
             { data: 'deskripsi', name: 'deskripsi' },
-            { data: 'foto', name: 'foto', render: function (data, type, row) {
-                    return '<img src="/storage/' + data + '" height="50"/>';
-                }
-            },
+            { 
+                        data: 'foto', 
+                        name: 'foto',
+                        render: function(data, type, full, meta){
+                            return '<img src="{{ url('') }}/' + data + '" height="100"/>';
+                        },
+                    },
             { data: 'harga', name: 'harga', render: function (data, type, row) {
                     return formatRupiah(data);
                 }
