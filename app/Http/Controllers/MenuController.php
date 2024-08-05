@@ -21,7 +21,7 @@ class MenuController extends Controller
                 return [
                     'id' => $menu->id,
                     'nama' => $menu->nama,
-                    'kategori' => $menu->kategori->nama, // Ambil nama kategori
+                    'kategori' => $menu->kategori->nama,
                     'deskripsi' => $menu->deskripsi,
                     'foto' => $menu->foto,
                     'stok' => $menu->stok,
@@ -48,23 +48,23 @@ class MenuController extends Controller
             'nama' => 'required',
             'kategori_id' => 'required',
             'deskripsi' => 'nullable',
-            'foto' => 'nullable|image',
+            'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'stok' => 'required|integer',
             'harga' => 'required|integer',
             'diskon' => 'nullable|integer'
         ]);
-
+    
         $menu = new Menu($request->all());
-
+    
         if ($request->hasFile('foto')) {
             $file = $request->file('foto');
             $filename = time() . '.' . $file->getClientOriginalExtension();
             $file->move(public_path('images'), $filename);
-            $menu->foto = '/images/' . $filename;
+            $menu->foto = 'images/' . $filename; 
         }
-
+    
         $menu->save();
-
+    
         return redirect()->route('list-menu')->with('success', 'Menu added successfully.');
     }
 
@@ -86,24 +86,24 @@ class MenuController extends Controller
             'nama' => 'required',
             'kategori_id' => 'required',
             'deskripsi' => 'nullable',
-            'foto' => 'nullable|image',
+            'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'stok' => 'required|integer',
             'harga' => 'required|integer',
             'diskon' => 'nullable|integer'
         ]);
-
+    
         $menu = Menu::findOrFail($id);
         $menu->fill($request->all());
-
+    
         if ($request->hasFile('foto')) {
             $file = $request->file('foto');
             $filename = time() . '.' . $file->getClientOriginalExtension();
             $file->move(public_path('images'), $filename);
-            $menu->foto = '/images/' . $filename;
+            $menu->foto = 'images/' . $filename; 
         }
-
+    
         $menu->save();
-
+    
         return redirect()->route('list-menu')->with('success', 'Menu updated successfully.');
     }
 
