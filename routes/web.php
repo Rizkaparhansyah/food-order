@@ -89,6 +89,10 @@ Route::middleware('auth:admin')->group(function () {
     Route::delete('/admin/kategori/{id}', [KategoriController::class, 'destroy'])->name('kategori.destroy');
 });
 
-
-
-
+Route::middleware('auth:admin')->group(function () {
+    Route::get('/admin/menu', [MenuController::class, 'index'])->name('list-menu');
+    Route::get('/admin/menu/{id}/edit', [MenuController::class, 'edit'])->name('edit-menu');
+    Route::post('/admin/menu', [MenuController::class, 'store'])->name('store-menu');
+    Route::put('/admin/menu/{id}', [MenuController::class, 'update'])->name('update-menu');
+    Route::delete('/admin/menu/{id}', [MenuController::class, 'destroy'])->name('delete-menu');
+});
