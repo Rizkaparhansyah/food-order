@@ -113,7 +113,7 @@
               <div class="btn bg-kedua color-utama w-100  ">Checkout</div>
             </div>
           </div>
-        </div>
+      </div>
     </div>
   </section>
 
