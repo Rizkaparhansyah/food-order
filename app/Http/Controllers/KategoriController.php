@@ -28,20 +28,21 @@ class KategoriController extends Controller
         $kategori = Kategori::create($request->all());
         return response()->json($kategori);
     }
-
+    
     public function edit($id){
         $kategori = Kategori::find($id);
         return response()->json($kategori);
     }
-
+    
     public function update(Request $request, $id){
         $kategori = Kategori::find($id);
         $kategori->update($request->all());
         return response()->json($kategori);
     }
-
+    
     public function destroy($id){
         Kategori::destroy($id);
         return response()->json(['success' => 'Kategori deleted successfully']);
     }
 }
+    
