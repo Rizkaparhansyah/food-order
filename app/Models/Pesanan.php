@@ -11,4 +11,9 @@ class Pesanan extends Model
     protected $tabel = 'pesanans';
     protected $primaryKey = 'id';
     protected $guarded = [];
+
+    public function menu()
+    {
+        return $this->belongsTo(Menu::class, 'id_menu');
+    }
 }

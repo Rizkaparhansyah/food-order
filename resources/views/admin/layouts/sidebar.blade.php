@@ -19,7 +19,7 @@
     </div>
 
     <li class="nav-item">
-        <a class="nav-link" href="#">
+        <a class="nav-link" href="{{ route('list-pesanan') }}">
             <i class="fas fa-fw fa-cart-shopping"></i>
             <span>Daftar Pesanan</span></a>
     </li>

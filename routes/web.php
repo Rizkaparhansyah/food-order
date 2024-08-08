@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\MenuController;
+use App\Http\Controllers\PesananController;
 use App\Models\Menu;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -31,6 +32,7 @@ Route::middleware('auth:admin')->group(function () {
     })->name('admin');
 
     Route::get('/admin/menu', [MenuController::class, 'index'])->name('list-menu');
+    Route::get('/admin/pesanan', [PesananController::class, 'index'])->name('list-pesanan');
 
     Route::get('/admin/kategori', [KategoriController::class, 'index'])->name('list-kategori');
 
@@ -82,6 +84,7 @@ Route::get('cart', function () {
 
 Route::middleware('auth:admin')->group(function () {
     Route::get('/admin/kategori', [KategoriController::class, 'index'])->name('list-kategori');
+    Route::get('list-pesanans', [PesananController::class, 'pesanan'])->name('data.pesanan');
     Route::get('list-kategoris', [KategoriController::class, 'kategori'])->name('data.kategori');
     Route::post('/admin/kategori', [KategoriController::class, 'store'])->name('kategori.store');
     Route::get('/admin/kategori/{id}/edit', [KategoriController::class, 'edit'])->name('kategori.edit');
@@ -96,3 +99,7 @@ Route::middleware('auth:admin')->group(function () {
     Route::put('/admin/menu/{id}', [MenuController::class, 'update'])->name('update-menu');
     Route::delete('/admin/menu/{id}', [MenuController::class, 'destroy'])->name('delete-menu');
 });
+
+
+Route::post('/checkout', [PesananController::class, 'checkout'])->name('pesanan.checkout');
+Route::get('/checkout/success', [PesananController::class, 'checkoutSuccess'])->name('checkout.success');
