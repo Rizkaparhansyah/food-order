@@ -16,48 +16,64 @@ class PesananController extends Controller
 
     public function pesanan()
     {
-        $data = Pesanan::with('menu:id,nama,harga')->get();
-        return DataTables::of($data)
-            ->addColumn('nama_menu', function ($row) {
-                return $row->menu->nama;
-            })
-            ->addColumn('harga_menu', function ($row) {
-                return $row->menu->harga;
-            })
-            ->addColumn('action', function ($row) {
-                $expandBtn = '<button class="editKategori btn btn-success btn-sm" data-id="' . $row->id . '">...</button>';
-                return $expandBtn;
-            })
-            ->make(true);
+        $data = Pesanan::with('menu')
+            ->selectRaw('nama_pelanggan, kode, COUNT(*) as orders_count')
+            ->groupBy('nama_pelanggan', 'kode')
+            ->get()
+            ->map(function ($item) {
+                return [
+                    'nama_pelanggan' => $item->nama_pelanggan,
+                    'kode' => $item->kode,
+                    'orders' => Pesanan::where('nama_pelanggan', $item->nama_pelanggan)->with('menu')->get()->map(function ($order) {
+                        return [
+                            'nama_menu' => $order->menu->nama,
+                            'harga_menu' => $order->menu->harga,
+                            'jumlah' => $order->jumlah,
+                            'status' => $order->status
+                        ];
+                    })
+                ];
+            });
+
+        return DataTables::of($data)->make(true);
     }
 
     public function checkout(Request $request)
     {
-        // Validasi request jika diperlukan
-        $request->validate([
-            'nama_pelanggan' => 'required|string|max:255',
-        ]);
+        // Ambil nama pelanggan dan kode dari session
+        $nama_pelanggan = $request->session()->get('user_name', false);
+        $kode = $request->session()->get('kode', false);
 
-        $nama_pelanggan = $request->input('nama_pelanggan');
+        // Validasi untuk memastikan data ada
+        if (!$nama_pelanggan || !$kode) {
+            return redirect()->route('cart')->with('error', 'Data tidak valid. Silakan coba lagi.');
+        }
 
-        // Ambil data dari tabel keranjangs berdasarkan nama_pelanggan
-        $keranjangs = Keranjang::where('nama_pelanggan', $nama_pelanggan)->get();
+        // Ambil data dari tabel keranjangs berdasarkan nama_pelanggan dan kode
+        $keranjangs = Keranjang::where('nama_pelanggan', $nama_pelanggan)
+            ->where('kode', $kode)
+            ->get();
 
         // Pindahkan data dari keranjangs ke pesanans
         foreach ($keranjangs as $keranjang) {
             Pesanan::create([
                 'nama_pelanggan' => $keranjang->nama_pelanggan,
                 'id_menu' => $keranjang->id_menu,
-                'jumlah' => $keranjang->kode, // Asumsikan 'kode' adalah jumlah
+                'jumlah' => 1,
+                'kode' => $kode,
                 'status' => 'proses',
             ]);
         }
 
         // Hapus data dari keranjangs setelah dipindahkan
-        // Keranjang::where('nama_pelanggan', $nama_pelanggan)->delete();
+        Keranjang::where('nama_pelanggan', $nama_pelanggan)
+            ->where('kode', $kode)
+            ->delete();
 
-        return redirect()->route('checkout.success');
+        // Redirect ke halaman sukses checkout
+        return redirect()->route('checkout.success')->with('success', 'Checkout berhasil!');
     }
+
 
 
     public function checkoutSuccess()
