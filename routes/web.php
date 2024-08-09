@@ -1,8 +1,12 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\MenuController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\PesananController;
 use App\Models\Menu;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -96,3 +100,12 @@ Route::middleware('auth:admin')->group(function () {
     Route::put('/admin/menu/{id}', [MenuController::class, 'update'])->name('update-menu');
     Route::delete('/admin/menu/{id}', [MenuController::class, 'destroy'])->name('delete-menu');
 });
+
+Route::middleware('auth:admin')->group(function () {
+    Route::post('/checkout', [PesananController::class, 'checkout'])->name('checkout');
+    Route::post('/pesanan', [PesananController::class, 'store']);
+    Route::get('/admin/pesanans', [PesananController::class, 'index'])->name('admin.pesanans.index');
+});
+
+
+
