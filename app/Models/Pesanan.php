@@ -10,5 +10,10 @@ class Pesanan extends Model
     use HasFactory;
     protected $tabel = 'pesanans';
     protected $primaryKey = 'id';
-    protected $guarded = [];
+    protected $guarded = []; 
+
+    public function menu()
+    {
+        return $this->belongsTo(Menu::class, 'id_menu', 'id');
+    }
 }

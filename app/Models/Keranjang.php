@@ -10,5 +10,11 @@ class Keranjang extends Model
     use HasFactory;
     protected $tabel = 'keranjangs';
     protected $primaryKey = 'id';
-    protected $guarded = [];
+    protected $guarded = []; 
+    protected $fillable = ['id_menu', 'nama_pelanggan', 'kode']; 
+
+    public function menu()
+    {
+        return $this->belongsTo(Menu::class, 'id_menu', 'id');
+    }
 }
