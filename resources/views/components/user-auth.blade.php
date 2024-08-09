@@ -8,7 +8,6 @@
             <div class="modal-body">
                 <form action="{{route('auth.verify')}}" id="formUser" method="POST">
                     @csrf
-                        
                     <label for="namaUser">Nama</label>
                     <input type="text" class="mb-3 form-control" name="name" id="namaUser" placeholder="Masukan nama anda!">
                     <button type="submit" class="btn bg-kedua color-utama w-100" id="logUser">

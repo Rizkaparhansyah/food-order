@@ -194,7 +194,7 @@
             { data: 'kategori', name: 'kategori' },
             { data: 'deskripsi', name: 'deskripsi' },
             { data: 'foto', name: 'foto', render: function (data, type, row) {
-                    return '<img src="/storage/' + data + '" height="50"/>';
+                    return '<img src="' + data + '" height="50"/>';
                 }
             },
             { data: 'harga', name: 'harga', render: function (data, type, row) {
