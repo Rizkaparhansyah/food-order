@@ -6,22 +6,47 @@
     <div class="d-flex justify-content-center">
         <div style="width:500px">
             <div class="row" id="cart-items">
-                <div class="col-12 cart-item" data-id="1">
+                <!-- Cart items will be dynamically added here -->
+            </div>
+            <div class="row">
+                <div class="d-flex justify-content-center align-items-center col-12 py-2 flex-column">
+                    <div class="total d-flex justify-content-end w-100 fs-3 fw-bold text-end">Rp 0</div>
+                    <input type="text" id="customer-name" class="form-control my-3" placeholder="Masukkan Nama Pemesan">
+                    <button id="checkout-button" class="btn bg-kedua color-utama w-100">Checkout</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const cartItemsContainer = document.getElementById('cart-items');
+    const checkoutButton = document.getElementById('checkout-button');
+
+    function loadCartItems() {
+        const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+        cartItemsContainer.innerHTML = '';
+
+        cartItems.forEach(item => {
+            const discountPrice = item.harga * (1 - item.diskon / 100);
+            const itemHTML = `
+                <div class="col-12 cart-item" data-id="${item.id}">
                     <div class="card mb-3">
                         <div class="row g-0 d-flex">
                             <div class="col-4 d-flex justify-content-start align-items-center">
-                                <img src="https://images.unsplash.com/photo-1542372147193-a7aca54189cd?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" class="img-fluid m-1 rounded" alt="..." style="width: 150px; height: 150px; object-fit:cover">
+                                <img src="${item.foto}" class="img-fluid m-1 rounded" alt="${item.nama}" style="width: 150px; height: 150px; object-fit:cover">
                             </div>
                             <div class="col-6">
                                 <div class="card-body">
-                                    <h5 class="card-title">Redvelvet</h5>
+                                    <h5 class="card-title">${item.nama}</h5>
                                     <div class="d-flex gap-2 flex-wrap">
-                                        <p class="card-text text-success"><strong>Rp. 70.999</strong></p>
-                                        <p class="card-text text-danger"><small><del>Rp. 99.999</del></small></p>
+                                        <p class="card-text text-success"><strong>Rp. ${discountPrice.toLocaleString('id-ID')}</strong></p>
+                                        <p class="card-text text-danger"><small><del>Rp. ${item.harga.toLocaleString('id-ID')}</del></small></p>
                                     </div>
                                     <div class="card-text d-flex justify-content-center gap-4 align-items-center">
                                         <i class="fa-solid fa-minus p-1 border border-1 rounded-circle quantity-decrease"></i>
-                                        <div class="quantity">1</div>
+                                        <div class="quantity">${item.quantity}</div>
                                         <i class="fa-solid fa-plus p-1 border border-1 rounded-circle quantity-increase"></i>
                                     </div>
                                 </div>
@@ -32,27 +57,33 @@
                         </div>
                     </div>
                 </div>
-                <!-- Tambahkan item lain dengan struktur yang sama di sini -->
-            </div>
-            <div class="row">
-                <div class="d-flex justify-content-center align-items-center col-12 py-2 flex-column">
-                    <div class="total d-flex justify-content-end w-100 fs-3 fw-bold text-end">Rp 99.999</div>
-                    <div class="btn bg-kedua color-utama w-100">Checkout</div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
+            `;
+            cartItemsContainer.insertAdjacentHTML('beforeend', itemHTML);
+        });
 
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const cartItems = document.getElementById('cart-items');
+        updateTotalPrice();
+    }
 
-    cartItems.addEventListener('click', function(event) {
+    function updateTotalPrice() {
+        let totalPrice = 0;
+        const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+
+        cartItems.forEach(item => {
+            const discountPrice = item.harga * (1 - item.diskon / 100);
+            totalPrice += discountPrice * item.quantity;
+        });
+
+        document.querySelector('.total').textContent = 'Rp ' + totalPrice.toLocaleString('id-ID');
+    }
+
+    cartItemsContainer.addEventListener('click', function(event) {
         const target = event.target;
         const cartItem = target.closest('.cart-item');
 
         if (cartItem) {
+            const id = cartItem.dataset.id;
+            const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+            const itemIndex = cartItems.findIndex(i => i.id == id);
             const quantityElement = cartItem.querySelector('.quantity');
             let quantity = parseInt(quantityElement.textContent);
 
@@ -61,33 +92,67 @@ document.addEventListener('DOMContentLoaded', function() {
             } else if (target.classList.contains('quantity-decrease')) {
                 quantity = quantity > 1 ? quantity - 1 : 1;
             } else if (target.classList.contains('remove-item')) {
+                cartItems.splice(itemIndex, 1);
                 cartItem.remove();
             }
 
-            quantityElement.textContent = quantity;
+            if (itemIndex > -1) {
+                cartItems[itemIndex].quantity = quantity;
+            }
 
-            // Update total price here if needed
+            localStorage.setItem('cartItems', JSON.stringify(cartItems));
+            quantityElement.textContent = quantity;
             updateTotalPrice();
         }
     });
 
-    function updateTotalPrice() {
-        let totalPrice = 0;
-        const items = cartItems.querySelectorAll('.cart-item');
+    checkoutButton.addEventListener('click', function() {
+        const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+        const customerName = document.getElementById('customer-name').value.trim();
 
-        items.forEach(item => {
-            const priceElement = item.querySelector('.card-text.text-success strong');
-            const quantityElement = item.querySelector('.quantity');
-            const price = parseInt(priceElement.textContent.replace('Rp. ', '').replace('.', ''));
-            const quantity = parseInt(quantityElement.textContent);
-            totalPrice += price * quantity;
+        if (cartItems.length === 0) {
+            alert('Keranjang belanja kosong.');
+            return;
+        }
+
+        if (!customerName) {
+            alert('Silakan masukkan nama pemesan.');
+            return;
+        }
+
+        cartItems.forEach(item => {
+            fetch('{{ route('pesanan.store') }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                body: JSON.stringify({
+                    nama_pelanggan: customerName,
+                    id_menu: item.id,
+                    jumlah: item.quantity
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.message) {
+                    alert('Pesanan berhasil dibuat');
+                } else {
+                    alert('Terjadi kesalahan saat membuat pesanan');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Terjadi kesalahan saat membuat pesanan');
+            });
         });
 
-        document.querySelector('.total').textContent = 'Rp ' + totalPrice.toLocaleString('id-ID');
-    }
+        // Clear the cart after checkout
+        localStorage.removeItem('cartItems');
+        loadCartItems();
+    });
 
-    // Initial total price calculation
-    updateTotalPrice();
+    loadCartItems();
 });
 </script>
 @endsection

@@ -3,6 +3,8 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\MenuController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\PesananController;
 use App\Models\Menu;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -114,3 +116,8 @@ Route::get('cart', function () {
         Route::put('/admin/kategori/{id}', [KategoriController::class, 'update'])->name('kategori.update');
         Route::delete('/admin/kategori/{id}', [KategoriController::class, 'destroy'])->name('kategori.destroy');
     });
+
+    Route::post('/pesanan/store', [OrderController::class, 'store'])->name('pesanan.store');
+    Route::get('/admin/orders', [OrderController::class, 'index'])->name('admin.orders.index');
+    Route::get('/admin/pesanan', [PesananController::class, 'index'])->name('admin.pesanan.index');
+
