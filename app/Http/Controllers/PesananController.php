@@ -9,8 +9,7 @@ class PesananController extends Controller
 {
     public function index()
     {
-        $pesanan = Pesanan::all();
-        //dd($pesanan);
+        $pesanan = Pesanan::with('menu')->get();
         return view('admin.pesanan.index', compact('pesanan'));
     }
 }

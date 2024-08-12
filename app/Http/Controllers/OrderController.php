@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\Pesanan;
 use Illuminate\Http\Request;
 
@@ -8,11 +9,9 @@ class OrderController extends Controller
 {
     public function index()
     {
-        $pesanan = Pesanan::all();
-        dd($pesanan);
+        $pesanan = Pesanan::with('menu')->get();
         return view('admin.orders.index', compact('pesanan'));
     }
-    
 
     public function store(Request $request)
     {

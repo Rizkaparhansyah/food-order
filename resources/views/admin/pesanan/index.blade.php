@@ -10,7 +10,7 @@
             <tr>
                 <th>ID</th>
                 <th>Nama Pelanggan</th>
-                <th>ID Menu</th>
+                <th>Menu</th>
                 <th>Jumlah</th>
                 <th>Status</th>
                 <th>Waktu Pemesanan</th>
@@ -21,7 +21,7 @@
                 <tr>
                     <td>{{ $pesanan->id }}</td>
                     <td>{{ $pesanan->nama_pelanggan }}</td>
-                    <td>{{ $pesanan->id_menu }}</td>
+                    <td>{{ $pesanan->menu->nama ?? 'N/A' }}</td> <!-- Display menu name -->
                     <td>{{ $pesanan->jumlah }}</td>
                     <td>{{ $pesanan->status }}</td>
                     <td>{{ $pesanan->created_at }}</td>

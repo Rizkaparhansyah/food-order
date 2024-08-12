@@ -8,7 +8,7 @@
             <tr>
                 <th>ID</th>
                 <th>Nama Pelanggan</th>
-                <th>ID Menu</th>
+                <th>Menu</th>
                 <th>Jumlah</th>
                 <th>Status</th>
                 <th>Dibuat Pada</th>
@@ -19,7 +19,7 @@
             <tr>
                 <td>{{ $order->id }}</td>
                 <td>{{ $order->nama_pelanggan }}</td>
-                <td>{{ $order->id_menu }}</td>
+                <td>{{ $order->menu->nama ?? 'N/A' }}</td> <!-- Display menu name -->
                 <td>{{ $order->jumlah }}</td>
                 <td>{{ $order->status }}</td>
                 <td>{{ $order->created_at }}</td>
