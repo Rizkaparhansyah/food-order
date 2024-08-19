@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 09 Agu 2024 pada 04.38
+-- Waktu pembuatan: 19 Agu 2024 pada 08.28
 -- Versi server: 10.4.28-MariaDB
 -- Versi PHP: 8.2.4
 
@@ -127,7 +127,7 @@ CREATE TABLE `menus` (
 INSERT INTO `menus` (`id`, `nama`, `kategori_id`, `deskripsi`, `foto`, `stok`, `harga`, `diskon`, `created_at`, `updated_at`) VALUES
 (59, 'Cheese Cake', 17, 'sygbdsfdgsf', 'images/1722998880.jpg', 25, 30000, 0, '2024-08-06 19:48:00', '2024-08-06 19:48:00'),
 (60, 'Cappuccino', 16, 'sygbdsfdgsf', 'images/1722999002.jpeg', 35, 25000, 1, '2024-08-06 19:50:02', '2024-08-06 19:50:02'),
-(61, 'Steak', 13, 'sygbdsfdgsf', 'images/1722999098.jpg', 45, 140000, 2, '2024-08-06 19:51:38', '2024-08-06 19:51:38'),
+(61, 'Steak', 13, 'sygbdsfdgsfyuhg', 'images/1722999098.jpg', 45, 140000, 2, '2024-08-06 19:51:38', '2024-08-08 21:06:03'),
 (62, 'Salad', 15, 'sygbdsfdgsf', 'images/1722999222.jpg', 30, 20000, 3, '2024-08-06 19:53:42', '2024-08-06 19:53:42'),
 (63, 'French Fries', 14, 'sygbdsfdgsf', 'images/1722999347.jpeg', 45, 15000, 0, '2024-08-06 19:55:47', '2024-08-06 19:55:47');
 
@@ -219,7 +219,11 @@ CREATE TABLE `pesanans` (
 
 INSERT INTO `pesanans` (`id`, `nama_pelanggan`, `id_menu`, `jumlah`, `status`, `created_at`, `updated_at`) VALUES
 (13, 'Sisi', 59, 1, 'pending', '2024-08-07 23:53:45', '2024-08-07 23:53:45'),
-(14, 'Pipit', 61, 1, 'pending', '2024-08-07 23:54:42', '2024-08-07 23:54:42');
+(14, 'Pipit', 61, 1, 'pending', '2024-08-07 23:54:42', '2024-08-07 23:54:42'),
+(21, 'Azil', 63, 1, 'pending', '2024-08-11 23:41:03', '2024-08-11 23:41:03'),
+(42, 'pit', 62, 1, 'pending', '2024-08-18 19:00:07', '2024-08-18 19:00:07'),
+(48, 'pit', 59, 1, 'pending', '2024-08-18 19:34:26', '2024-08-18 19:34:26'),
+(49, 'nita', 63, 1, 'pending', '2024-08-18 19:38:07', '2024-08-18 19:38:07');
 
 -- --------------------------------------------------------
 
@@ -376,7 +380,7 @@ ALTER TABLE `personal_access_tokens`
 -- AUTO_INCREMENT untuk tabel `pesanans`
 --
 ALTER TABLE `pesanans`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
 
 --
 -- AUTO_INCREMENT untuk tabel `transaksis`

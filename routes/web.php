@@ -5,6 +5,7 @@ use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PesananController;
+use App\Http\Controllers\KeranjangController;
 use App\Models\Menu;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -121,3 +122,20 @@ Route::get('cart', function () {
     Route::get('/admin/orders', [OrderController::class, 'index'])->name('admin.orders.index');
     Route::get('/admin/pesanan', [PesananController::class, 'index'])->name('admin.pesanan.index');
 
+    
+
+    Route::post('/set-customer-name', [OrderController::class, 'setCustomerName'])->name('setCustomerName');
+    Route::post('/store-order', [OrderController::class, 'storeOrder'])->name('storeOrder');
+    
+    Route::post('/checkout', [PesananController::class, 'checkout'])->name('pesanan.checkout');
+    Route::get('/checkout/success', [PesananController::class, 'checkoutSuccess'])->name('checkout.success');
+    
+    Route::get('cart', [KeranjangController::class, 'index'])
+        ->middleware('name.auth')
+        ->name('cart');
+    Route::post('/cart', [KeranjangController::class, 'addToCart'])->name('add.cart');
+    
+    Route::get('list-pesanans', [PesananController::class, 'pesanan'])->name('data.pesanan');
+
+    Route::get('/admin/pesanan', [PesananController::class, 'index'])->name('list-pesanan');
+    
