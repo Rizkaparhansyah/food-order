@@ -119,8 +119,10 @@
             e.preventDefault();
             var id = $('#kategoriId').val();
             var url = id ? "{{ url('admin/kategori') }}/" + id : "{{ url('admin/kategori') }}";
+            var type = id ? "PUT" : "POST";
+            
             $.ajax({
-                type: id ? "PUT" : "POST",
+                type: type,
                 url: url,
                 data: $('#kategoriForm').serialize(),
                 success: function (data) {
@@ -133,8 +135,7 @@
                 }
             });
         });
+
     });
 </script>
-
-
 @endpush
