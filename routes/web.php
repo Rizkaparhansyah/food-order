@@ -35,6 +35,7 @@ Route::middleware('auth:admin')->group(function () {
     })->name('admin');
 
     Route::get('/admin/menu', [MenuController::class, 'index'])->name('list-menu');
+    Route::get('/admin/menu/tambah', [MenuController::class, 'index'])->name('store-menu');
     Route::get('/admin/pesanan', [PesananController::class, 'index'])->name('list-pesanan');
 
     Route::get('/admin/kategori', [KategoriController::class, 'index'])->name('list-kategori');

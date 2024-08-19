@@ -37,7 +37,7 @@
     <div class="modal fade" id="addMenuModal" tabindex="-1" role="dialog" aria-labelledby="addMenuModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <form id="addMenuForm" action="{{ route('store-menu') }}" method="POST" enctype="multipart/form-data">
+                <form id="addMenuForm" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="modal-header">
                         <h5 class="modal-title" id="addMenuModalLabel">Tambah Menu</h5>
@@ -215,7 +215,7 @@
         var formData = new FormData(this);
         $.ajax({
             type: 'POST',
-            url: '{{ route('store-menu') }}',
+            url: '',
             data: formData,
             contentType: false,
             processData: false,
