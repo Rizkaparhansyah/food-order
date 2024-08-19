@@ -4,7 +4,7 @@
             <div class="col-sm-12 ">
                 <button type="button" class="btn color-keempat" style="border-color: var(--warna-kedua)">Makanan</button>
                 <button type="button" class="btn color-keempat" style="border-color: var(--warna-kedua)">Minuman</button>
-                <button type="button" class="btn color-keempat" style="border-color: var(--warna-kedua)">Recomended</button>
+                  <button type="button" class="btn color-keempat" style="border-color: var(--warna-kedua)">Recomended</button>
                 <button type="button" class="btn color-keempat" style="border-color: var(--warna-kedua)">Best Seller</button>
                 <button type="button" class="btn color-keempat" style="border-color: var(--warna-kedua)">Popular</button>
             </div>

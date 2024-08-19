@@ -14,7 +14,9 @@ return new class extends Migration
         Schema::create('pesanans', function (Blueprint $table) {
             $table->id();
             $table->string('nama_pelanggan');
+            $table->string('catatan')->nullable();
             $table->integer('id_menu');
+            $table->integer('kode');
             $table->integer('jumlah');
             $table->enum('status',['proses', 'selesai', 'pending']);
             $table->timestamps();

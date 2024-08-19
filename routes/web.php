@@ -4,7 +4,9 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\PesananController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\KeranjangController;
+use App\Http\Controllers\AcountController;
 use App\Models\Menu;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -84,15 +86,10 @@ Route::middleware('auth:admin')->group(function () {
     Route::get('/admin/kategori/{id}/edit', [KategoriController::class, 'edit'])->name('kategori.edit');
     Route::put('/admin/kategori/{id}', [KategoriController::class, 'update'])->name('kategori.update');
     Route::delete('/admin/kategori/{id}', [KategoriController::class, 'destroy'])->name('kategori.destroy');
+    Route::get('/admin/management-user', [UserController::class, 'index'])->name('data.user');
 });
 
-Route::middleware('auth:admin')->group(function () {
-    Route::get('/admin/menu', [MenuController::class, 'index'])->name('list-menu');
-    Route::get('/admin/menu/{id}/edit', [MenuController::class, 'edit'])->name('edit-menu');
-    Route::post('/admin/menu', [MenuController::class, 'store'])->name('store-menu');
-    Route::put('/admin/menu/{id}', [MenuController::class, 'update'])->name('update-menu');
-    Route::delete('/admin/menu/{id}', [MenuController::class, 'destroy'])->name('delete-menu');
-});
+ 
 
 
 Route::post('/checkout', [PesananController::class, 'checkout'])->name('pesanan.checkout');
