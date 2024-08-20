@@ -44,11 +44,10 @@
     </li>
 
     <li class="nav-item">
-        <a class="nav-link collapsed" href="#">
+        <a class="nav-link collapsed" href="{{ route('data.user') }}">
             <i class="fas fa-fw fa-user"></i>
             <span>Management User</span>
         </a>
-        
     </li>
 
     <hr class="sidebar-divider d-none d-md-block">

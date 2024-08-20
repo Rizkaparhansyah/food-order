@@ -68,11 +68,6 @@ class MenuController extends Controller
         return redirect()->route('list-menu')->with('success', 'Menu added successfully.');
     }
 
-    /*public function edit($id){
-        $menu = Menu::findOrFail($id);
-        return view('admin.menu.edit', compact('menu'));
-    }*/
-
     public function edit($id){
         $menu = Menu::findOrFail($id);
         $categories = Kategori::all();
