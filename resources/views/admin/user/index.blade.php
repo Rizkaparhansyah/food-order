@@ -44,7 +44,7 @@ aria-hidden="true">
             <form id="userForm" action="" method="post">
                 <div class="modal-body">
                         @csrf
-                    
+
                     <input type="hidden" class="form-control" id="idKondisi">
                     <div class="form-group">
                         <label for="nama">Nama</label>
@@ -87,7 +87,6 @@ aria-hidden="true">
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
-
         $('#userTable').DataTable({
         processing: true,
         serverSide: true,
@@ -100,7 +99,6 @@ aria-hidden="true">
             { data: 'aksi', name: 'aksi' }
         ],
     }); 
-
     $('#addUser').on('click', function(){
         $('#idKondisi').val('');
         $('#nama').val('')
@@ -109,15 +107,13 @@ aria-hidden="true">
         $('#role').val('')
         $('#modalTambah').modal('show');
     })
-
 $('#userForm').on('submit', function(e){
     e.preventDefault(); 
 console.log('test')
     var formData = new FormData(this);
-
     $.ajax({
         type: 'POST', 
-        url: '{{ route('store.user') }}',
+        url: '{{ route('data.user') }}',
         data: formData,
         processData: false, 
         contentType: false, 
@@ -127,7 +123,6 @@ console.log('test')
         }
     })
 })  
-
 $(document).on('click','.editMenu', function(){
         const data = $(this).data('data');
         $('#idKondisi').val(data.id);
@@ -135,10 +130,8 @@ $(document).on('click','.editMenu', function(){
         $('#email').val(data.email);
         $('#password').val(data.password);
         $('#role').val(data.role);
-
         $('#modalTambah').modal('show');
     })
-
         });
 </script>
 
