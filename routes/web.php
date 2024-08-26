@@ -121,3 +121,8 @@ Route::get('cart', function () {
 
     // Management User
     Route::get('/admin/management-user', [UserController::class, 'index'])->name('data.user');
+
+    Route::post('/admin/pesanan/{id}/update-status', [PesananController::class, 'updateStatus']);
+
+    Route::delete('/admin/pesanan/{id}/delete', [PesananController::class, 'delete']);
+
