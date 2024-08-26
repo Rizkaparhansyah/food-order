@@ -1,9 +1,11 @@
 @extends('admin.layouts.app')
+
 <style>
     .centered-button {
         text-align: center;
     }
 </style>
+
 @section('content')
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
@@ -21,7 +23,7 @@
                                 <th></th>
                                 <th>Nama Pelanggan</th>
                                 <th>Kode</th>
-                                <th class="align-middle text-center"></th>
+                                <th class="align-middle text-center">Action</th>
                             </tr>
                         </thead>
                     </table>
@@ -45,7 +47,8 @@
                 processing: true,
                 serverSide: true,
                 ajax: '{{ route('data.pesanan') }}',
-                columns: [{
+                columns: [
+                    {
                         className: 'details-control',
                         orderable: false,
                         searchable: false,
@@ -83,54 +86,85 @@
                     // This row is already open - close it
                     row.child.hide();
                     tr.removeClass('shown');
-                    $(this).find('i').removeClass('fa-chevron-up').addClass(
-                        'fa-chevron-down'); // Change icon to down
+                    $(this).find('i').removeClass('fa-chevron-up').addClass('fa-chevron-down'); // Change icon to down
                 } else {
                     // Open this row
                     row.child(format(row.data())).show();
                     tr.addClass('shown');
-                    $(this).find('i').removeClass('fa-chevron-down').addClass(
-                        'fa-chevron-up'); // Change icon to up
+                    $(this).find('i').removeClass('fa-chevron-down').addClass('fa-chevron-up'); // Change icon to up
                 }
             });
 
             // Formatting function for row details
             function format(d) {
-                // Create a table inside the child row
-                let ordersTable = '<table class="table table-bordered">';
-                ordersTable +=
-                    '<thead><tr><th>Nama</th><th>Harga</th><th>Quantity</th><th>Status</th><th></th></tr></thead>';
-                ordersTable += '<tbody>';
+    let ordersTable = '<table class="table table-bordered">';
+    ordersTable += '<thead><tr><th>Nama</th><th>Harga</th><th>Quantity</th><th>Status</th><th>Action</th></tr></thead>';
+    ordersTable += '<tbody>';
 
-                d.orders.forEach(function(order) {
-                    let statusClass;
-                    switch (order.status) {
-                        case 'proses':
-                            statusClass = 'badge-secondary';
-                            break;
-                        case 'selesai':
-                            statusClass = 'badge-success';
-                            break;
-                        case 'pending':
-                            statusClass = 'badge-warning';
-                            break;
-                        default:
-                            statusClass = 'badge-secondary'; // Default class
+    d.orders.forEach(function(order) {
+        let statusClass;
+        switch (order.status) {
+            case 'proses':
+                statusClass = 'badge-secondary';
+                break;
+            case 'selesai':
+                statusClass = 'badge-success';
+                break;
+            case 'pending':
+                statusClass = 'badge-warning';
+                break;
+            case 'cancel':
+                statusClass = 'badge-danger';
+                break;
+            default:
+                statusClass = 'badge-secondary';
+        }
+
+        ordersTable += `<tr>
+            <td>${order.nama_menu}</td>
+            <td>${order.harga_menu}</td>
+            <td>${order.jumlah}</td>
+            <td><span class="badge badge-pill ${statusClass}">${order.status}</span></td>
+            <td class="centered-button">
+                <select class="form-control update-status" data-id="${order.id}">
+                    <option value="pending" ${order.status == 'pending' ? 'selected' : ''}>Pending</option>
+                    <option value="proses" ${order.status == 'proses' ? 'selected' : ''}>Proses</option>
+                    <option value="selesai" ${order.status == 'selesai' ? 'selected' : ''}>Selesai</option>
+                    <option value="delete">Delete</option>
+                </select>
+            </td>
+        </tr>`;
+    });
+
+    ordersTable += '</tbody></table>';
+    return ordersTable;
+}
+
+
+            // Handle status update via AJAX
+            $(document).on('change', '.update-status', function() {
+                const orderId = $(this).data('id');
+                const status = $(this).val();
+
+                console.log('Order ID:', orderId);  // Check if correct ID is selected
+                console.log('Selected status:', status);  // Check if "cancel" is being sent
+
+                $.ajax({
+                    url: `/admin/pesanan/${orderId}/update-status`,
+                    method: 'POST',
+                    data: {
+                        status: status,
+                        _token: '{{ csrf_token() }}'
+                    },
+                    success: function(response) {
+                        alert(response.success);
+                        table.ajax.reload();
+                    },
+                    error: function(xhr) {
+                        alert(xhr.responseJSON.error);
                     }
-
-                    ordersTable += `<tr>
-                                <td>${order.nama_menu}</td>
-                                <td>${order.harga_menu}</td>
-                                <td>${order.jumlah}</td>
-                                <td><span class="badge badge-pill ${statusClass}">${order.status}</span></td>
-                                <td class="centered-button"><button class="btn btn-success btn-sm rounded-circle text-center align-middle">....</button></td>
-                            </tr>`;
                 });
-
-                ordersTable += '</tbody></table>';
-                return ordersTable;
-            }
-
+            });
         });
     </script>
 @endpush

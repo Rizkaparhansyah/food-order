@@ -106,6 +106,8 @@ Route::middleware('auth:admin')->group(function () {
 Route::middleware('auth:admin')->group(function () {
     Route::get('list-pesanans', [PesananController::class, 'pesanan'])->name('data.pesanan');
     Route::get('/admin/pesanan', [PesananController::class, 'index'])->name('list-pesanan');
+    Route::post('/admin/pesanan/{id}/update-status', [PesananController::class, 'updateStatus']);
+    Route::delete('/admin/pesanan/{id}/delete', [PesananController::class, 'delete']);
 });
     
 Route::post('/checkout', [PesananController::class, 'checkout'])->name('pesanan.checkout');
