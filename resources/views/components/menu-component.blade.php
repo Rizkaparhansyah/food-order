@@ -31,9 +31,15 @@
                                     id="pesan" data-id="{{ $item->id }}">Pesan</button>
 
                                 <button class="btn color-utama w-100 d-flex justify-content-center align-items-center"
-                                    style="border-color: var(--warna-kedua)" data-bs-toggle="modal"
-                                    data-bs-target="#productModal"><i
-                                        class="fa-solid fa-magnifying-glass color-keempat"></i></button>
+                                    style="border-color: var(--warna-kedua)"
+                                    data-bs-toggle="modal"  
+                                    data-bs-target="#productModal"
+                                    data-name="{{ $item->nama }}"   
+                                    data-image="{{ $item->foto }}"   
+                                    data-description="{{ $item->deskripsi }}" 
+                                    data-id="{{ $item->id }}"> {{-- Menyimpan ID produk untuk digunakan dalam AJAX request --}}
+                                    <i class="fa-solid fa-magnifying-glass color-keempat"></i>
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -42,7 +48,7 @@
         </div>
     </div>
 
-    <!-- Modal -->
+    {{-- <!-- Modal -->
     <div class="modal fade" id="productModal" tabindex="-1" aria-labelledby="productModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -63,6 +69,27 @@
                 </div>
             </div>
         </div>
+    </div> --}}
+
+    <!-- Modal -->
+    <div class="modal fade" id="productModal" tabindex="-1" aria-labelledby="productModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <img id="productImage" style="height: 400px; object-fit:cover"
+                        src=""
+                        alt="Product Image" class="rounded img-fluid mb-3 w-100">
+                    <h5 class="modal-title mb-3" id="productModalLabel">Product Name</h5>
+                    <p id="productDescription" class="mb-3">Product Description</p>
+                    <button class="btn bg-kedua color-utama w-100" id="addToCart">
+                        <i class="fa-solid fa-cart-shopping color-utama me-2"></i> Keranjang
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
 
 @endsection
@@ -71,25 +98,45 @@
     <script>
         $(document).ready(function() {
 
-            // document.getElementById('searchButton').addEventListener('click', function() {
-            //     let query = 'Redvelvet'; // Hardcoded for example, you can fetch this from an input field
+            var selectedProductId;
 
-            //     fetch(`/search?query=${query}`)
-            //         .then(response => response.json())
-            //         .then(data => {
-            //             if (data.status === 'success') {
-            //                 let product = data.product;
-            //                 document.getElementById('productModalLabel').textContent = product.name;
-            //                 document.getElementById('productImage').src = product.image_url;
-            //                 document.getElementById('productDescription').textContent = product
-            //                     .description;
-            //                 new bootstrap.Modal(document.getElementById('productModal')).show();
-            //             } else {
-            //                 alert(data.message);
-            //             }
-            //         });
-            // });
+            // Untuk menangani klik ikon pencarian dan memperbarui modal
+            $('.btn[data-bs-toggle="modal"]').on('click', function() {
+                var productName = $(this).data('name');
+                var productImage = $(this).data('image');
+                var productDescription = $(this).data('description');
+                selectedProductId = $(this).data('id'); // Menyimpan ID produk yang dipilih
 
+                $('#productModalLabel').text(productName);
+                $('#productImage').attr('src', productImage);
+                $('#productDescription').text(productDescription);
+            });
+
+            // Menambahkan item ke keranjang ketika tombol "Keranjang" di modal diklik
+            $('#addToCart').on('click', function() {
+                var url = '{{ route("add.cart") }}';
+
+                $.ajax({
+                    url: url,
+                    method: 'POST',
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        id_menu: selectedProductId, // Menggunakan ID produk yang disimpan
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            alert('Item berhasil ditambahkan ke keranjang');
+                        } else {
+                            alert('Gagal menambahkan item ke keranjang');
+                        }
+                    },
+                    error: function(response) {
+                        alert('Terjadi kesalahan. Silakan coba lagi.');
+                    }
+                });
+            });
+
+            // Kode yang ada untuk menambahkan item ke keranjang dari daftar produk
             $('.btn#pesan').on('click', function() {
                 var id_menu = $(this).data('id');
                 var url = $(this).data('url');
