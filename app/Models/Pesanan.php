@@ -11,4 +11,9 @@ class Pesanan extends Model
     protected $tabel = 'pesanans';
     protected $primaryKey = 'id';
     protected $guarded = [];
+
+    public function menu()
+{
+    return $this->hasMany(Menu::class, 'id', 'id_menu'); // Pastikan kunci relasi sesuai
+}
 }

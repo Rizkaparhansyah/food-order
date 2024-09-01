@@ -15,7 +15,9 @@ return new class extends Migration
             $table->id(); 
             $table->integer('id_menu');
             $table->string('nama_pelanggan');
-            $table->integer('kode');
+            $table->integer('qty');
+            $table->integer('kode'); 
+            $table->timestamp('expires_at')->nullable();
             $table->timestamps();
         });
     }

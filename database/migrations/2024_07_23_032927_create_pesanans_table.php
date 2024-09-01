@@ -14,9 +14,11 @@ return new class extends Migration
         Schema::create('pesanans', function (Blueprint $table) {
             $table->id();
             $table->string('nama_pelanggan');
+            $table->integer('kode_pelanggan')->uniqid();;
             $table->integer('id_menu');
             $table->integer('jumlah');
-            $table->enum('status',['proses', 'selesai', 'pending']);
+            $table->string('catatan')->nullable();
+            $table->enum('status',['proses', 'selesai', 'pending','batal']);
             $table->timestamps();
         });
     }
@@ -29,3 +31,4 @@ return new class extends Migration
         Schema::dropIfExists('pesanans');
     }
 };
+

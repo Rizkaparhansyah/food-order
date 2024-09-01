@@ -11,4 +11,25 @@ class Transaksi extends Model
     protected $tabel = 'transaksis';
     protected $primaryKey = 'id';
     protected $guarded = [];
+
+    // Nama metode relasi sebaiknya tunggal, yaitu 'menu'
+    public function menu()
+    {
+        return $this->belongsTo(Menu::class, 'id_menu');
+    }
+    public static function getStatistics()
+    {
+        // Mengambil data transaksi dan menghitung statistik berdasarkan status
+        return self::selectRaw('status, SUM(jumlah) as qty, SUM(harga * jumlah) as pendapatan')
+                    ->groupBy('status')
+                    ->get()
+                    ->mapWithKeys(function ($item) {
+                        return [$item->status => [
+                            'status' => $item->status,
+                            'qty' => $item->qty,
+                            'pendapatan' => $item->pendapatan
+                        ]];
+                    })
+                    ->values();
+    }
 }

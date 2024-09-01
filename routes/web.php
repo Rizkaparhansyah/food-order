@@ -1,8 +1,13 @@
 <?php
 
+use App\Http\Controllers\AcountController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DaftarPesanan;
 use App\Http\Controllers\KategoriController;
+use App\Http\Controllers\KeranjangController;
 use App\Http\Controllers\MenuController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\PenjualanController;
 use App\Models\Menu;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -30,17 +35,36 @@ Route::middleware('auth:admin')->group(function () {
         return view('admin.index');
     })->name('admin');
 
-    Route::get('/admin/menu', [MenuController::class, 'index'])->name('list-menu');
+    //DaftarPesananController
+    Route::get('/admin/daftar-pesanan', [DaftarPesanan::class, 'index'])->name('pesanan.list');
+    Route::post('/admin/daftar-pesanan/aksi', [DaftarPesanan::class, 'aksi'])->name('pesanan.aksi');
+    Route::post('/admin/daftar-pesanan/aksi-perdata', [DaftarPesanan::class, 'perData'])->name('pesanan.aksi-perdata');
 
-    Route::get('/admin/kategori', [KategoriController::class, 'index'])->name('list-kategori');
+    //MenuController
 
-    Route::get('/admin/menu/tambah', function(){
-        return view('admin.menu.tambah');
-    })->name('menuTambah');
-    
+        Route::get('/admin/menu', [MenuController::class, 'index'])->name('list.menu');
+        Route::post('/admin/menu/tambah', [MenuController::class, 'tambah'])->name('menu.tambah');
+        Route::delete('/admin/menu-hapus/{id}', [MenuController::class, 'hapus'])->name('hapus.menu');
+
+    //KategoriesController
+
+    Route::get('/admin/kategori', [KategoriController::class, 'index'])->name('list.kategori');
+    Route::post('/admin/kategori-tambah', [KategoriController::class, 'tambah'])->name('tambah.kategori');
+    Route::delete('/admin/kategori-hapus/{id}', [KategoriController::class, 'hapus'])->name('hapus.kategori');
+
+    Route::get('/admin/data-penjualan',[PenjualanController::class,'index'])->name('data.penjualan');
+
+//AcountController
+    Route::get('/admin/management-user',[AcountController::class,'index'])->name('data.user');
+    Route::post('/admin/tambah-user',[AcountController::class,'tambah'])->name('tambah.user');
+    Route::delete('/admin/user-hapus/{id}',[AcountController::class,'delete'])->name('delete.user');
+
+//OrderController
+    Route::get('/admin/order',[OrderController::class,'index'])->name('order.index');
+
 });
 
-// DATA
+// DATA USER
 Route::get('list-kategoris', [KategoriController::class, 'kategori'])->name('data.kategori');
 Route::get('list-menu', [MenuController::class, 'menu'])->name('data.menu');
 
@@ -76,9 +100,14 @@ Route::get('menu', function () {
 })->name('menu');
 
 
-Route::get('cart', function () {
-    return view('components.cart-component');
-})->middleware('name.auth')->name('cart');
 
+//KeranjangController
+Route::get('cart', [KeranjangController::class, 'index'])->middleware('name.auth')->name('cart');
+Route::get('cart/get', [KeranjangController::class, 'index'])->name('cart.get');
+Route::post('cart/add', [KeranjangController::class, 'addCart'])->name('cart.add');
+Route::post('cart/del', [KeranjangController::class, 'clearCart'])->name('cart.del');
+Route::post('/cart/update', [KeranjangController::class, 'updateCart'])->name('cart.update');
 
-
+//DaftarPesananController
+Route::post('checkout', [DaftarPesanan::class, 'checkout'])->name('checkout');
+Route::get('/status-pesanan',[DaftarPesanan::class,'status'])->name('status.user');

@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('nama');
             $table->unsignedBigInteger('kategori_id'); // Mengganti kolom kategori menjadi kategori_id
             $table->text('deskripsi');
-            $table->string('foto');
+            $table->string('foto')->nullable();
             $table->integer('stok');
             $table->integer('harga');
             $table->integer('diskon');

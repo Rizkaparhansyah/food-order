@@ -19,32 +19,38 @@
     </div>
 
     <li class="nav-item">
-        <a class="nav-link" href="#">
+        <a class="nav-link" href="{{ route('pesanan.list') }}">
             <i class="fas fa-fw fa-cart-shopping"></i>
             <span>Daftar Pesanan</span></a>
     </li>
 
     <li class="nav-item">
-        <a class="nav-link" href="{{ route('list-menu') }}">
+        <a class="nav-link" href="{{ route('order.index') }}">
+            <i class="fas fa-fw fa-cart-shopping"></i>
+            <span>Order</span></a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('list.menu') }}">
             <i class="fas fa-fw fa-list"></i>
             <span>Menu</span></a>
     </li>
 
 
     <li class="nav-item">
-        <a class="nav-link" href="{{ route('list-kategori') }}">
+        <a class="nav-link" href="{{ route('list.kategori') }}">
             <i class="fas fa-fw fa-barcode"></i>
             <span>Kategori</span></a>
     </li>
 
     <li class="nav-item">
-        <a class="nav-link" href="#">
+        <a class="nav-link" href="{{route('data.penjualan')}}">
             <i class="fas fa-fw fa-history"></i>
             <span>Data Penjualan</span></a>
     </li>
 
     <li class="nav-item">
-        <a class="nav-link collapsed" href="#">
+        <a class="nav-link collapsed" href="{{route('data.user')}}">
             <i class="fas fa-fw fa-user"></i>
             <span>Management User</span>
         </a>

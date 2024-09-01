@@ -21,10 +21,10 @@
                 src: url({{asset('font/Quesha-gndR.ttf')}});
             }
             :root{
-                --warna-utama : #F8F4E1;
-                --warna-kedua : #AF8F6F;
-                --warna-ketiga : #74512D;
-                --warna-keempat : #543310;
+                --warna-utama : #6F4E37;
+                --warna-kedua : #A67B5B;
+                --warna-ketiga : #ECB176;
+                --warna-keempat : #FED8B1;
             }
             a {
                 color: black;
@@ -61,102 +61,102 @@
             }
 
         </style>
-        
+        @stack('css')
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     </head>
     <body class="antialiased">
        
-
-        <x-navbar-component/>
-        <x-user-auth/>
-         @yield('content')
-
-
         <script> 
-        
             // Set CSRF token in AJAX setup
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
+
+            const addToCart = id => {
+                $.ajax({
+                    url: '{{ route('cart.add') }}',
+                    type: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    data:{
+                        id: id,
+                        qty: 1,
+                    },
+
+                    success: function(response) {
+                        alertSwal('success', 'Berhasil', 'Berhasil masukan ke keranjang',"top-end", 500)
+                        console.log('response', response)
+                        // $('#cartCount').text(response.count);
+                    },
+                    error: function(xhr, status, error) {
+                        alertSwal('error', 'Gagal!', 'Item gagal ditambahkan ke keranjang.');
+                    }
+                });
+            }
             
-            window.cekAuthUser = url => {
+            const cekAuthUser = (url, add, id) => {
                 $.ajax({
                     url: '{{ route('check.auth') }}',
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
+                    beforeSend: function(){
+                        if(add == 'add'){
+                            $('.pesan').attr('disabled', true)
+                            // addToCart(id);
+                        }
+                    },
                     success: function (data) {
+                        $('.pesan').attr('disabled', false)
                         // console.log('data', data)
                         if (!data.authenticated) {
                             $('#authModal').modal('show');
                         } else {
-                            window.location.href = url;
+                            if(add == 'add'){
+                                addToCart(id);
+                            }else{
+                                window.location.href = url;
+                            }
                         }
                     }
                 });
             }
             
+            const alertSwal = (icon, title, message, position,  timer=1000) => {
+                Swal.fire({
+                    icon: icon,
+                    title: title,
+                    text: message,
+                    showConfirmButton: false,
+                    timer: timer,
+                    position: position
+                });
+            };
+            
+
             $(document).ready(function() {
-                const nameLoginModal = new bootstrap.Modal(document.getElementById('authModal'));
-                const cartButton = $('#cart');
-                const pesanButton = $('#pesan');
-                const nameLoginForm = $('#formUser');
-
-               
-
-                $('#logoutButton').on('click', function (event) {
-                    event.preventDefault();
-
-                    $.ajax({
-                        url: '{{ route('logout.user') }}',
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        success: function (data) {
-                            if (!data.authenticated) {
-                                $('#logoutButton').attr('hidden', true)
-                                alert('berhasil.');
-                                window.location.href = '/'; // Redirect ke halaman yang diinginkan
-                            } else {
-                                alert('Logout failed.');
-                            }
-                        }
-                    });
-                });
-
-                
-                cartButton.on('click', function (event) {
-                    event.preventDefault();
-                    const url = $(this).data('url')
-                    cekAuthUser(url)
-                });
-
-                pesanButton.on('click', function (event) {
-                    event.preventDefault();
-                    const url = $(this).data('url')
-                    cekAuthUser(url)
-                });
-
-                nameLoginForm.on('submit', function (event) {
-                    event.preventDefault();
+        
+                $('#logUser').on('click', function (event) {
                     const name = $('#namaUser').val();
-                    const table = $('#table').val();
-
+                    const kode = $('#kodeUser').val();
+                    console.log(name)
+                    console.log(kode)
+                    event.preventDefault();
                     $.ajax({
                         url: '{{ route('user.login') }}',
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
                         },
-                        data: JSON.stringify({ name: name, table: table  }),
+                        data: JSON.stringify({ name: name,kode: kode, }),
                         success: function (data) {
-                            
+                            console.log('data', data)
                             if (data.authenticated) {
-                                nameLoginModal.hide();
+                                $('#authModal').modal('hide');
                                 window.location.href = '{{ route('cart') }}';
                             } else {
                                 alert('Failed to login');
@@ -166,14 +166,36 @@
                             alert('Gagal login!')
                         }
                     });
-                });
-             
+                })
+
             });
         </script>
 
-        @stack('script')
+        <x-navbar-component/>
+        <x-modal-login-user/>
+        <x-user-auth/>
 
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+        <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 99;">
+            <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+              <div class="toast-header">
+                <img src="..." class="rounded me-2" alt="...">
+                <strong class="me-auto color-utama" >Berhasil</strong>
+                <small class="color-utama">Badami</small>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+              </div>
+              <div class="toast-body color-utama">
+                Berhasil memasukan produk ke keranjang!
+              </div>
+            </div>
+        </div>
+
+         @yield('content')
+
+
+         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+         <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+        @stack('script')
     </body>
 </html>

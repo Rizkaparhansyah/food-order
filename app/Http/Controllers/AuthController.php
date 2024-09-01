@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Transaksi;
 use App\Models\User;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
@@ -26,7 +27,8 @@ class AuthController extends Controller
             ]);
         }else{
             if (Auth::guard('admin')->attempt(['email' => $request->email, 'password' => $request->password, 'role' => 'admin'])) {
-                return redirect()->intended('admin');
+                $data = Transaksi::getStatistics();
+                return redirect()->intended('admin')->with(['data'=>$data]);
             }
             else if (Auth::guard('kasir')->attempt(['email' => $request->email, 'password' => $request->password, 'role' => 'kasir'])) {
                 return redirect()->intended('kasir');
@@ -49,10 +51,7 @@ class AuthController extends Controller
 
     public function ajaxLoginWithName(Request $request)
     {
-        function generateFourDigitCode() {
-            return str_pad(mt_rand(0, 9999), 4, '0', STR_PAD_LEFT);
-        }
-
+        
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
         ]);
@@ -64,8 +63,8 @@ class AuthController extends Controller
         }else{
             $request->session()->put([
                 'user_name' => $request->name,
-                'kode' => generateFourDigitCode()
-            ]);
+                'kode' => $request->kode
+            ]); 
             return response()->json(['authenticated' => true, 'authenticatedKode' => $request->session()->has('kode')]);
         }
         return;
