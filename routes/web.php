@@ -121,6 +121,7 @@ Route::get('cart', function () {
 
     // Management User
     Route::get('/admin/management-user', [UserController::class, 'index'])->name('data.user');
+    Route::post('/admin/management-user', [AccountController::class, 'store'])->name('store.user');
 
     Route::post('/admin/pesanan/{id}/update-status', [PesananController::class, 'updateStatus']);
 

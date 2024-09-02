@@ -11,7 +11,7 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header">
-                    <button id="addUser" class="btn btn-primary"><i class="fa fa-plus"></i> Tambah</button>
+                    <button id="addUser" class="btn btn-primary"><i class="fa fa-plus"></i>Tambah</button>
                 </div> 
                 <div class="card-body">
                     <table id="userTable" class="table table-bordered">
