@@ -5,13 +5,11 @@ use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\PesananController;
 use App\Http\Controllers\KeranjangController;
-use App\Http\Controllers\AcountController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\AccountController;
 use App\Models\Menu;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-
-
 
 /*
 |--------------------------------------------------------------------------
@@ -82,40 +80,51 @@ Route::get('menu', function () {
 })->name('menu');
 
 
+
 Route::get('cart', function () {
     return view('components.cart-component');
 })->middleware('name.auth')->name('cart');
 
-Route::middleware('auth:admin')->group(function () {
-    Route::get('/admin/menu', [MenuController::class, 'index'])->name('list-menu');
-    Route::get('/admin/menu/{id}/edit', [MenuController::class, 'edit'])->name('edit-menu');
-    Route::post('/admin/menu', [MenuController::class, 'store'])->name('store-menu');
-    Route::put('/admin/menu/{id}', [MenuController::class, 'update'])->name('update-menu');
-    Route::delete('/admin/menu/{id}', [MenuController::class, 'destroy'])->name('delete-menu');
-});
+    //Menu
+    Route::middleware('auth:admin')->group(function () {
+        Route::get('/admin/menu', [MenuController::class, 'index'])->name('list-menu');
+        Route::get('/admin/menu/{id}/edit', [MenuController::class, 'edit'])->name('edit-menu');
+        Route::post('/admin/menu', [MenuController::class, 'store'])->name('store-menu');
+        Route::put('/admin/menu/{id}', [MenuController::class, 'update'])->name('update-menu');
+        Route::delete('/admin/menu/{id}', [MenuController::class, 'destroy'])->name('delete-menu');
+    });
 
-Route::middleware('auth:admin')->group(function () {
-    Route::get('/admin/kategori', [KategoriController::class, 'index'])->name('list-kategori');
-    Route::get('list-kategoris', [KategoriController::class, 'kategori'])->name('data.kategori');
-    Route::post('/admin/kategori', [KategoriController::class, 'store'])->name('kategori.store');
-    Route::get('/admin/kategori/{id}/edit', [KategoriController::class, 'edit'])->name('kategori.edit');
-    Route::put('/admin/kategori/{id}', [KategoriController::class, 'update'])->name('kategori.update');
-    Route::delete('/admin/kategori/{id}', [KategoriController::class, 'destroy'])->name('kategori.destroy');
-});
+    // Kategori
+    Route::middleware('auth:admin')->group(function () {
+        Route::get('/admin/kategori', [KategoriController::class, 'index'])->name('list-kategori');
+        Route::get('list-kategoris', [KategoriController::class, 'kategori'])->name('data.kategori');
+        Route::post('/admin/kategori', [KategoriController::class, 'store'])->name('kategori.store');
+        Route::get('/admin/kategori/{id}/edit', [KategoriController::class, 'edit'])->name('kategori.edit');
+        Route::put('/admin/kategori/{id}', [KategoriController::class, 'update'])->name('kategori.update');
+        Route::delete('/admin/kategori/{id}', [KategoriController::class, 'destroy'])->name('kategori.destroy');
+    });
+    
+    // Checkout
+    Route::post('/checkout', [PesananController::class, 'checkout'])->name('pesanan.checkout');
+    Route::get('/checkout/success', [PesananController::class, 'checkoutSuccess'])->name('checkout.success');
 
-Route::middleware('auth:admin')->group(function () {
     Route::get('list-pesanans', [PesananController::class, 'pesanan'])->name('data.pesanan');
+
+    // Daftar Pesanan
     Route::get('/admin/pesanan', [PesananController::class, 'index'])->name('list-pesanan');
+
     Route::post('/admin/pesanan/{id}/update-status', [PesananController::class, 'updateStatus']);
+
     Route::delete('/admin/pesanan/{id}/delete', [PesananController::class, 'delete']);
-});
     
-Route::post('/checkout', [PesananController::class, 'checkout'])->name('pesanan.checkout');
-Route::get('/checkout/success', [PesananController::class, 'checkoutSuccess'])->name('checkout.success');
+    // Keranjang
+    Route::get('cart', [KeranjangController::class, 'index'])
+        ->middleware('name.auth')
+        ->name('cart');
+    Route::post('/cart', [KeranjangController::class, 'addToCart'])->name('add.cart');
     
-Route::get('cart', [KeranjangController::class, 'index'])
-    ->middleware('name.auth')
-    ->name('cart');
-Route::post('/cart', [KeranjangController::class, 'addToCart'])->name('add.cart');
-    
-Route::get('/admin/management-user', [UserController::class, 'index'])->name('data.user');
+    // Management User
+    Route::get('/admin/management-user', [UserController::class, 'index'])->name('data.user');
+    Route::post('/admin/management-user', [AccountController::class, 'store'])->name('store.user');
+
+

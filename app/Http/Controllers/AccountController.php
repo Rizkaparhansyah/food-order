@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\Facades\DataTables;
 
-class AcountController extends Controller
+class AccountController extends Controller
 {
     public function index(Request $request)
     {

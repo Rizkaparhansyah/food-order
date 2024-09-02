@@ -76,34 +76,34 @@ class PesananController extends Controller
     }
 
     public function updateStatus(Request $request, $id)
-{
-    try {
-        $pesanan = Pesanan::find($id);
-
-        if (!$pesanan) {
-            return response()->json(['error' => 'Pesanan not found'], 404);
+    {
+        try {
+            $pesanan = Pesanan::find($id);
+    
+            if (!$pesanan) {
+                return response()->json(['error' => 'Pesanan not found'], 404);
+            }
+    
+            // Debugging: Log the status and ID
+            Log::info('Updating status for pesanan ID ' . $id . ' to ' . $request->status);
+    
+            if ($request->status === 'delete') {
+                // Delete the order
+                $pesanan->delete();
+                return response()->json(['success' => 'Pesanan deleted successfully']);
+            } else {
+                // Update the status
+                $pesanan->status = $request->status;
+                $pesanan->save();
+                return response()->json(['success' => 'Pesanan status updated successfully']);
+            }
+        } catch (\Exception $e) {
+            // Log the error for debugging
+            Log::error('Error updating status: ' . $e->getMessage());
+    
+            return response()->json(['error' => 'An error occurred while updating the status'], 500);
         }
-
-        // Debugging: Log the status and ID
-        Log::info('Updating status for pesanan ID ' . $id . ' to ' . $request->status);
-
-        if ($request->status === 'delete') {
-            // Delete the order
-            $pesanan->delete();
-            return response()->json(['success' => 'Pesanan deleted successfully']);
-        } else {
-            // Update the status
-            $pesanan->status = $request->status;
-            $pesanan->save();
-            return response()->json(['success' => 'Pesanan status updated successfully']);
-        }
-    } catch (\Exception $e) {
-        // Log the error for debugging
-        Log::error('Error updating status: ' . $e->getMessage());
-
-        return response()->json(['error' => 'An error occurred while updating the status'], 500);
-    }
-}
+    }    
 
     public function delete($id)
     {

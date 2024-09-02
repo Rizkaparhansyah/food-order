@@ -97,49 +97,49 @@
 
             // Formatting function for row details
             function format(d) {
-    let ordersTable = '<table class="table table-bordered">';
-    ordersTable += '<thead><tr><th>Nama</th><th>Harga</th><th>Quantity</th><th>Status</th><th>Action</th></tr></thead>';
-    ordersTable += '<tbody>';
+                let ordersTable = '<table class="table table-bordered">';
+                ordersTable += '<thead><tr><th>Nama</th><th>Harga</th><th>Quantity</th><th>Status</th><th>Action</th></tr></thead>';
+                ordersTable += '<tbody>';
 
-    d.orders.forEach(function(order) {
-        let statusClass;
-        switch (order.status) {
-            case 'proses':
-                statusClass = 'badge-secondary';
-                break;
-            case 'selesai':
-                statusClass = 'badge-success';
-                break;
-            case 'pending':
-                statusClass = 'badge-warning';
-                break;
-            case 'cancel':
-                statusClass = 'badge-danger';
-                break;
-            default:
-                statusClass = 'badge-secondary';
-        }
+                d.orders.forEach(function(order) {
+                    let statusClass;
+                    switch (order.status) {
+                        case 'proses':
+                            statusClass = 'badge-secondary';
+                            break;
+                        case 'selesai':
+                            statusClass = 'badge-success';
+                            break;
+                        case 'pending':
+                            statusClass = 'badge-warning';
+                            break;
+                        case 'cancel':
+                            statusClass = 'badge-danger';
+                            break;
+                        default:
+                            statusClass = 'badge-secondary';
+                    }
 
-        ordersTable += `<tr>
-            <td>${order.nama_menu}</td>
-            <td>${order.harga_menu}</td>
-            <td>${order.jumlah}</td>
-            <td><span class="badge badge-pill ${statusClass}">${order.status}</span></td>
-            <td class="centered-button">
-                <select class="form-control update-status" data-id="${order.id}">
-                    <option value="pending" ${order.status == 'pending' ? 'selected' : ''}>Pending</option>
-                    <option value="proses" ${order.status == 'proses' ? 'selected' : ''}>Proses</option>
-                    <option value="selesai" ${order.status == 'selesai' ? 'selected' : ''}>Selesai</option>
-                    <option value="delete">Delete</option>
-                </select>
-            </td>
-        </tr>`;
-    });
+                    ordersTable += `<tr>
+                        <td>${order.nama_menu}</td>
+                        <td>${order.harga_menu}</td>
+                        <td>${order.jumlah}</td>
+                        <td><span class="badge badge-pill ${statusClass}">${order.status}</span></td>
+                        <td class="centered-button">
+                            <select class="form-control update-status" data-id="${order.id}">
+                                <option value="pending" ${order.status == 'pending' ? 'selected' : ''}>Pending</option>
+                                <option value="proses" ${order.status == 'proses' ? 'selected' : ''}>Proses</option>
+                                <option value="selesai" ${order.status == 'selesai' ? 'selected' : ''}>Selesai</option>
+                                <option value="cancel" ${order.status == 'cancel' ? 'selected' : ''}>Cancel</option>
+                                <option value="delete">Delete</option>
+                            </select>
+                        </td>
+                    </tr>`;
+                });
 
-    ordersTable += '</tbody></table>';
-    return ordersTable;
-}
-
+                ordersTable += '</tbody></table>';
+                return ordersTable;
+            }
 
             // Handle status update via AJAX
             $(document).on('change', '.update-status', function() {
@@ -158,7 +158,7 @@
                     },
                     success: function(response) {
                         alert(response.success);
-                        table.ajax.reload();
+                        table.ajax.reload();  // Reload the DataTable after updating the status
                     },
                     error: function(xhr) {
                         alert(xhr.responseJSON.error);
