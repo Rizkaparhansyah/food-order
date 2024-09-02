@@ -107,6 +107,15 @@ Route::get('cart', function () {
     // Checkout
     Route::post('/checkout', [PesananController::class, 'checkout'])->name('pesanan.checkout');
     Route::get('/checkout/success', [PesananController::class, 'checkoutSuccess'])->name('checkout.success');
+
+    Route::get('list-pesanans', [PesananController::class, 'pesanan'])->name('data.pesanan');
+
+    // Daftar Pesanan
+    Route::get('/admin/pesanan', [PesananController::class, 'index'])->name('list-pesanan');
+
+    Route::post('/admin/pesanan/{id}/update-status', [PesananController::class, 'updateStatus']);
+
+    Route::delete('/admin/pesanan/{id}/delete', [PesananController::class, 'delete']);
     
     // Keranjang
     Route::get('cart', [KeranjangController::class, 'index'])
@@ -114,16 +123,9 @@ Route::get('cart', function () {
         ->name('cart');
     Route::post('/cart', [KeranjangController::class, 'addToCart'])->name('add.cart');
     
-    Route::get('list-pesanans', [PesananController::class, 'pesanan'])->name('data.pesanan');
-
-    // Daftar Pesanan
-    Route::get('/admin/pesanan', [PesananController::class, 'index'])->name('list-pesanan');
-
     // Management User
     Route::get('/admin/management-user', [UserController::class, 'index'])->name('data.user');
     Route::post('/admin/management-user', [AccountController::class, 'store'])->name('store.user');
 
-    Route::post('/admin/pesanan/{id}/update-status', [PesananController::class, 'updateStatus']);
 
-    Route::delete('/admin/pesanan/{id}/delete', [PesananController::class, 'delete']);
 
