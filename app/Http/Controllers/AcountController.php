@@ -33,7 +33,7 @@ class AcountController extends Controller
     public function store(Request $request)
     {
         $id = $request->id; // Ambil ID dari request jika ada
-
+// dd($id);
         // Validasi
         $validator = Validator::make($request->all(), [
             'nama' => 'required',

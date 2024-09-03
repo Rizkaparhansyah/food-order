@@ -4,9 +4,8 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\PesananController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\KeranjangController;
 use App\Http\Controllers\AcountController;
+use App\Http\Controllers\KeranjangController;
 use App\Models\Menu;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -87,7 +86,12 @@ Route::middleware('auth:admin')->group(function () {
     Route::get('/admin/kategori/{id}/edit', [KategoriController::class, 'edit'])->name('kategori.edit');
     Route::put('/admin/kategori/{id}', [KategoriController::class, 'update'])->name('kategori.update');
     Route::delete('/admin/kategori/{id}', [KategoriController::class, 'destroy'])->name('kategori.destroy');
-    Route::get('/admin/management-user', [UserController::class, 'index'])->name('data.user');
+    Route::get('/admin/management-user', [AcountController::class, 'index'])->name('data.user');
+    Route::post('/admin/user-add', [AcountController::class, 'store'])->name('store.user');
+    Route::delete  ('/admin/user-delete/{id}', [AcountController::class, 'delete'])->name('delete.user');
+    Route::get('/admin/data-penjualan', [PesananController::class, 'dataPenjualan'])->name('data.penjualan');
+    Route::post('/admin/daftar-pesanan/aksi', [PesananController::class, 'aksi'])->name('pesanan.aksi');
+    Route::post('/admin/daftar-pesanan/aksi-perdata', [PesananController::class, 'perData'])->name('pesanan.aksi-perdata');
 });
 
  

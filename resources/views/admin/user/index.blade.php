@@ -45,7 +45,7 @@ aria-hidden="true">
                 <div class="modal-body">
                         @csrf
                     
-                    <input type="hidden" class="form-control" id="idKondisi">
+                    <input type="hidden" class="form-control" name="id" id="idKondisi">
                     <div class="form-group">
                         <label for="nama">Nama</label>
                         <input type="text" class="form-control" name="nama" id="nama">
@@ -88,7 +88,7 @@ aria-hidden="true">
             }
         });
 
-        $('#userTable').DataTable({
+    $('#userTable').DataTable({
         processing: true,
         serverSide: true,
         ajax: '{{ route('data.user') }}',
@@ -109,10 +109,19 @@ aria-hidden="true">
         $('#role').val('')
         $('#modalTambah').modal('show');
     })
+    window.konfirmasiHapus = id => {
+        $.ajax({
+            type: 'DELETE',
+            url : `/admin/user-delete/${id}`,
+            success: function(data){
+            $('#modalTambah').modal('hide')
+            $('#userTable').DataTable().ajax.reload()
+        }
+        })
+    }
 
 $('#userForm').on('submit', function(e){
     e.preventDefault(); 
-console.log('test')
     var formData = new FormData(this);
 
     $.ajax({
@@ -130,7 +139,8 @@ console.log('test')
 
 $(document).on('click','.editMenu', function(){
         const data = $(this).data('data');
-        $('#idKondisi').val(data.id);
+        const id = $(this).data('id');
+        $('#idKondisi').val(id);
         $('#nama').val(data.name);
         $('#email').val(data.email);
         $('#password').val(data.password);

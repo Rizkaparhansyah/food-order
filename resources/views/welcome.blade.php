@@ -26,7 +26,7 @@
                 --warna-ketiga : #74512D;
                 --warna-keempat : #543310;
             }
-            a {
+            a { 
                 color: black;
             }
             .bg-utama {

@@ -16,6 +16,8 @@ return new class extends Migration
             $table->integer('id_menu');
             $table->integer('harga');
             $table->integer('jumlah');
+            $table->integer('kode_pelanggan');
+            $table->integer('status');
             $table->timestamps();
         });
     }

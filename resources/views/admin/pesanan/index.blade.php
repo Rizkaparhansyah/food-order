@@ -34,6 +34,14 @@
 @push('script')
     <script>
         $(document).ready(function() {
+            function formatCurrencyIDR(amount) {
+            return new Intl.NumberFormat('id-ID', {
+                style: 'currency',
+                currency: 'IDR',
+                minimumFractionDigits: 0, // Tidak menampilkan angka di belakang koma
+                maximumFractionDigits: 0  // Tidak menampilkan angka di belakang koma
+            }).format(amount);
+        }
             // Set up CSRF token for all AJAX requests
             $.ajaxSetup({
                 headers: {
@@ -61,13 +69,9 @@
                         name: 'kode'
                     },
                     {
-                        data: null,
-                        name: 'action',
-                        className: 'centered-button',
-                        orderable: false,
-                        searchable: false,
-                        defaultContent: '<button class="btn btn-success btn-sm rounded-circle text-center align-middle">...</button>' // Button with "..."
-                    }
+                        data: 'aksi',
+                        name: 'aksi',
+                        }
                 ],
                 order: [
                     [1, 'asc']
@@ -96,41 +100,116 @@
 
             // Formatting function for row details
             function format(d) {
-                // Create a table inside the child row
-                let ordersTable = '<table class="table table-bordered">';
-                ordersTable +=
-                    '<thead><tr><th>Nama</th><th>Harga</th><th>Quantity</th><th>Status</th><th></th></tr></thead>';
-                ordersTable += '<tbody>';
+            console.log('d', d)
+            // d is the data object for the row
+            // Replace this with the data from your menu table
+            var orders = d.orders || []; // Assume orders is an array of child data
 
-                d.orders.forEach(function(order) {
-                    let statusClass;
-                    switch (order.status) {
-                        case 'proses':
-                            statusClass = 'badge-secondary';
-                            break;
-                        case 'selesai':
-                            statusClass = 'badge-success';
-                            break;
-                        case 'pending':
-                            statusClass = 'badge-warning';
-                            break;
-                        default:
-                            statusClass = 'badge-secondary'; // Default class
-                    }
+            var badge = 'info'
+            var rows = orders.map(item => {
+                if(item.status === 'pending'){
+                    badge = 'info';
+                }else if(item.status === 'proses'){
+                    badge ='warning';
+                }else if(item.status === 'selesai'){
+                    badge ='success';
+                }else if(item.status === 'batal'){
+                    badge ='secondary';
+                }else{
+                    badge ='danger';
+                }
+                return `<tr>
+                            <td>${item.nama}</td>
+                            <td>${formatCurrencyIDR(item.harga * (1 - item.diskon / 100))}</td>
+                            <td>${item.qty}</td>
+                            <td>${item.catatan}</td>
+                            <td>
+                                <span class="badge badge-${badge} text-capitalize">${item.status}</span>
+                            </td>
+                            <td class="text-center">
+                                    <div class="btn-group dropleft">
+                                        <button type="button" class="btn btn-success rounded-circle justify-content-center align-items-center d-flex" style="width:40px; height:40px;"  data-toggle="dropdown" aria-expanded="false">
+                                            <i class="fas fa-ellipsis-h"></i>
+                                        </button>
+                                        <div class="dropdown-menu">
+                                            <div class="dropdown-menu dropdown-menu-eleh show" style="width: 240px; background: rgb(255, 255, 255); border: 1px; position: absolute; inset: 0px 0px auto auto; margin: 0px; transform: translate(-10px, 0px);" data-popper-placement="left-start">
+                                                <div class="d-flex justify-content-around">
+                                                    <div>
+                                                        <button style="width:40px; height:40px;"  onclick="aksiPesananPerData(${d.kode}, '${item.status.toString()}', 'pending', ${item.id} , ${d.id_pesanan})" class="btn btn-rounded rounded-circle btn-info btn-md  justify-content-center align-items-center d-flex"  data-bs-toggle="tooltip" data-bs-placement="top" title="Pending pesanan"><i class="fa fa-hourglass-half"></i></button>
+                                                    </div>
+                                                    <div>
+                                                        <button style="width:40px; height:40px;"   onclick="aksiPesananPerData(${d.kode}, '${item.status.toString()}','proses', ${item.id} , ${d.id_pesanan})" class="btn btn-rounded rounded-circle btn-warning btn-md  justify-content-center align-items-center d-flex"  data-bs-toggle="tooltip" data-bs-placement="top" title="Proses pesanan"><i class="fa fa-circle-notch"></i></button>
+                                                    </div>
+                                                    <div>
+                                                        <button style="width:40px; height:40px;"  onclick="aksiPesananPerData(${d.kode}, '${item.status.toString()}','selesai', ${item.id} , ${d.id_pesanan})" class="btn btn-rounded rounded-circle btn-success btn-md  justify-content-center align-items-center d-flex" data-bs-toggle="modal" data-bs-target="#exampleModal" style="margin-left: 3%" href="javascript:void(0)" data-bs-placement="top" title="Selesaikan pesanan"><i class="fa fa-check"></i></button>
+                                                    </div>
+                                                    <div>
+                                                        <button style="width:40px; height:40px;"  onclick="aksiPesananPerData(${d.kode}, '${item.status.toString()}','batal', ${item.id} , ${d.id_pesanan})" class="btn btn-rounded rounded-circle btn-md btn-secondary  justify-content-center align-items-center d-flex" data-bs-toggle="tooltip" data-bs-placement="top" title="Batal pesanan" style="margin-left: 3%"> <i class="fa fa-times"></i></button>
+                                                    </div>
+                                                    <div>
+                                                        <button onclick="aksiPesananPerData(${d.kode}, '${item.status.toString()}','hapus', ${item.id} , ${d.id_pesanan})" class="btn btn-rounded rounded-circle btn-md btn-danger justify-content-center align-items-center d-flex" style="width:40px; height:40px;" data-bs-toggle="tooltip" data-bs-placement="top" title="Hapus pesanan" style="margin-left: 3%"> <i class="fa fa-trash"></i></button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                            </td>
+                        </tr>`;
+            }).join('');
 
-                    ordersTable += `<tr>
-                                <td>${order.nama_menu}</td>
-                                <td>${order.harga_menu}</td>
-                                <td>${order.jumlah}</td>
-                                <td><span class="badge badge-pill ${statusClass}">${order.status}</span></td>
-                                <td class="centered-button"><button class="btn btn-success btn-sm rounded-circle text-center align-middle">....</button></td>
-                            </tr>`;
-                });
-
-                ordersTable += '</tbody></table>';
-                return ordersTable;
-            }
+            return '<div class="child-row">' +
+                        '<table cellpadding="5" cellspacing="0" border="1" style="width:100%;">' +
+                            '<thead>' +
+                                '<tr>' +
+                                    '<th>Nama</th>' +
+                                    '<th>Harga</th>' +
+                                    '<th>Quantity</th>' +
+                                    '<th>Catatan</th>' +
+                                    '<th>Status</th>' +
+                                '</tr>' +
+                            '</thead>' +
+                            '<tbody>' +
+                                rows +
+                            '</tbody>' +
+                        '</table>' +
+                   '</div>';
+        }
 
         });
+
+        window.aksiPesanan = (kode, status) => {
+            $.ajax({
+                url: "{{ route('pesanan.aksi') }}",
+                type: 'POST',
+                data: {
+                    kode: kode,
+                    status: status,
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function (response) {
+                        table.ajax.reload();
+                   
+                }
+            });
+        }
+
+        window.aksiPesananPerData = (kode, statusAwal, status, id, idPesanan) => {
+            
+            $.ajax({
+                url: "{{ route('pesanan.aksi-perdata') }}",
+                type: 'POST',
+                data: {
+                    kode: kode,
+                    statusAwal: statusAwal,
+                    status: status,
+                    id: id,
+                    idPesanan: idPesanan,
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function (response) {
+                        table.ajax.reload();
+                }
+            });
+        }
     </script>
 @endpush
