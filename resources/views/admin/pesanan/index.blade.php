@@ -122,7 +122,7 @@
                             <td>${item.nama}</td>
                             <td>${formatCurrencyIDR(item.harga * (1 - item.diskon / 100))}</td>
                             <td>${item.qty}</td>
-                            <td>${item.catatan}</td>
+                            <td>${item.catatan == '' || item.catatan == null ? 'Kosong' : item.catatan}</td> 
                             <td>
                                 <span class="badge badge-${badge} text-capitalize">${item.status}</span>
                             </td>

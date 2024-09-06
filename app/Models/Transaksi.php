@@ -12,7 +12,8 @@ class Transaksi extends Model
     protected $primaryKey = 'id';
     protected $guarded = [];
 
-    public static function menu()
+    // Nama metode relasi sebaiknya tunggal, yaitu 'menu'
+    public function menu()
     {
         return $this->belongsTo(Menu::class, 'id_menu');
     }

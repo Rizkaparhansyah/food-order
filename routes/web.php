@@ -5,6 +5,7 @@ use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\PesananController;
 use App\Http\Controllers\AcountController;
+use App\Http\Controllers\PenjualanController;
 use App\Http\Controllers\KeranjangController;
 use App\Models\Menu;
 use Illuminate\Support\Facades\Auth;
@@ -104,3 +105,6 @@ Route::get('cart', [KeranjangController::class, 'index'])
     ->middleware('name.auth')
     ->name('cart');
 Route::post('/cart', [KeranjangController::class, 'addToCart'])->name('add.cart');
+
+
+Route::get('/admin/data-penjualan',[PenjualanController::class,'index'])->name('data.penjualan');
