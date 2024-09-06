@@ -113,6 +113,7 @@ Route::get('cart', function () {
         ->middleware('name.auth')
         ->name('cart');
     Route::post('/cart', [KeranjangController::class, 'addToCart'])->name('add.cart');
+    Route::post('/cart/{id}/delete', [KeranjangController::class, 'delete'])->name('cart.delete');
     
     Route::get('list-pesanans', [PesananController::class, 'pesanan'])->name('data.pesanan');
 

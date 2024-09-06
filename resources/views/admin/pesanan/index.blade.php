@@ -98,7 +98,7 @@
             // Formatting function for row details
             function format(d) {
     let ordersTable = '<table class="table table-bordered">';
-    ordersTable += '<thead><tr><th>Nama</th><th>Harga</th><th>Quantity</th><th>Status</th><th>Action</th></tr></thead>';
+    ordersTable += '<thead><tr><th>Nama</th><th>Harga</th><th>Quantity</th><th>Catatan</th><th>Status</th><th>Action</th></tr></thead>';
     ordersTable += '<tbody>';
 
     d.orders.forEach(function(order) {
@@ -124,6 +124,7 @@
             <td>${order.nama_menu}</td>
             <td>${order.harga_menu}</td>
             <td>${order.jumlah}</td>
+            <td>${order.catatan}</td>
             <td><span class="badge badge-pill ${statusClass}">${order.status}</span></td>
             <td class="centered-button">
                 <select class="form-control update-status" data-id="${order.id}">
