@@ -81,8 +81,40 @@
                         <div class="row">
                             <div class="d-flex justify-content-center align-items-center col-12 py-2 flex-column">
                                 <div class="total d-flex justify-content-end w-100 fs-3 fw-bold text-end">
-                                    Rp
-                                    {{ number_format($keranjangs->sum(fn($k) => $k->menu->harga * (1 - $k->menu->diskon / 100) * $k->jumlah), 0, ',', '.') }}
+                                    <div class="row">
+                                        <table>
+                                            <tbody>
+                                                @foreach ($keranjangs as $keranjang)
+                                                    <tr class="border-bottom fs-5 fw-normal">
+                                                        <td class="ps-5">{{ $keranjang->menu->nama }}</td>
+                                                        <td class="ps-5">x{{ $keranjang->jumlah }}</td>
+                                                        <td class="ps-5">Rp.
+                                                            {{ number_format($keranjang->menu->harga * $keranjang->jumlah, 0, ',', '.') }}
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                                <tr>
+                                                    <td>
+                                                    <td colspan="2" class="text-end fs-5 fw-normal text-danger">
+                                                        Total Diskon : - Rp.
+                                                        {{ number_format($keranjangs->sum(fn($k) => $k->menu->harga * ($k->menu->diskon / 100) * $k->jumlah), 0, ',', '.') }}
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="3" class="text-end text-success">
+                                                        Rp
+                                                        {{ number_format($keranjangs->sum(fn($k) => $k->menu->harga * (1 - $k->menu->diskon / 100) * $k->jumlah), 0, ',', '.') }}
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="3" class="text-end text-danger fs-5">
+                                                        Hemat -Rp.
+                                                        {{ number_format($keranjangs->sum(fn($k) => $k->menu->harga * ($k->menu->diskon / 100) * $k->jumlah), 0, ',', '.') }}
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                                 <button type="submit" class="btn bg-kedua color-utama w-100">Checkout</button>
                             </div>
@@ -104,6 +136,12 @@
                 currentQuantity += delta;
                 quantityDiv.innerText = currentQuantity;
                 quantityInput.value = currentQuantity;
+
+                if (delta > 0) {
+                    plusCartItem(id);
+                } else {
+                    minCartItem(id);
+                }
             }
         }
 
@@ -125,6 +163,42 @@
                     console.error('Error:', error);
                 });
             }
+        }
+
+        function plusCartItem(id) {
+            fetch(`/cart/${id}/plus`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                    'Content-Type': 'application/json',
+                },
+            }).then(response => {
+                if (response.ok) {
+                    location.reload(); // Refresh halaman setelah item dihapus
+                } else {
+                    alert('Terjadi kesalahan');
+                }
+            }).catch(error => {
+                console.error('Error:', error);
+            });
+        }
+
+        function minCartItem(id) {
+            fetch(`/cart/${id}/min`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                    'Content-Type': 'application/json',
+                },
+            }).then(response => {
+                if (response.ok) {
+                    location.reload(); // Refresh halaman setelah item dihapus
+                } else {
+                    alert('Terjadi kesalahan');
+                }
+            }).catch(error => {
+                console.error('Error:', error);
+            });
         }
     </script>
 @endsection

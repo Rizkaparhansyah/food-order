@@ -17,7 +17,7 @@ return new class extends Migration
             $table->integer('id_menu');
             $table->integer('jumlah');
             $table->string('kode');
-            $table->text('catatan');
+            $table->text('catatan')->nullable(true);
             $table->enum('status',['proses', 'selesai', 'pending']);
             $table->timestamps();
         });

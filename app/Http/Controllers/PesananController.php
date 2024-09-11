@@ -30,6 +30,7 @@ class PesananController extends Controller
                             'id' => $order->id,  // Include the order ID
                             'nama_menu' => $order->menu->nama,
                             'harga_menu' => $order->menu->harga,
+                            'diskon' => $order->menu->diskon,
                             'jumlah' => $order->jumlah,
                             'catatan' => $order->catatan,
                             'status' => $order->status

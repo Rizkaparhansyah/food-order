@@ -74,4 +74,54 @@ class KeranjangController extends Controller
 
         return redirect()->route('cart')->with('success', 'Item berhasil dihapus dari keranjang.');
     }
+
+    public function plus($id)
+    {
+        $nama_pelanggan = session()->get('user_name', false);
+        $kode = session()->get('kode', false);
+
+        if (!$nama_pelanggan || !$kode) {
+            return redirect()->route('cart')->with('error', 'Data tidak valid. Silakan coba lagi.');
+        }
+
+        // Cari item keranjang berdasarkan ID dan pastikan cocok dengan pelanggan dan kode
+        $keranjang = Keranjang::where('id', $id)
+            ->where('nama_pelanggan', $nama_pelanggan)
+            ->where('kode', $kode)
+            ->first();
+
+        if (!$keranjang) {
+            return redirect()->route('cart')->with('error', 'Item keranjang tidak ditemukan.');
+        }
+
+        $keranjang->jumlah = $keranjang->jumlah + 1;
+        $keranjang->save();
+
+        return redirect()->route('cart');
+    }
+
+    public function min($id)
+    {
+        $nama_pelanggan = session()->get('user_name', false);
+        $kode = session()->get('kode', false);
+
+        if (!$nama_pelanggan || !$kode) {
+            return redirect()->route('cart')->with('error', 'Data tidak valid. Silakan coba lagi.');
+        }
+
+        // Cari item keranjang berdasarkan ID dan pastikan cocok dengan pelanggan dan kode
+        $keranjang = Keranjang::where('id', $id)
+            ->where('nama_pelanggan', $nama_pelanggan)
+            ->where('kode', $kode)
+            ->first();
+
+        if (!$keranjang) {
+            return redirect()->route('cart')->with('error', 'Item keranjang tidak ditemukan.');
+        }
+
+        $keranjang->jumlah = $keranjang->jumlah - 1;
+        $keranjang->save();
+
+        return redirect()->route('cart');
+    }
 }

@@ -114,6 +114,8 @@ Route::get('cart', function () {
         ->name('cart');
     Route::post('/cart', [KeranjangController::class, 'addToCart'])->name('add.cart');
     Route::post('/cart/{id}/delete', [KeranjangController::class, 'delete'])->name('cart.delete');
+    Route::post('/cart/{id}/plus', [KeranjangController::class, 'plus'])->name('cart.plus');
+    Route::post('/cart/{id}/min', [KeranjangController::class, 'min'])->name('cart.min');
     
     Route::get('list-pesanans', [PesananController::class, 'pesanan'])->name('data.pesanan');
 
