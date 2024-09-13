@@ -38,9 +38,15 @@
     </li>
 
     <li class="nav-item">
-        <a class="nav-link" href="#">
+        <a class="nav-link" href="">
             <i class="fas fa-fw fa-history"></i>
             <span>Data Penjualan</span></a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('order') }}">
+            <i class="fas fa-fw fa-cart-shopping"></i>
+            <span>Order</span></a>
     </li>
 
     <li class="nav-item">
@@ -57,4 +63,3 @@
     </div>
 
 </ul>
-        

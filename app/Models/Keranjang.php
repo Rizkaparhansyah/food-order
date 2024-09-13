@@ -11,7 +11,7 @@ class Keranjang extends Model
     protected $tabel = 'keranjangs';
     protected $primaryKey = 'id';
     protected $guarded = [];
-    protected $fillable = ['id_menu', 'nama_pelanggan', 'kode'];
+    protected $fillable = ['id_menu', 'nama_pelanggan', 'kode', 'jumlah'];
 
     public function menu()
     {

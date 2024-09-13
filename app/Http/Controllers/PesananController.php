@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Keranjang;
 use App\Models\Pesanan;
 use Yajra\DataTables\Facades\DataTables;
-use Illuminate\Support\Facades\Log; // Correct import
+use Illuminate\Support\Facades\Log;
 
 class PesananController extends Controller
 {
@@ -27,7 +27,7 @@ class PesananController extends Controller
                     'kode' => $item->kode,
                     'orders' => Pesanan::where('nama_pelanggan', $item->nama_pelanggan)->with('menu')->get()->map(function ($order) {
                         return [
-                            'id' => $order->id,  // Include the order ID
+                            'id' => $order->id,  
                             'nama_menu' => $order->menu->nama,
                             'harga_menu' => $order->menu->harga,
                             'jumlah' => $order->jumlah,
@@ -41,34 +41,49 @@ class PesananController extends Controller
     }
 
     public function checkout(Request $request)
-    {
-        $nama_pelanggan = $request->session()->get('user_name', false);
-        $kode = $request->session()->get('kode', false);
+{
+    $nama_pelanggan = $request->session()->get('user_name', false);
+    $kode = $request->session()->get('kode', false);
 
-        if (!$nama_pelanggan || !$kode) {
-            return redirect()->route('cart')->with('error', 'Data tidak valid. Silakan coba lagi.');
-        }
+    if (!$nama_pelanggan || !$kode) {
+        return redirect()->route('cart')->with('error', 'Data tidak valid. Silakan coba lagi.');
+    }
 
-        $keranjangs = Keranjang::where('nama_pelanggan', $nama_pelanggan)
+    $keranjangs = Keranjang::where('nama_pelanggan', $nama_pelanggan)
+        ->where('kode', $kode)
+        ->get();
+
+    foreach ($keranjangs as $keranjang) {
+        // Check apakah pesanan sudah ada
+        $existingOrder = Pesanan::where('nama_pelanggan', $nama_pelanggan)
+            ->where('id_menu', $keranjang->id_menu)
             ->where('kode', $kode)
-            ->get();
+            ->first();
 
-        foreach ($keranjangs as $keranjang) {
+        if ($existingOrder) {
+            // Tambah jumlah pesanan yang ada
+            $existingOrder->jumlah += $keranjang->jumlah;
+            $existingOrder->save();
+        } else {
+            // Buat entri pesanan baru
             Pesanan::create([
                 'nama_pelanggan' => $keranjang->nama_pelanggan,
                 'id_menu' => $keranjang->id_menu,
-                'jumlah' => 1,
+                'jumlah' => $keranjang->jumlah,
                 'kode' => $kode,
                 'status' => 'proses',
             ]);
         }
-
-        Keranjang::where('nama_pelanggan', $nama_pelanggan)
-            ->where('kode', $kode)
-            ->delete();
-
-        return redirect()->route('checkout.success')->with('success', 'Checkout berhasil!');
     }
+
+    // Hapus semua item dari keranjang
+    Keranjang::where('nama_pelanggan', $nama_pelanggan)
+        ->where('kode', $kode)
+        ->delete();
+
+    return redirect()->route('checkout.success')->with('success', 'Checkout berhasil!');
+}
+
 
     public function checkoutSuccess()
     {
@@ -84,21 +99,21 @@ class PesananController extends Controller
                 return response()->json(['error' => 'Pesanan not found'], 404);
             }
     
-            // Debugging: Log the status and ID
+            // Debugging: Catat status dan ID
             Log::info('Updating status for pesanan ID ' . $id . ' to ' . $request->status);
     
             if ($request->status === 'delete') {
-                // Delete the order
+                // Hapus pesanan
                 $pesanan->delete();
                 return response()->json(['success' => 'Pesanan deleted successfully']);
             } else {
-                // Update the status
+                // Update status
                 $pesanan->status = $request->status;
                 $pesanan->save();
                 return response()->json(['success' => 'Pesanan status updated successfully']);
             }
         } catch (\Exception $e) {
-            // Log the error for debugging
+            // Catat kesalahan untuk debugging
             Log::error('Error updating status: ' . $e->getMessage());
     
             return response()->json(['error' => 'An error occurred while updating the status'], 500);
