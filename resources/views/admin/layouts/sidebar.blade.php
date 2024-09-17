@@ -38,13 +38,13 @@
     </li>
 
     <li class="nav-item">
-        <a class="nav-link" href="#">
+        <a class="nav-link" href="{{ route('data.penjualan') }}">
             <i class="fas fa-fw fa-history"></i>
             <span>Data Penjualan</span></a>
     </li>
 
     <li class="nav-item">
-        <a class="nav-link collapsed" href="#">
+        <a class="nav-link collapsed" href="{{route('data.user')}}">
             <i class="fas fa-fw fa-user"></i>
             <span>Management User</span>
         </a>

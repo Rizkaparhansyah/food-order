@@ -86,11 +86,17 @@ Route::middleware('auth:admin')->group(function () {
     Route::post('/admin/kategori', [KategoriController::class, 'store'])->name('kategori.store');
     Route::get('/admin/kategori/{id}/edit', [KategoriController::class, 'edit'])->name('kategori.edit');
     Route::put('/admin/kategori/{id}', [KategoriController::class, 'update'])->name('kategori.update');
-    Route::delete('/admin/kategori/{id}', [KategoriController::class, 'destroy'])->name('kategori.destroy');
+    Route::delete('/admin/kategori/{id}', [KategoriController::class, 'destroy'])->name('kategori.destroy'); 
+
+    //AcountController
+    Route::get('/admin/management-user',[AcountController::class,'index'])->name('data.user');
+    Route::post('/admin/tambah-user',[AcountController::class,'tambah'])->name('tambah.user');
+    Route::delete  ('/admin/user-delete/{id}', [AcountController::class, 'delete'])->name('delete.user');
+
     Route::get('/admin/management-user', [AcountController::class, 'index'])->name('data.user');
     Route::post('/admin/user-add', [AcountController::class, 'store'])->name('store.user');
-    Route::delete  ('/admin/user-delete/{id}', [AcountController::class, 'delete'])->name('delete.user');
-    Route::get('/admin/data-penjualan', [PesananController::class, 'dataPenjualan'])->name('data.penjualan');
+    
+    Route::get('/admin/data-penjualan', [PenjualanController::class, 'dataPenjualan'])->name('data.penjualan');
     Route::post('/admin/daftar-pesanan/aksi', [PesananController::class, 'aksi'])->name('pesanan.aksi');
     Route::post('/admin/daftar-pesanan/aksi-perdata', [PesananController::class, 'perData'])->name('pesanan.aksi-perdata');
 });
