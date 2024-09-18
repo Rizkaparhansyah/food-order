@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Menu;
+use App\Models\Pesanan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 
@@ -61,19 +62,33 @@ class OrderController extends Controller
     }
 
     public function checkout(Request $request)
-    {
-        $cart = Session::get('cart', []);
-        if (empty($cart)) {
-            return redirect()->back()->with('error', 'Cart is empty');
-        }
-
-        // Simpan detail pesanan ke database
-        // For example:
-        // Order::create(['details' => json_encode($cart)]);
-
-        // Kosongkan keranjang
-        Session::forget('cart');
-
-        return redirect()->route('order')->with('success', 'Order placed successfully');
+{
+    $cart = Session::get('cart', []);
+    if (empty($cart)) {
+        return redirect()->back()->with('error', 'Cart is empty');
     }
+
+    // Validate the input for name and code
+    $request->validate([
+        'customer_name' => 'required|string|max:255',
+        'order_code' => 'required|integer',
+    ]);
+
+    // Simpan detail pesanan ke database
+    foreach ($cart as $id => $item) {
+        // Simpan pesanan satu per satu
+        Pesanan::create([
+            'nama_pelanggan' => $request->input('customer_name'),
+            'kode' => $request->input('order_code'),
+            'id_menu' => $id, // ID menu dari item cart
+            'jumlah' => $item['quantity'],
+            'status' => 'proses', // Status awal pesanan
+        ]);
+    }
+
+    // Kosongkan keranjang
+    Session::forget('cart');
+
+    return redirect()->route('order')->with('success', 'Order placed successfully');
+}   
 }

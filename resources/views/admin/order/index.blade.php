@@ -79,8 +79,20 @@
                                 </li>
                             @endforeach
                         </ul>
+        
+                        <!-- Form for name and code input -->
                         <form action="{{ route('order.checkout') }}" method="POST" class="mt-3">
                             @csrf
+                            <div class="form-group mb-3">
+                                <label for="customer_name">Nama Pelanggan</label>
+                                <input type="text" name="customer_name" id="customer_name" class="form-control" required>
+                            </div>
+        
+                            <div class="form-group mb-3">
+                                <label for="order_code">Kode</label>
+                                <input type="number" name="order_code" id="order_code" class="form-control" required>
+                            </div>
+        
                             <button class="btn btn-success col-12" type="submit">Checkout</button>
                         </form>
                     @else
@@ -89,5 +101,5 @@
                 </div>
             </div>
         </div>
-    </div>
+        
 @endsection
