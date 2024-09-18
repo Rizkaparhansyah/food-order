@@ -7,10 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Pesanan extends Model
 {
-    use HasFactory;
-    protected $tabel = 'pesanans';
-    protected $primaryKey = 'id';
-    protected $guarded = [];
+    protected $fillable = ['nama_pelanggan', 'kode', 'id_menu', 'jumlah', 'status'];
 
     public function menu()
     {

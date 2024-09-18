@@ -17,7 +17,7 @@ class PesananController extends Controller
 
     public function pesanan()
     {
-        $data = Pesanan::with('menu')
+        $data = Pesanan::with('menu') // Mengambil relasi dengan model Menu
             ->selectRaw('nama_pelanggan, kode, COUNT(*) as orders_count')
             ->groupBy('nama_pelanggan', 'kode')
             ->get()
@@ -25,20 +25,23 @@ class PesananController extends Controller
                 return [
                     'nama_pelanggan' => $item->nama_pelanggan,
                     'kode' => $item->kode,
-                    'orders' => Pesanan::where('nama_pelanggan', $item->nama_pelanggan)->with('menu')->get()->map(function ($order) {
-                        return [
-                            'id' => $order->id,  
-                            'nama_menu' => $order->menu->nama,
-                            'harga_menu' => $order->menu->harga,
-                            'jumlah' => $order->jumlah,
-                            'status' => $order->status
-                        ];
-                    })
+                    'orders' => Pesanan::where('nama_pelanggan', $item->nama_pelanggan)
+                                    ->with('menu') // Relasi ke menu
+                                    ->get()
+                                    ->map(function ($order) {
+                                        return [
+                                            'id' => $order->id,  
+                                            'nama_menu' => $order->menu->nama,
+                                            'harga_menu' => $order->menu->harga,
+                                            'jumlah' => $order->jumlah,
+                                            'status' => $order->status
+                                        ];
+                                    })
                 ];
             });
-
+    
         return DataTables::of($data)->make(true);
-    }
+    }    
 
     public function checkout(Request $request)
 {
