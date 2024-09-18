@@ -25,6 +25,12 @@
     </li>
 
     <li class="nav-item">
+        <a class="nav-link" href="{{ route('order') }}">
+            <i class="fas fa-fw fa-cart-shopping"></i>
+            <span>Order</span></a>
+    </li>
+
+    <li class="nav-item">
         <a class="nav-link" href="{{ route('list-menu') }}">
             <i class="fas fa-fw fa-list"></i>
             <span>Menu</span></a>

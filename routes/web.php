@@ -7,6 +7,7 @@ use App\Http\Controllers\PesananController;
 use App\Http\Controllers\KeranjangController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AccountController;
+use App\Http\Controllers\OrderController;
 use App\Models\Menu;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -130,3 +131,10 @@ Route::get('cart', function () {
     Route::get('/admin/management-user', [UserController::class, 'index'])->name('data.user');
     Route::post('/admin/management-user', [AccountController::class, 'store'])->name('store.user');
     
+    // Order
+    Route::middleware('auth:admin')->group(function () {
+        Route::get('/admin/order', [OrderController::class, 'index'])->name('order');
+        Route::get('/admin/order/search', [OrderController::class, 'search'])->name('order.search');
+        Route::post('/admin/order/add-to-cart/{id}', [OrderController::class, 'addToCart'])->name('order.addToCart');
+        Route::post('/admin/order/checkout', [OrderController::class, 'checkout'])->name('order.checkout');
+    });
