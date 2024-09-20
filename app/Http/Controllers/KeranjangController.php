@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Keranjang;
+
 use Illuminate\Http\Request;
 
 class KeranjangController extends Controller
@@ -26,67 +27,101 @@ class KeranjangController extends Controller
 
     public function addToCart(Request $request)
     {
+        // Ambil id_menu dari request
         $id_menu = $request->input('id_menu');
+
+        // Ambil nama pelanggan dan kode dari session
         $nama_pelanggan = $request->session()->get('user_name', false);
         $kode = $request->session()->get('kode', false);
 
+        // Validasi jika nama pelanggan atau kode tidak ada di session
         if (!$nama_pelanggan || !$kode) {
             return response()->json(['error' => 'User not logged in or session invalid'], 400);
         }
 
-        // Periksa apakah barang sudah ada di keranjang
-        $keranjang = Keranjang::where('id_menu', $id_menu)
-            ->where('nama_pelanggan', $nama_pelanggan)
-            ->where('kode', $kode)
-            ->first();
-
-        if ($keranjang) {
-            // Update quantity jika item sudah ada
-            $keranjang->jumlah += 1;
-            $keranjang->save();
-        } else {
-            // Add item baru ke keranjang
-            Keranjang::create([
-                'id_menu' => $id_menu,
-                'nama_pelanggan' => $nama_pelanggan,
-                'kode' => $kode,
-                'jumlah' => 1,
-            ]);
-        }
+        // Tambahkan item ke keranjang
+        Keranjang::create([
+            'id_menu' => $id_menu,
+            'jumlah' => 1,
+            'nama_pelanggan' => $nama_pelanggan,
+            'kode' => $kode,
+        ]);
 
         return response()->json(['success' => 'Item added to cart'], 200);
     }
 
-    public function increaseQuantity($id)
-{
-    $keranjang = Keranjang::findOrFail($id);
+    public function delete($id)
+    {
+        $nama_pelanggan = session()->get('user_name', false);
+        $kode = session()->get('kode', false);
 
-    // Tingkatkan quantity sebanyak 1
-    $keranjang->jumlah += 1;
-    $keranjang->save();
+        if (!$nama_pelanggan || !$kode) {
+            return redirect()->route('cart')->with('error', 'Data tidak valid. Silakan coba lagi.');
+        }
 
-    return response()->json(['success' => 'Quantity increased'], 200);
-}
+        // Cari item keranjang berdasarkan ID dan pastikan cocok dengan pelanggan dan kode
+        $keranjang = Keranjang::where('id', $id)
+            ->where('nama_pelanggan', $nama_pelanggan)
+            ->where('kode', $kode)
+            ->first();
 
-public function decreaseQuantity($id)
-{
-    $keranjang = Keranjang::findOrFail($id);
+        if (!$keranjang) {
+            return redirect()->route('cart')->with('error', 'Item keranjang tidak ditemukan.');
+        }
 
-    // Pastikan jumlahnya tidak kurang dari 1
-    if ($keranjang->jumlah > 1) {
-        $keranjang->jumlah -= 1;
-        $keranjang->save();
+        // Hapus item keranjang
+        $keranjang->delete();
+
+        return redirect()->route('cart')->with('success', 'Item berhasil dihapus dari keranjang.');
     }
 
-    return response()->json(['success' => 'Quantity decreased'], 200);
-}
+    public function increaseQuantity($id)
+    {
+        $nama_pelanggan = session()->get('user_name', false);
+        $kode = session()->get('kode', false);
 
-public function removeFromCart($id)
-{
-    $keranjang = Keranjang::findOrFail($id);
-    $keranjang->delete();
+        if (!$nama_pelanggan || !$kode) {
+            return redirect()->route('cart')->with('error', 'Data tidak valid. Silakan coba lagi.');
+        }
 
-    return response()->json(['success' => 'Item removed from cart'], 200);
-}
+        // Cari item keranjang berdasarkan ID dan pastikan cocok dengan pelanggan dan kode
+        $keranjang = Keranjang::where('id', $id)
+            ->where('nama_pelanggan', $nama_pelanggan)
+            ->where('kode', $kode)
+            ->first();
 
+        if (!$keranjang) {
+            return redirect()->route('cart')->with('error', 'Item keranjang tidak ditemukan.');
+        }
+
+        $keranjang->jumlah = $keranjang->jumlah + 1;
+        $keranjang->save();
+
+        return redirect()->route('cart');
+    }
+
+    public function decreaseQuantity($id)
+    {
+        $nama_pelanggan = session()->get('user_name', false);
+        $kode = session()->get('kode', false);
+
+        if (!$nama_pelanggan || !$kode) {
+            return redirect()->route('cart')->with('error', 'Data tidak valid. Silakan coba lagi.');
+        }
+
+        // Cari item keranjang berdasarkan ID dan pastikan cocok dengan pelanggan dan kode
+        $keranjang = Keranjang::where('id', $id)
+            ->where('nama_pelanggan', $nama_pelanggan)
+            ->where('kode', $kode)
+            ->first();
+
+        if (!$keranjang) {
+            return redirect()->route('cart')->with('error', 'Item keranjang tidak ditemukan.');
+        }
+
+        $keranjang->jumlah = $keranjang->jumlah - 1;
+        $keranjang->save();
+
+        return redirect()->route('cart');
+    }
 }

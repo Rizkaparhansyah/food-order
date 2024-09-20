@@ -123,9 +123,13 @@ Route::get('cart', function () {
         ->middleware('name.auth')
         ->name('cart');
     Route::post('/cart', [KeranjangController::class, 'addToCart'])->name('add.cart');
-    Route::post('/cart/increase/{id}', [KeranjangController::class, 'increaseQuantity']);
-    Route::post('/cart/decrease/{id}', [KeranjangController::class, 'decreaseQuantity']);
-    Route::delete('/cart/delete/{id}', [KeranjangController::class, 'removeFromCart']);
+    // Route::post('/cart/increase/{id}', [KeranjangController::class, 'increaseQuantity']);
+    // Route::post('/cart/decrease/{id}', [KeranjangController::class, 'decreaseQuantity']);
+    // Route::delete('/cart/delete/{id}', [KeranjangController::class, 'removeFromCart']);
+    Route::post('/cart/{id}/delete', [KeranjangController::class, 'delete'])->name('cart.delete');
+    Route::post('/cart/{id}/plus', [KeranjangController::class, 'plus'])->name('cart.plus');
+    Route::post('/cart/{id}/min', [KeranjangController::class, 'min'])->name('cart.min');
+    
     
     // Management User
     Route::get('/admin/management-user', [UserController::class, 'index'])->name('data.user');

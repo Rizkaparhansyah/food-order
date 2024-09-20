@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Keranjang;
 use App\Models\Pesanan;
 use Yajra\DataTables\Facades\DataTables;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Log; // Correct import
 
 class PesananController extends Controller
 {
@@ -17,7 +17,7 @@ class PesananController extends Controller
 
     public function pesanan()
     {
-        $data = Pesanan::with('menu') // Mengambil relasi dengan model Menu
+        $data = Pesanan::with('menu')
             ->selectRaw('nama_pelanggan, kode, COUNT(*) as orders_count')
             ->groupBy('nama_pelanggan', 'kode')
             ->get()
@@ -25,68 +25,60 @@ class PesananController extends Controller
                 return [
                     'nama_pelanggan' => $item->nama_pelanggan,
                     'kode' => $item->kode,
-                    'orders' => Pesanan::where('nama_pelanggan', $item->nama_pelanggan)
-                                    ->with('menu') // Relasi ke menu
-                                    ->get()
-                                    ->map(function ($order) {
-                                        return [
-                                            'id' => $order->id,  
-                                            'nama_menu' => $order->menu->nama,
-                                            'harga_menu' => $order->menu->harga,
-                                            'jumlah' => $order->jumlah,
-                                            'status' => $order->status
-                                        ];
-                                    })
+                    'orders' => Pesanan::where('nama_pelanggan', $item->nama_pelanggan)->with('menu')->get()->map(function ($order) {
+                        return [
+                            'id' => $order->id,  // Include the order ID
+                            'nama_menu' => $order->menu->nama,
+                            'harga_menu' => $order->menu->harga,
+                            'diskon' => $order->menu->diskon,
+                            'jumlah' => $order->jumlah,
+                            'catatan' => $order->catatan,
+                            'status' => $order->status
+                        ];
+                    })
                 ];
             });
-    
+
         return DataTables::of($data)->make(true);
-    }    
-
-    public function checkout(Request $request)
-{
-    $nama_pelanggan = $request->session()->get('user_name', false);
-    $kode = $request->session()->get('kode', false);
-
-    if (!$nama_pelanggan || !$kode) {
-        return redirect()->route('cart')->with('error', 'Data tidak valid. Silakan coba lagi.');
     }
 
-    $keranjangs = Keranjang::where('nama_pelanggan', $nama_pelanggan)
-        ->where('kode', $kode)
-        ->get();
-
-    foreach ($keranjangs as $keranjang) {
-        // Check apakah pesanan sudah ada
-        $existingOrder = Pesanan::where('nama_pelanggan', $nama_pelanggan)
-            ->where('id_menu', $keranjang->id_menu)
+    public function checkout(Request $request)
+    {
+        $nama_pelanggan = $request->session()->get('user_name', false);
+        $kode = $request->session()->get('kode', false);
+    
+        if (!$nama_pelanggan || !$kode) {
+            return redirect()->route('cart')->with('error', 'Data tidak valid. Silakan coba lagi.');
+        }
+    
+        $quantities = $request->input('quantities', []);
+        $catatans = $request->input('catatan', []);
+    
+        $keranjangs = Keranjang::where('nama_pelanggan', $nama_pelanggan)
             ->where('kode', $kode)
-            ->first();
-
-        if ($existingOrder) {
-            // Tambah jumlah pesanan yang ada
-            $existingOrder->jumlah += $keranjang->jumlah;
-            $existingOrder->save();
-        } else {
-            // Buat entri pesanan baru
+            ->get();
+    
+        foreach ($keranjangs as $keranjang) {
+            $jumlah = $quantities[$keranjang->id] ?? 1; // Jika tidak ada, default ke 1
+            $catatan = $catatans[$keranjang->id] ?? null;
+    
             Pesanan::create([
                 'nama_pelanggan' => $keranjang->nama_pelanggan,
                 'id_menu' => $keranjang->id_menu,
-                'jumlah' => $keranjang->jumlah,
+                'jumlah' => $jumlah,
                 'kode' => $kode,
                 'status' => 'proses',
+                'catatan' => $catatan,
             ]);
         }
+    
+        Keranjang::where('nama_pelanggan', $nama_pelanggan)
+            ->where('kode', $kode)
+            ->delete();
+    
+        return redirect()->route('checkout.success')->with('success', 'Checkout berhasil!');
     }
-
-    // Hapus semua item dari keranjang
-    Keranjang::where('nama_pelanggan', $nama_pelanggan)
-        ->where('kode', $kode)
-        ->delete();
-
-    return redirect()->route('checkout.success')->with('success', 'Checkout berhasil!');
-}
-
+    
 
     public function checkoutSuccess()
     {
@@ -97,31 +89,31 @@ class PesananController extends Controller
     {
         try {
             $pesanan = Pesanan::find($id);
-    
+
             if (!$pesanan) {
                 return response()->json(['error' => 'Pesanan not found'], 404);
             }
-    
-            // Debugging: Catat status dan ID
+
+            // Debugging: Log the status and ID
             Log::info('Updating status for pesanan ID ' . $id . ' to ' . $request->status);
-    
+
             if ($request->status === 'delete') {
-                // Hapus pesanan
+                // Delete the order
                 $pesanan->delete();
                 return response()->json(['success' => 'Pesanan deleted successfully']);
             } else {
-                // Update status
+                // Update the status
                 $pesanan->status = $request->status;
                 $pesanan->save();
                 return response()->json(['success' => 'Pesanan status updated successfully']);
             }
         } catch (\Exception $e) {
-            // Catat kesalahan untuk debugging
+            // Log the error for debugging
             Log::error('Error updating status: ' . $e->getMessage());
-    
+
             return response()->json(['error' => 'An error occurred while updating the status'], 500);
         }
-    }    
+    }
 
     public function delete($id)
     {
@@ -141,5 +133,4 @@ class PesananController extends Controller
             return response()->json(['error' => 'An error occurred while deleting the pesanan'], 500);
         }
     }
-
 }
