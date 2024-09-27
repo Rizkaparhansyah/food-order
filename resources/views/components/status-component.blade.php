@@ -6,11 +6,11 @@
     <section class="container">
         <div class="d-flex pare justify-content-around align-items-center mb-3">
             <div class="line"></div>
-            <div class="color-utama bg-white step rounded-circle border border-warning" style="width:80px; height: 80px">
+            <div class="color-keempat bg-white step rounded-circle border border-warning" style="width:80px; height: 80px">
                 Pending
             </div>
-            <div class="color-utama step bg-white rounded-circle border border-info" style="width:80px; height: 80px">Diproses</div>
-            <div class="color-utama step bg-white rounded-circle border border-success" style="width:80px; height: 80px">Selesai</div>
+            <div class="color-keempat step bg-white rounded-circle border border-info" style="width:80px; height: 80px">Diproses</div>
+            <div class="color-keempat step bg-white rounded-circle border border-success" style="width:80px; height: 80px">Selesai</div>
         </div>
         <div class="d-flex pare justify-content-between gap-3">
             <div class="gap-3 w-100 " id="pending">

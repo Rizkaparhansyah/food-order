@@ -81,7 +81,7 @@
                 </div>
                 <div class="col-6">
                   <div class="card-body">
-                    <p class="card-title fs-2 font-weight-bold color-utama">${item.menu.nama}</p>
+                    <p class="card-title fs-2 font-weight-bold color-keempat">${item.menu.nama}</p>
                     <div class="d-flex gap-2 flex-wrap">
                       <p class="card-text text-success">
                         <strong> ${FormatRupiah(totalItemPrice)}</strong>
@@ -89,9 +89,9 @@
                       <p class="card-text text-danger"><small><del> ${FormatRupiah(item.menu.harga * item.qty)}</del></small></p>
                     </div>
                     <div class="card-text d-flex justify-content-center gap-4 align-items-center">
-                      <i data-id="${item.menu.id}"  data-qty="${item.qty}" class="fa-solid fa-minus p-1 border border-1 rounded-circle minqty color-utama"></i>
-                      <div class=" color-utama">${item.qty}</div>
-                      <i data-id="${item.menu.id}" data-qty="${item.qty}" class="fa-solid fa-plus p-1 border border-1 rounded-circle plusqty color-utama"></i>
+                      <i data-id="${item.menu.id}"  data-qty="${item.qty}" class="fa-solid fa-minus p-1 border border-1 rounded-circle minqty color-keempat"></i>
+                      <div class=" color-keempat">${item.qty}</div>
+                      <i data-id="${item.menu.id}" data-qty="${item.qty}" class="fa-solid fa-plus p-1 border border-1 rounded-circle plusqty color-keempat"></i>
                     </div>
                   </div>
                 </div>
@@ -108,9 +108,9 @@
 
         let orderSummaryHTML = `
           <div class="row align-items-center border-bottom">
-            <div class="col-md-4"><p class="mb-0 text-start color-utama">${item.menu.nama}</p></div>
-            <div class="col-md-4 text-center"><p class="mb-0 color-utama">x${item.qty}</p></div>
-            <div class="col-md-4 text-right"><p class="mb-0 color-utama">${FormatRupiah(totalItemPrice)}</p></div>
+            <div class="col-md-4"><p class="mb-0 text-start color-keempat">${item.menu.nama}</p></div>
+            <div class="col-md-4 text-center"><p class="mb-0 color-keempat">x${item.qty}</p></div>
+            <div class="col-md-4 text-right"><p class="mb-0 color-keempat">${FormatRupiah(totalItemPrice)}</p></div>
           </div>
         `;
         orderSummaryContainer.append(orderSummaryHTML);
@@ -118,8 +118,8 @@
 
       let totalSummaryHTML = `
         <div class="row align-items-center border-bottom">
-          <div class="col-md-4"><p class="mb-0 text-start color-utama">Total Diskon</p></div>
-          <div class="col-md-8 text-right"><p class="mb-0 color-utama">- ${FormatRupiah(totalSavings)}</p></div>
+          <div class="col-md-4"><p class="mb-0 text-start color-keempat">Total Diskon</p></div>
+          <div class="col-md-8 text-right"><p class="mb-0 color-keempat">- ${FormatRupiah(totalSavings)}</p></div>
         </div>
       `;
       orderSummaryContainer.append(totalSummaryHTML);

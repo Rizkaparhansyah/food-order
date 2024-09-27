@@ -2,15 +2,15 @@
     <div class="d-flex justify-content-between flex-wrap gap-2">
         <div class="row">
             <div class="col-sm-12 ">
-                <button type="button" class="btn color-utama" style="border-color: var(--warna-utama)">Makanan</button>
-                <button type="button" class="btn color-utama" style="border-color: var(--warna-utama)">Minuman</button>
-                <button type="button" class="btn color-utama" style="border-color: var(--warna-utama)">Recomended</button>
-                <button type="button" class="btn color-utama" style="border-color: var(--warna-utama)">Best Seller</button>
-                <button type="button" class="btn color-utama" style="border-color: var(--warna-utama)">Popular</button>
+                <button type="button" class="btn color-keempat" style="border-color: var(--warna-keempat)">Makanan</button>
+                <button type="button" class="btn color-keempat" style="border-color: var(--warna-keempat)">Minuman</button>
+                <button type="button" class="btn color-keempat" style="border-color: var(--warna-keempat)">Recomended</button>
+                <button type="button" class="btn color-keempat" style="border-color: var(--warna-keempat)">Best Seller</button>
+                <button type="button" class="btn color-keempat" style="border-color: var(--warna-keempat)">Popular</button>
             </div>
         </div>
         <form class="d-flex" role="search" id="searchForm">
-            <input class="form-control me-2 color-utama" id="searchInput" type="search" placeholder="Search" aria-label="Search"  style="border-color: var(--warna-utama)">
+            <input class="form-control me-2 color-keempat" id="searchInput" type="search" placeholder="Search" aria-label="Search"  style="border-color: var(--warna-keempat)">
             <button class="btn color-keempat bg-kedua" type="submit">Search</button>
         </form>
     </div>

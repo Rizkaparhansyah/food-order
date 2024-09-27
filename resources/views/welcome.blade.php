@@ -21,10 +21,10 @@
                 src: url({{asset('font/Quesha-gndR.ttf')}});
             }
             :root{
-                --warna-utama : #6F4E37;
-                --warna-kedua : #A67B5B;
-                --warna-ketiga : #ECB176;
-                --warna-keempat : #FED8B1;
+                --warna-utama : #F8EDE3;
+                --warna-kedua : #DFD3C3;
+                --warna-ketiga : #D0B8A8;
+                --warna-keempat : #8D493A;
             }
             a {
                 color: black;

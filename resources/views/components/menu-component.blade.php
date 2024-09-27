@@ -11,15 +11,15 @@
             @foreach ($data as $item)
             @if ($item->stok < 1)
                 <div class="col-sm-12 mt-2 col-md-6 col-lg-4">
-                    <div class="position-relative card p-2" style="border-color: var(--warna-utama)">
+                    <div class="position-relative card p-2" style="border-color: var(--warna-keempat)">
                         <div class="p-0 position-relative">
                             <div class="position-absolute bottom-0 top-0 end-0 d-flex justify-content-center align-items-center" style="width: 100%; background-color: rgba(0, 0, 0, 0.7); color: white; padding: 10px; "><h1>STOK HABIS</h1></div>
                             <img src="{{asset('storage/'.$item->foto)}}" style="height: 300px; object-fit:cover" class="col-sm-12 card-img-top rounded" alt="...">
                         </div>
                         <div class="card-body p-0 mt-2">
                             <div class="d-flex justify-content-between">
-                                <h2 class="card-title fw-bold color-utama">{{$item->nama}}</h2>
-                                <h3 class="card-title fw-medium color-kedua">{{ $item->kategori->nama }}</h3>
+                                <h2 class="card-title fw-bold color-keempat">{{$item->nama}}</h2>
+                                <h3 class="card-title fw-medium color-keempat">{{ $item->kategori->nama }}</h3>
                             </div>
                             <div class="d-flex gap-2 flex-wrap">
                                 {{-- <p class="card-text text-success"><strong>Rp 0</strong></p> --}}
@@ -27,15 +27,15 @@
                                 <p></p>
                             </div>
                             <div class="d-flex gap-2">
-                                <button disabled class="btn bg-kedua color-keempat fs-5 col-10">Pesan</button>
-                                <button disabled class=" btn color-utama w-100 d-flex justify-content-center align-items-center" style="border-color: var(--warna-kedua)"><i class="fa-solid fa-magnifying-glass color-utama"></i></button>
+                                <button disabled class="btn bg-keempat color-keempat fs-5 col-10">Pesan</button>
+                                <button disabled class=" btn color-keempat w-100 d-flex justify-content-center align-items-center" style="border-color: var(--warna-keempat)"><i class="fa-solid fa-magnifying-glass color-keempat"></i></button>
                             </div>
                         </div>
                     </div>
                 </div>
             @else
                 <div class="col-sm-12 mt-2 col-md-6 col-lg-4">
-                    <div class="position-relative card p-2" style="border-color: var(--warna-utama)">
+                    <div class="position-relative card p-2" style="border-color: var(--warna-keempat)">
                         @if ($item->diskon > 0)
                             <span class="position-absolute badge bg-danger rounded-0 end-0 top-0 text-bg-warning fs-4 d-flex justify-content-center align-items-center" style="width: 50px; height:50px">{{$item->diskon}}%</span>
                         @endif
@@ -44,8 +44,8 @@
                         </div>
                         <div class="card-body p-0 mt-2">
                             <div class="d-flex justify-content-between">
-                                <h2 class="card-title fw-bold color-utama">{{$item->nama}}</h2>
-                                <h3 class="card-title fw-medium color-kedua">{{ $item->kategori->nama }}</h3>
+                                <h2 class="card-title fw-bold color-keempat">{{$item->nama}}</h2>
+                                <h3 class="card-title fw-medium color-ketiga">{{ $item->kategori->nama }}</h3>
                             </div>
                             <div class="d-flex gap-2 flex-wrap">
                                 <p class="card-text text-success"><strong>Rp. {{ number_format($item->harga * (1 - $item->diskon / 100), 0, ',', '.') }}</strong></p>
@@ -56,7 +56,7 @@
                             </div>
                             <div class="d-flex gap-2">
                                 <button class="btn bg-kedua color-keempat fs-5 col-10 pesan" data-url="{{route('cart')}}" id="pesan" data-id="{{$item->id}}">Pesan</button>
-                                <button id="detail" class="detail btn color-utama w-100 d-flex justify-content-center align-items-center" style="border-color: var(--warna-kedua)" data-data="{{$item}}"><i class="fa-solid fa-magnifying-glass color-utama"></i></button>
+                                <button id="detail" class="detail btn color-keempat w-100 d-flex justify-content-center align-items-center" style="border-color: var(--warna-kedua)" data-data="{{$item}}"><i class="fa-solid fa-magnifying-glass color-keempat"></i></button>
                             </div>
                         </div>
                     </div>
@@ -64,7 +64,7 @@
             @endif
             @endforeach
         @else
-            <h1 class="color-utama text-center">Data Produk Belum Tersedia, Nantikan info Terbarunya!</h1>
+            <h1 class="color-keempat text-center">Data Produk Belum Tersedia, Nantikan info Terbarunya!</h1>
         @endif
     </div>
 </div>

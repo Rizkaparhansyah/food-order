@@ -9,8 +9,8 @@
             <div class="modal-body">
                 <label for="nama">Nama</label>
                 <input type="text" class="mb-3 form-control" name="name" id="nama" placeholder="Masukan nama anda!">
-                <input type="text" class="mb-3 form-control" name="kode" id="kode" placeholder="Masukan kode anda!">
-                <button class="btn bg-kedua color-utama w-100" id="userSave">
+                <input type="text" class="mb-3 form-control" name="kode" id="kode" placeholder="Masukan nomor anda!">
+                <button class="btn bg-kedua color-keempat w-100" id="userSave">
                     Simpan
                 </button>
             </div>

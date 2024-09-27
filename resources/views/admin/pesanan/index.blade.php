@@ -158,7 +158,7 @@
                 return `<tr>
                             <td><b>${item.nama}</b></td>
                             <td>${item.qty}</td>
-                            <td>${item.catatan}</td>
+                            <td>${item.catatan == '' || item.catatan == null ? 'Kosong' : item.catatan}</td>
                             <td>
                                 <span class="badge badge-${badge} text-capitalize">${item.status}</span>
                             </td>

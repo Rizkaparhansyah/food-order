@@ -9,7 +9,7 @@
                     <label for="namaUser">Nama</label>
                     <input type="text" class="mb-3 form-control" name="name" id="namaUser" placeholder="Masukan nama anda!">
                     <input type="number" class="mb-3 form-control" name="kode" id="kodeUser" placeholder="Masukan nomor anda!">
-                    <button class="btn bg-kedua color-utama w-100" id="logUser">
+                    <button class="btn bg-kedua color-keempat w-100" id="logUser">
                         Simpan
                     </button>
             </div>
