@@ -38,6 +38,12 @@
     </li>
 
     <li class="nav-item">
+        <a class="nav-link" href="{{ route('bahan.baku.index') }}">
+            <i class="fas fa-fw fa-barcode"></i>
+            <span>Bahan Baku</span></a>
+    </li>
+
+    <li class="nav-item">
         <a class="nav-link" href="">
             <i class="fas fa-fw fa-history"></i>
             <span>Data Penjualan</span></a>

@@ -7,6 +7,7 @@ use App\Http\Controllers\PesananController;
 use App\Http\Controllers\KeranjangController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AccountController;
+use App\Http\Controllers\BahanController;
 use App\Http\Controllers\OrderController;
 use App\Models\Menu;
 use Illuminate\Support\Facades\Auth;
@@ -126,6 +127,11 @@ Route::get('cart', function () {
     Route::post('/cart/increase/{id}', [KeranjangController::class, 'increaseQuantity']);
     Route::post('/cart/decrease/{id}', [KeranjangController::class, 'decreaseQuantity']);
     Route::delete('/cart/delete/{id}', [KeranjangController::class, 'removeFromCart']);
+
+
+    Route::post('/cart/{id}/delete', [KeranjangController::class, 'delete'])->name('cart.delete');
+    Route::post('/cart/{id}/plus', [KeranjangController::class, 'plus'])->name('cart.plus');
+    Route::post('/cart/{id}/min', [KeranjangController::class, 'min'])->name('cart.min');
     
     // Management User
     Route::get('/admin/management-user', [UserController::class, 'index'])->name('data.user');
@@ -138,4 +144,15 @@ Route::get('cart', function () {
         Route::post('/admin/order/add-to-cart/{id}', [OrderController::class, 'addToCart'])->name('order.addToCart');
         Route::post('/admin/order/checkout', [OrderController::class, 'checkout'])->name('order.checkout');
     });
+
+    // Bahan Baku
+    //Route::get('/bahan-baku', [BahanController::class,'index'])->name('bahan-baku');
+
+    use App\Http\Controllers\BahanBakuController;
+
+    Route::get('/bahan-baku', [BahanBakuController::class, 'index'])->name('bahan.baku.index');
+    Route::post('/bahan-baku/jenis', [BahanBakuController::class, 'storeJenis'])->name('bahan.baku.store.jenis');
+    Route::post('/bahan-baku/subkategori', [BahanBakuController::class, 'storeSubkategori'])->name('bahan.baku.store.subkategori');
+    Route::post('/bahan-baku/penggunaan', [BahanBakuController::class, 'storePenggunaan'])->name('bahan.baku.store.penggunaan');
+
 

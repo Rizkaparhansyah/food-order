@@ -98,8 +98,10 @@
             // Formatting function for row details
             function format(d) {
                 let ordersTable = '<table class="table table-bordered">';
-                ordersTable += '<thead><tr><th>Nama</th><th>Harga</th><th>Quantity</th><th>Status</th><th>Action</th></tr></thead>';
+                ordersTable += '<thead><tr><th>Nama</th><th>Harga</th><th>Quantity</th><th>Catatan</th><th>Status</th><th>Action</th></tr></thead>';
                 ordersTable += '<tbody>';
+
+                let totals = 0;
 
                 d.orders.forEach(function(order) {
                     let statusClass;
@@ -120,10 +122,13 @@
                             statusClass = 'badge-secondary';
                     }
 
+                    totals += (order.harga_menu * (1 - order.diskon / 100)) * order.jumlah;
+
                     ordersTable += `<tr>
                         <td>${order.nama_menu}</td>
-                        <td>${order.harga_menu}</td>
+                        <td>Rp. ${order.harga_menu}</td>
                         <td>${order.jumlah}</td>
+                        <td>${(order.catatan == null)?'<i>Tidak Ada Catatan</i>':order.catatan}</td>
                         <td><span class="badge badge-pill ${statusClass}">${order.status}</span></td>
                         <td class="centered-button">
                             <select class="form-control update-status" data-id="${order.id}">
@@ -136,7 +141,8 @@
                         </td>
                     </tr>`;
                 });
-
+                ordersTable += `<tr><td colspan="4" class="font-weight-bold text-right">Total Harga : </td><td colspan="2" class="font-weight-bold">Rp. ${totals}</td></tr>`;
+                
                 ordersTable += '</tbody></table>';
                 return ordersTable;
             }
@@ -146,8 +152,8 @@
                 const orderId = $(this).data('id');
                 const status = $(this).val();
 
-                console.log('Order ID:', orderId);  // Check if correct ID is selected
-                console.log('Selected status:', status);  // Check if "cancel" is being sent
+                console.log('Order ID:', orderId);
+                console.log('Selected status:', status);
 
                 $.ajax({
                     url: `/admin/pesanan/${orderId}/update-status`,
@@ -158,7 +164,7 @@
                     },
                     success: function(response) {
                         alert(response.success);
-                        table.ajax.reload();  // Reload the DataTable after updating the status
+                        table.ajax.reload();
                     },
                     error: function(xhr) {
                         alert(xhr.responseJSON.error);

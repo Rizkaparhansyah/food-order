@@ -33,7 +33,9 @@ class PesananController extends Controller
                                             'id' => $order->id,  
                                             'nama_menu' => $order->menu->nama,
                                             'harga_menu' => $order->menu->harga,
+                                            'diskon' => $order->menu->diskon,
                                             'jumlah' => $order->jumlah,
+                                            'catatan' => $order->catatan,
                                             'status' => $order->status
                                         ];
                                     })
@@ -75,6 +77,7 @@ class PesananController extends Controller
                 'jumlah' => $keranjang->jumlah,
                 'kode' => $kode,
                 'status' => 'proses',
+                'catatan' => $keranjang->catatan,
             ]);
         }
     }
