@@ -8,6 +8,7 @@ use App\Http\Controllers\KeranjangController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\Penerimaan_BarangController;
 use App\Models\Menu;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -86,7 +87,7 @@ Route::get('menu', function () {
 Route::get('/search', function (Request $request) {
     $query = $request->input('query');
     $data = Menu::with('kategori')
-        ->where('nama', 'like', "%{$query}%") // Adjust based on the column you want to search
+        ->where('nama', 'like', "%{$query}%")
         ->get();
 
     return response()->json([
@@ -98,7 +99,7 @@ Route::get('/search', function (Request $request) {
 Route::get('/category/{category}', function ($category) {
     $data = Menu::with('kategori')
         ->whereHas('kategori', function($query) use ($category) {
-            $query->where('nama', $category); // Adjust based on your category model structure
+            $query->where('nama', $category);
         })
         ->get();
 
@@ -107,8 +108,6 @@ Route::get('/category/{category}', function ($category) {
         'products' => $data
     ]);
 })->name('category.menu');
-
-
 
 
 Route::get('cart', function () {
@@ -137,14 +136,11 @@ Route::get('cart', function () {
     // Checkout
     Route::post('/checkout', [PesananController::class, 'checkout'])->name('pesanan.checkout');
     Route::get('/checkout/success', [PesananController::class, 'checkoutSuccess'])->name('checkout.success');
-
     Route::get('list-pesanans', [PesananController::class, 'pesanan'])->name('data.pesanan');
 
     // Daftar Pesanan
     Route::get('/admin/pesanan', [PesananController::class, 'index'])->name('list-pesanan');
-
     Route::post('/admin/pesanan/{id}/update-status', [PesananController::class, 'updateStatus']);
-
     Route::delete('/admin/pesanan/{id}/delete', [PesananController::class, 'delete']);
     
     // Keranjang
@@ -152,13 +148,9 @@ Route::get('cart', function () {
         ->middleware('name.auth')
         ->name('cart');
     Route::post('/cart', [KeranjangController::class, 'addToCart'])->name('add.cart');
-    // Route::post('/cart/increase/{id}', [KeranjangController::class, 'increaseQuantity']);
-    // Route::post('/cart/decrease/{id}', [KeranjangController::class, 'decreaseQuantity']);
-    // Route::delete('/cart/delete/{id}', [KeranjangController::class, 'removeFromCart']);
     Route::post('/cart/{id}/delete', [KeranjangController::class, 'delete'])->name('cart.delete');
     Route::post('/cart/{id}/plus', [KeranjangController::class, 'plus'])->name('cart.plus');
     Route::post('/cart/{id}/min', [KeranjangController::class, 'min'])->name('cart.min');
-    
     
     // Management User
     Route::get('/admin/management-user', [UserController::class, 'index'])->name('data.user');
@@ -171,3 +163,20 @@ Route::get('cart', function () {
         Route::post('/admin/order/add-to-cart/{id}', [OrderController::class, 'addToCart'])->name('order.addToCart');
         Route::post('/admin/order/checkout', [OrderController::class, 'checkout'])->name('order.checkout');
     });
+
+    // Penerimaan Barang
+    Route::middleware('auth:admin')->group(function () {
+        Route::get('admin/penerimaan_barang', [Penerimaan_BarangController::class, 'index'])->name('admin.penerimaan_barang');
+        Route::get('admin/penerimaan_barang/data', [Penerimaan_BarangController::class, 'Penerimaan_Barang'])->name('admin.penerimaan_barang.data');
+        Route::post('admin/penerimaan_barang', [Penerimaan_BarangController::class, 'store'])->name('admin.penerimaan_barang.store');
+        Route::get('admin/penerimaan_barang/{id}/edit', [Penerimaan_BarangController::class, 'edit'])->name('admin.penerimaan_barang.edit');
+        Route::put('admin/penerimaan_barang/{id}', [Penerimaan_BarangController::class, 'update'])->name('admin.penerimaan_barang.update');
+        Route::delete('admin/penerimaan_barang/{id}', [Penerimaan_BarangController::class, 'destroy'])->name('admin.penerimaan_barang.destroy');
+    });
+
+
+
+
+
+
+

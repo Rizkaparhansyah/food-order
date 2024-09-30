@@ -57,6 +57,14 @@
         
     </li>
 
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="{{ route('admin.penerimaan_barang') }}">
+            <i class="fas fa-fw fa-user"></i>
+            <span>Penerimaan Barang</span>
+        </a>
+        
+    </li>
+
     <hr class="sidebar-divider d-none d-md-block">
     <!-- Sidebar Toggler (Sidebar) -->
     <div class="text-center d-none d-md-inline">
