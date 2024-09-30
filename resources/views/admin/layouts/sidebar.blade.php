@@ -44,6 +44,13 @@
     </li>
 
     <li class="nav-item">
+        <a class="nav-link collapsed" href="{{ route('admin.penerimaan_barang') }}">
+            <i class="fas fa-fw fa-user"></i>
+            <span>Penerimaan Barang</span>
+        </a>
+    </li>
+
+    <li class="nav-item">
         <a class="nav-link" href="">
             <i class="fas fa-fw fa-history"></i>
             <span>Data Penjualan</span></a>

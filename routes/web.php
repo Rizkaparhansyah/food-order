@@ -9,8 +9,11 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\BahanController;
+use App\Http\Controllers\BahanKasirController;
+use App\Http\Controllers\Penerimaan_BarangController;
 use App\Models\Menu;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -81,6 +84,28 @@ Route::get('menu', function () {
     return view('components.menu-component', compact('data'));
 })->name('menu');
 
+// Search menu items
+Route::get('/search', function (Request $request) {
+    $query = $request->input('query');
+    $data = Menu::with('kategori')
+        ->where('nama', 'like', "%{$query}%") // Adjust based on the column you want to search
+        ->get();
+    return response()->json([
+        'status' => 'success',
+        'products' => $data
+    ]);
+})->name('search.menu');
+Route::get('/category/{category}', function ($category) {
+    $data = Menu::with('kategori')
+        ->whereHas('kategori', function($query) use ($category) {
+            $query->where('nama', $category); // Adjust based on your category model structure
+        })
+        ->get();
+    return response()->json([
+        'status' => 'success',
+        'products' => $data
+    ]);
+})->name('category.menu');
 
 
 Route::get('cart', function () {
@@ -145,20 +170,8 @@ Route::get('cart', function () {
         Route::post('/admin/order/checkout', [OrderController::class, 'checkout'])->name('order.checkout');
     });
 
-    // Bahan Baku
-    //Route::get('/bahan-baku', [BahanController::class,'index'])->name('bahan-baku');
 
-    /*use App\Http\Controllers\BahanBakuController;
-
-    Route::get('/bahan-baku', [BahanBakuController::class, 'index'])->name('bahan.baku.index');
-    Route::post('/bahan-baku/jenis', [BahanBakuController::class, 'storeJenis'])->name('bahan.baku.store.jenis');
-    Route::post('/bahan-baku/subkategori', [BahanBakuController::class, 'storeSubkategori'])->name('bahan.baku.store.subkategori');
-    Route::post('/bahan-baku/penggunaan', [BahanBakuController::class, 'storePenggunaan'])->name('bahan.baku.store.penggunaan');*/
-
-
-
-
-    // Routes for Admin
+    // Klasifikasi Admin
     Route::get('/admin/bahanbaku', [BahanController::class, 'index'])->name('admin.bahanbaku.index');
     Route::post('/admin/bahanbaku', [BahanController::class, 'store'])->name('admin.bahanbaku.store');
     Route::get('/admin/bahanbaku/{id}/edit', [BahanController::class, 'edit'])->name('admin.bahanbaku.edit');
@@ -166,8 +179,16 @@ Route::get('cart', function () {
     Route::delete('/admin/bahanbaku/{id}', [BahanController::class, 'destroy'])->name('admin.bahanbaku.destroy');
 
 
-
-    use App\Http\Controllers\BahanKasirController;
-
+    // Klasifikasi Kasir
     Route::get('/kasir/bahanbaku', [BahanKasirController::class, 'index'])->name('kasir.bahanbaku.index');
-    //Route::post('/bahanbaku', [BahanKasirController::class, 'store'])->name('bahanbaku.store');
+
+
+    // Penerimaan Barang
+    Route::middleware('auth:admin')->group(function () {
+        Route::get('admin/penerimaan_barang', [Penerimaan_BarangController::class, 'index'])->name('admin.penerimaan_barang');
+        Route::get('admin/penerimaan_barang/data', [Penerimaan_BarangController::class, 'Penerimaan_Barang'])->name('admin.penerimaan_barang.data');
+        Route::post('admin/penerimaan_barang', [Penerimaan_BarangController::class, 'store'])->name('admin.penerimaan_barang.store');
+        Route::get('admin/penerimaan_barang/{id}/edit', [Penerimaan_BarangController::class, 'edit'])->name('admin.penerimaan_barang.edit');
+        Route::put('admin/penerimaan_barang/{id}', [Penerimaan_BarangController::class, 'update'])->name('admin.penerimaan_barang.update');
+        Route::delete('admin/penerimaan_barang/{id}', [Penerimaan_BarangController::class, 'destroy'])->name('admin.penerimaan_barang.destroy');
+    });
