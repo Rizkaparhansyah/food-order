@@ -9,8 +9,10 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\OrderController;
 use App\Models\Menu;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -79,6 +81,33 @@ Route::get('menu', function () {
     $data = Menu::with('kategori')->get();
     return view('components.menu-component', compact('data'));
 })->name('menu');
+
+// Search menu items
+Route::get('/search', function (Request $request) {
+    $query = $request->input('query');
+    $data = Menu::with('kategori')
+        ->where('nama', 'like', "%{$query}%") // Adjust based on the column you want to search
+        ->get();
+
+    return response()->json([
+        'status' => 'success',
+        'products' => $data
+    ]);
+})->name('search.menu');
+
+Route::get('/category/{category}', function ($category) {
+    $data = Menu::with('kategori')
+        ->whereHas('kategori', function($query) use ($category) {
+            $query->where('nama', $category); // Adjust based on your category model structure
+        })
+        ->get();
+
+    return response()->json([
+        'status' => 'success',
+        'products' => $data
+    ]);
+})->name('category.menu');
+
 
 
 
