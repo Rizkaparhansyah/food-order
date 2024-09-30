@@ -65,6 +65,12 @@
         
     </li>
 
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('admin.bahanbaku.index') }}">
+            <i class="fas fa-fw fa-barcode"></i>
+            <span>Bahan Baku</span></a>
+    </li>
+
     <hr class="sidebar-divider d-none d-md-block">
     <!-- Sidebar Toggler (Sidebar) -->
     <div class="text-center d-none d-md-inline">
