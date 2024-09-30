@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Keranjang;
+use App\Models\Meja;
 use App\Models\Pesanan;
+use App\Models\Menu;
+use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Log; // Correct import
 
@@ -17,14 +20,15 @@ class PesananController extends Controller
 
     public function pesanan()
     {
-        $data = Pesanan::with('menu')
-            ->selectRaw('nama_pelanggan, kode, COUNT(*) as orders_count')
-            ->groupBy('nama_pelanggan', 'kode')
+        $data = Pesanan::select('pesanans.nama_pelanggan', 'pesanans.kode', 'meja.nomor_meja as nomor_meja', DB::raw('COUNT(*) as orders_count'))
+            ->leftJoin('meja', 'pesanans.kode', '=', 'meja.kode')
+            ->groupBy('nama_pelanggan', 'kode', 'nomor_meja')
             ->get()
             ->map(function ($item) {
                 return [
                     'nama_pelanggan' => $item->nama_pelanggan,
                     'kode' => $item->kode,
+                    'nomor_meja' => $item->nomor_meja,
                     'orders' => Pesanan::where('nama_pelanggan', $item->nama_pelanggan)->with('menu')->get()->map(function ($order) {
                         return [
                             'id' => $order->id,  // Include the order ID
@@ -46,22 +50,33 @@ class PesananController extends Controller
     {
         $nama_pelanggan = $request->session()->get('user_name', false);
         $kode = $request->session()->get('kode', false);
-    
-        if (!$nama_pelanggan || !$kode) {
+        $id_meja = $request->session()->get('meja', false);
+
+        if (!$nama_pelanggan || !$kode || !$id_meja) {
             return redirect()->route('cart')->with('error', 'Data tidak valid. Silakan coba lagi.');
         }
-    
+
+        $meja = Meja::findOrFail($id_meja);
+        $meja->kode = $kode;
+        $meja->nama = $nama_pelanggan;
+        $meja->status = 'terisi';
+        $meja->save();
+
         $quantities = $request->input('quantities', []);
         $catatans = $request->input('catatan', []);
-    
+
         $keranjangs = Keranjang::where('nama_pelanggan', $nama_pelanggan)
             ->where('kode', $kode)
             ->get();
-    
+
         foreach ($keranjangs as $keranjang) {
             $jumlah = $quantities[$keranjang->id] ?? 1; // Jika tidak ada, default ke 1
             $catatan = $catatans[$keranjang->id] ?? null;
-    
+
+            $menu = Menu::findOrFail($keranjang->id_menu);
+            $menu->stok -= $jumlah;
+            $menu->save();
+
             Pesanan::create([
                 'nama_pelanggan' => $keranjang->nama_pelanggan,
                 'id_menu' => $keranjang->id_menu,
@@ -71,18 +86,19 @@ class PesananController extends Controller
                 'catatan' => $catatan,
             ]);
         }
-    
+
         Keranjang::where('nama_pelanggan', $nama_pelanggan)
             ->where('kode', $kode)
             ->delete();
-    
+
         return redirect()->route('checkout.success')->with('success', 'Checkout berhasil!');
     }
-    
+
 
     public function checkoutSuccess()
     {
-        return view('components.checkout-success');
+        $mejas = Meja::where('status', 'kosong')->get();
+        return view('components.checkout-success', compact('mejas'));
     }
 
     public function updateStatus(Request $request, $id)

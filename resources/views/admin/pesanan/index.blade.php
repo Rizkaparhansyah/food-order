@@ -11,7 +11,7 @@
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">Daftar Pesanan</h1>
     </div>
-
+    <a class="btn btn-success mb-3" href="{{ route('meja.index') }}">Status Meja</a>
     <!-- Content Row -->
     <div class="row">
         <div class="col-md-12">
@@ -23,6 +23,7 @@
                                 <th></th>
                                 <th>Nama Pelanggan</th>
                                 <th>Kode</th>
+                                <th>Nomor Meja</th>
                                 <th class="align-middle text-center">Action</th>
                             </tr>
                         </thead>
@@ -61,6 +62,10 @@
                     {
                         data: 'kode',
                         name: 'kode'
+                    },
+                    {
+                        data: 'nomor_meja',
+                        name: 'nomor_meja'
                     },
                     {
                         data: null,

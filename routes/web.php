@@ -6,8 +6,10 @@ use App\Http\Controllers\MenuController;
 use App\Http\Controllers\PesananController;
 use App\Http\Controllers\KeranjangController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\MejaController;
 use App\Http\Controllers\AccountController;
 use App\Models\Menu;
+use App\Models\Meja;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -35,7 +37,10 @@ Route::middleware('auth:admin')->group(function () {
     })->name('admin');
 
     Route::get('/admin/menu', [MenuController::class, 'index'])->name('list-menu');
-
+    
+    Route::get('/admin/meja', [MejaController::class, 'index'])->name('meja.index');
+    Route::put('/mejas/{id}', [MejaController::class, 'updateMeja'])->name('meja.update');
+    
     Route::get('/admin/kategori', [KategoriController::class, 'index'])->name('list-kategori');
 
     Route::get('/admin/menu/tambah', function(){
@@ -68,7 +73,8 @@ Route::post('/user/auth', [AuthController::class,'checkAuth'])->name('check.auth
 Route::post('/user/auth-success', [AuthController::class,'ajaxLoginWithName'])->name('user.login');
 
 Route::get('/', function () {
-    return view('components.hero-component');
+    $mejas = Meja::where('status', 'kosong')->get();
+    return view('components.hero-component', ['mejas' => $mejas]);
 })->name('home');
 
 Route::post('/logout-user', [AuthController::class, 'logoutUser'])->name('logout.user');
@@ -76,13 +82,15 @@ Route::post('/logout-user', [AuthController::class, 'logoutUser'])->name('logout
 
 Route::get('menu', function () {
     $data = Menu::with('kategori')->get();
-    return view('components.menu-component', compact('data'));
+    $mejas = Meja::where('status', 'kosong')->get();
+    return view('components.menu-component', compact('data','mejas'));
 })->name('menu');
 
 
 
 Route::get('cart', function () {
-    return view('components.cart-component');
+    $mejas = Meja::where('status', 'kosong')->get();
+    return view('components.cart-component', compact('mejas'));
 })->middleware('name.auth')->name('cart');
 
     //Menu

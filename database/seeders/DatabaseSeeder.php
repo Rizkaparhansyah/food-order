@@ -34,5 +34,13 @@ class DatabaseSeeder extends Seeder
             'password' =>  Hash::make('kasir'),
             'role' => 'kasir'
         ]);
+
+        for ($i = 1; $i <= 10; $i++) {
+            DB::table('meja')->insert([
+                'nomor_meja' => $i,
+                'kode' => '',
+                'status' => 'kosong'
+            ]);
+        }
     }
 }

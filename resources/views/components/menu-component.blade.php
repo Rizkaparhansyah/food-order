@@ -27,9 +27,14 @@
                                             {{ number_format($item->harga, 0, ',', '.') }}</del></small></p>
                             </div>
                             <div class="d-flex gap-2">
+                                <?php if($item->stok>0) {
+                                    ?>
                                 <button class="btn bg-kedua color-utama fs-5 col-10" data-url="{{ route('add.cart') }}"
                                     id="pesan" data-id="{{ $item->id }}">Pesan</button>
-
+                                <?php } else { ?>
+                                <button class="btn bg-secondary bg-opacity-25 color-utama fs-5 col-10 text-dark" data-url="{{ route('add.cart') }}"
+                                    id="pesan" data-id="{{ $item->id }}" disabled>Not Available</button>
+                                <?php } ?>
                                 <button class="btn color-utama w-100 d-flex justify-content-center align-items-center"
                                     style="border-color: var(--warna-kedua)" data-bs-toggle="modal"
                                     data-bs-target="#productModal"><i
@@ -109,7 +114,11 @@
                         }
                     },
                     error: function(response) {
-                        alert('Terjadi kesalahan. Silakan coba lagi.');
+                        message = response['responseJSON']['error'];
+                        if(message == "session invalid"){
+                            alert("sesi tidak valid, harap lengkapi nama dan meja terlebih dahulu!");
+                            $('#authModal').modal('show');
+                        }
                     }
                 });
             });
