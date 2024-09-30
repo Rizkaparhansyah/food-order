@@ -31,10 +31,10 @@
     </li>
 
     <li class="nav-item">
-        <a class="nav-link" href="{{ route('bahanbaku.index') }}">
+        <a class="nav-link" href="{{ route('kasir.bahanbaku.index') }}">
             <i class="fas fa-fw fa-barcode"></i>
-            <span>Bahan Baku</span></a>
-    </li>
+            <span>Daftar Bahan Baku</span></a>
+    </li>    
 
 
     <li class="nav-item">

@@ -2,16 +2,9 @@
 
 @section('content')
 <div class="container">
-    <h1>Kelola Bahan Baku</h1>
+    <h1>Daftar Bahan Baku</h1>
 
-    <!-- Pesan sukses -->
-    @if(session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
-    @endif
-
-    <!-- Tabel Gabungan Jenis dan Penggunaan Bahan Baku -->
+    <!-- Tabel Jenis dan Penggunaan Bahan Baku -->
     <h2>Daftar Jenis dan Penggunaan Bahan Baku</h2>
     <table class="table table-bordered">
         <thead>
@@ -35,27 +28,5 @@
             @endforeach
         </tbody>
     </table>
-
-    <!-- Form Tambah Jenis Bahan Baku -->
-    <form action="{{ route('bahanbaku.store') }}" method="POST">
-        @csrf
-        <div class="form-group">
-            <label for="jenis">Jenis Bahan Baku</label>
-            <input type="text" name="jenis" class="form-control" required>
-        </div>
-        <div class="form-group">
-            <label for="subkategori">Subkategori</label>
-            <input type="text" name="subkategori" class="form-control">
-        </div>
-        <div class="form-group">
-            <label for="penggunaan">Penggunaan Bahan Baku</label>
-            <input type="text" name="penggunaan" class="form-control" required>
-        </div>
-        <div class="form-group">
-            <label for="khusus">Digunakan untuk Acara Khusus</label>
-            <input type="checkbox" name="khusus" value="1">
-        </div>
-        <button type="submit" class="btn btn-primary">Tambah Bahan Baku</button>
-    </form>
 </div>
 @endsection

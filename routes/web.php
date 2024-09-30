@@ -163,5 +163,5 @@ Route::get('cart', function () {
 
     use App\Http\Controllers\BahanKasirController;
 
-    Route::get('/bahanbaku', [BahanKasirController::class, 'index'])->name('bahanbaku.index');
-    Route::post('/bahanbaku', [BahanKasirController::class, 'store'])->name('bahanbaku.store');
+    Route::get('/kasir/bahanbaku', [BahanKasirController::class, 'index'])->name('kasir.bahanbaku.index');
+    //Route::post('/bahanbaku', [BahanKasirController::class, 'store'])->name('bahanbaku.store');
