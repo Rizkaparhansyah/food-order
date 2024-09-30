@@ -7,7 +7,6 @@ use App\Http\Controllers\PesananController;
 use App\Http\Controllers\KeranjangController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AccountController;
-use App\Http\Controllers\BahanController;
 use App\Http\Controllers\OrderController;
 use App\Models\Menu;
 use Illuminate\Support\Facades\Auth;
@@ -148,11 +147,21 @@ Route::get('cart', function () {
     // Bahan Baku
     //Route::get('/bahan-baku', [BahanController::class,'index'])->name('bahan-baku');
 
-    use App\Http\Controllers\BahanBakuController;
+    /*use App\Http\Controllers\BahanBakuController;
 
     Route::get('/bahan-baku', [BahanBakuController::class, 'index'])->name('bahan.baku.index');
     Route::post('/bahan-baku/jenis', [BahanBakuController::class, 'storeJenis'])->name('bahan.baku.store.jenis');
     Route::post('/bahan-baku/subkategori', [BahanBakuController::class, 'storeSubkategori'])->name('bahan.baku.store.subkategori');
-    Route::post('/bahan-baku/penggunaan', [BahanBakuController::class, 'storePenggunaan'])->name('bahan.baku.store.penggunaan');
+    Route::post('/bahan-baku/penggunaan', [BahanBakuController::class, 'storePenggunaan'])->name('bahan.baku.store.penggunaan');*/
 
 
+    use App\Http\Controllers\BahanController;
+
+    Route::get('/bahanbaku', [BahanController::class, 'index'])->name('bahanbaku.index');
+    Route::post('/bahanbaku', [BahanController::class, 'store'])->name('bahanbaku.store');
+
+
+    use App\Http\Controllers\BahanKasirController;
+
+    Route::get('/bahanbaku', [BahanKasirController::class, 'index'])->name('bahanbaku.index');
+    Route::post('/bahanbaku', [BahanKasirController::class, 'store'])->name('bahanbaku.store');
