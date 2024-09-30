@@ -38,7 +38,7 @@
     </li>
 
     <li class="nav-item">
-        <a class="nav-link" href="{{ route('bahanbaku.index') }}">
+        <a class="nav-link" href="{{ route('admin.bahanbaku.index') }}">
             <i class="fas fa-fw fa-barcode"></i>
             <span>Bahan Baku</span></a>
     </li>

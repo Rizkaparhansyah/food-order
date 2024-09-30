@@ -11,7 +11,7 @@
         </div>
     @endif
 
-    <!-- Tabel Gabungan Jenis dan Penggunaan Bahan Baku -->
+    <!-- Tabel Jenis dan Penggunaan Bahan Baku -->
     <h2>Daftar Jenis dan Penggunaan Bahan Baku</h2>
     <table class="table table-bordered">
         <thead>
@@ -21,6 +21,7 @@
                 <th>Subkategori</th>
                 <th>Penggunaan Bahan Baku</th>
                 <th>Khusus</th>
+                <th>Aksi</th>
             </tr>
         </thead>
         <tbody>
@@ -31,13 +32,21 @@
                     <td>{{ $bahan->subkategori ?? 'Tidak ada subkategori' }}</td>
                     <td>{{ $bahan->penggunaan }}</td>
                     <td>{{ $bahan->khusus ? 'Ya' : 'Tidak' }}</td>
+                    <td>
+                        <a href="{{ route('admin.bahanbaku.edit', $bahan->id) }}" class="btn btn-warning">Edit</a>
+                        <form action="{{ route('admin.bahanbaku.destroy', $bahan->id) }}" method="POST" style="display:inline;">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger">Hapus</button>
+                        </form>
+                    </td>
                 </tr>
             @endforeach
-        </tbody>
+        </tbody>        
     </table>
 
     <!-- Form Tambah Jenis Bahan Baku -->
-    <form action="{{ route('bahanbaku.store') }}" method="POST">
+    <form action="{{ route('admin.bahanbaku.store') }}" method="POST">
         @csrf
         <div class="form-group">
             <label for="jenis">Jenis Bahan Baku</label>

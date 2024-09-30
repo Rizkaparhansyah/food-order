@@ -8,6 +8,7 @@ use App\Http\Controllers\KeranjangController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\BahanController;
 use App\Models\Menu;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -155,10 +156,15 @@ Route::get('cart', function () {
     Route::post('/bahan-baku/penggunaan', [BahanBakuController::class, 'storePenggunaan'])->name('bahan.baku.store.penggunaan');*/
 
 
-    use App\Http\Controllers\BahanController;
 
-    Route::get('/bahanbaku', [BahanController::class, 'index'])->name('bahanbaku.index');
-    Route::post('/bahanbaku', [BahanController::class, 'store'])->name('bahanbaku.store');
+
+    // Routes for Admin
+    Route::get('/admin/bahanbaku', [BahanController::class, 'index'])->name('admin.bahanbaku.index');
+    Route::post('/admin/bahanbaku', [BahanController::class, 'store'])->name('admin.bahanbaku.store');
+    Route::get('/admin/bahanbaku/{id}/edit', [BahanController::class, 'edit'])->name('admin.bahanbaku.edit');
+    Route::put('/admin/bahanbaku/{id}', [BahanController::class, 'update'])->name('admin.bahanbaku.update');
+    Route::delete('/admin/bahanbaku/{id}', [BahanController::class, 'destroy'])->name('admin.bahanbaku.destroy');
+
 
 
     use App\Http\Controllers\BahanKasirController;
