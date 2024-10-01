@@ -68,7 +68,7 @@
        
 
         <x-navbar-component/>
-        <x-user-auth/>
+        <x-user-auth :mejas="$mejas"/>
          @yield('content')
 
 
@@ -144,7 +144,7 @@
                 nameLoginForm.on('submit', function (event) {
                     event.preventDefault();
                     const name = $('#namaUser').val();
-                    const table = $('#table').val();
+                    const meja = $('#meja').val();
 
                     $.ajax({
                         url: '{{ route('user.login') }}',
@@ -152,7 +152,7 @@
                         headers: {
                             'Content-Type': 'application/json',
                         },
-                        data: JSON.stringify({ name: name, table: table  }),
+                        data: JSON.stringify({ name: name, meja: meja  }),
                         success: function (data) {
                             
                             if (data.authenticated) {

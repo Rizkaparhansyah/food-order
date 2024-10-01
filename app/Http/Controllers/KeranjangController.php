@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Keranjang;
+use App\Models\Meja;
 
 use Illuminate\Http\Request;
 
@@ -22,7 +23,9 @@ class KeranjangController extends Controller
             ->with('menu')
             ->get();
 
-        return view('components.cart-component', compact('keranjangs'));
+        $mejas = Meja::where('status', 'kosong')->get();
+
+        return view('components.cart-component', compact('keranjangs','mejas'));
     }
 
     public function addToCart(Request $request)
@@ -36,7 +39,7 @@ class KeranjangController extends Controller
 
         // Validasi jika nama pelanggan atau kode tidak ada di session
         if (!$nama_pelanggan || !$kode) {
-            return response()->json(['error' => 'User not logged in or session invalid'], 400);
+            return response()->json(['error' => 'session invalid'], 400);
         }
 
         // Tambahkan item ke keranjang
@@ -75,7 +78,7 @@ class KeranjangController extends Controller
         return redirect()->route('cart')->with('success', 'Item berhasil dihapus dari keranjang.');
     }
 
-    public function increaseQuantity($id)
+    public function plus($id)
     {
         $nama_pelanggan = session()->get('user_name', false);
         $kode = session()->get('kode', false);
@@ -100,7 +103,7 @@ class KeranjangController extends Controller
         return redirect()->route('cart');
     }
 
-    public function decreaseQuantity($id)
+    public function min($id)
     {
         $nama_pelanggan = session()->get('user_name', false);
         $kode = session()->get('kode', false);

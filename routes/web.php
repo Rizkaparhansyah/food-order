@@ -7,14 +7,16 @@ use App\Http\Controllers\PesananController;
 use App\Http\Controllers\KeranjangController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AccountController;
-use App\Http\Controllers\BahanController;
 use App\Http\Controllers\OrderController;
-use App\Http\Controllers\Penerimaan_BarangController;
-use App\Models\Menu;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\BahanController;
 use App\Http\Controllers\BahanKasirController;
+use App\Http\Controllers\Penerimaan_BarangController;
+use App\Http\Controllers\MejaController;
+use App\Models\Menu;
+use App\Models\Meja;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 
 
 /*
@@ -74,7 +76,8 @@ Route::post('/user/auth', [AuthController::class,'checkAuth'])->name('check.auth
 Route::post('/user/auth-success', [AuthController::class,'ajaxLoginWithName'])->name('user.login');
 
 Route::get('/', function () {
-    return view('components.hero-component');
+    $mejas = Meja::where('status', 'kosong')->get();
+    return view('components.hero-component', ['mejas' => $mejas]);
 })->name('home');
 
 Route::post('/logout-user', [AuthController::class, 'logoutUser'])->name('logout.user');
@@ -82,7 +85,8 @@ Route::post('/logout-user', [AuthController::class, 'logoutUser'])->name('logout
 
 Route::get('menu', function () {
     $data = Menu::with('kategori')->get();
-    return view('components.menu-component', compact('data'));
+    $mejas = Meja::where('status', 'kosong')->get();
+    return view('components.menu-component', compact('data','mejas'));
 })->name('menu');
 
 // Search menu items
@@ -113,7 +117,8 @@ Route::get('/category/{category}', function ($category) {
 
 
 Route::get('cart', function () {
-    return view('components.cart-component');
+    $mejas = Meja::where('status', 'kosong')->get();
+    return view('components.cart-component', compact('mejas'));
 })->middleware('name.auth')->name('cart');
 
     //Menu
@@ -166,7 +171,7 @@ Route::get('cart', function () {
         Route::post('/admin/order/checkout', [OrderController::class, 'checkout'])->name('order.checkout');
     });
 
-    // Penerimaan Barang
+     // Penerimaan Barang
     Route::middleware('auth:admin')->group(function () {
         Route::get('admin/penerimaan_barang', [Penerimaan_BarangController::class, 'index'])->name('admin.penerimaan_barang');
         Route::get('admin/penerimaan_barang/data', [Penerimaan_BarangController::class, 'Penerimaan_Barang'])->name('admin.penerimaan_barang.data');
@@ -176,7 +181,7 @@ Route::get('cart', function () {
         Route::delete('admin/penerimaan_barang/{id}', [Penerimaan_BarangController::class, 'destroy'])->name('admin.penerimaan_barang.destroy');
     });
 
-     // Routes for Admin
+     // Klasifikasi Admin
     Route::get('/admin/bahanbaku', [BahanController::class, 'index'])->name('admin.bahanbaku.index');
     Route::post('/admin/bahanbaku', [BahanController::class, 'store'])->name('admin.bahanbaku.store');
     Route::get('/admin/bahanbaku/{id}/edit', [BahanController::class, 'edit'])->name('admin.bahanbaku.edit');
@@ -187,7 +192,9 @@ Route::get('cart', function () {
     Route::get('/kasir/bahanbaku', [BahanKasirController::class, 'index'])->name('kasir.bahanbaku.index');
     //Route::post('/bahanbaku', [BahanKasirController::class, 'store'])->name('bahanbaku.store');
 
-
+     // Meja
+    Route::get('/admin/meja', [MejaController::class, 'index'])->name('meja.index');
+    Route::put('/mejas/{id}', [MejaController::class, 'updateMeja'])->name('meja.update');
 
 
 

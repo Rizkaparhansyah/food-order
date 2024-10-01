@@ -12,6 +12,8 @@
         <h1 class="h3 mb-0 text-gray-800">Daftar Pesanan</h1>
     </div>
 
+    <a class="btn btn-success mb-3" href="{{ route('meja.index') }}">Status Meja</a>
+
     <!-- Content Row -->
     <div class="row">
         <div class="col-md-12">
@@ -23,6 +25,7 @@
                                 <th></th>
                                 <th>Nama Pelanggan</th>
                                 <th>Kode</th>
+                                <th>Nomor Meja</th>
                                 <th class="align-middle text-center">Action</th>
                             </tr>
                         </thead>
@@ -47,7 +50,8 @@
                 processing: true,
                 serverSide: true,
                 ajax: '{{ route('data.pesanan') }}',
-                columns: [{
+                columns: [
+                    {
                         className: 'details-control',
                         orderable: false,
                         searchable: false,
@@ -61,6 +65,10 @@
                     {
                         data: 'kode',
                         name: 'kode'
+                    },
+                    {
+                        data: 'nomor_meja',
+                        name: 'nomor_meja'
                     },
                     {
                         data: null,
@@ -102,9 +110,7 @@
                 ordersTable +=
                     '<thead><tr><th>Nama</th><th>Quantity</th><th>Catatan</th><th>Status</th><th>Harga</th><th>Action</th></tr></thead>';
                 ordersTable += '<tbody>';
-
                 let totals = 0;
-
                 d.orders.forEach(function(order) {
                     let statusClass;
                     switch (order.status) {
@@ -123,9 +129,7 @@
                         default:
                             statusClass = 'badge-secondary';
                     }
-
                     totals += (order.harga_menu * (1-order.diskon / 100)) * order.jumlah;
-
                     ordersTable += `<tr>
                         <td>${order.nama_menu}</td>
                         <td>${order.jumlah}</td>
@@ -143,11 +147,9 @@
                     </tr>`;
                 });
                 ordersTable += `<tr><td colspan="4" class="font-weight-bold text-right">Total Harga : </td><td colspan="2" class="font-weight-bold">Rp. ${totals}</td></tr>`;
-
                 ordersTable += '</tbody></table>';
                 return ordersTable;
             }
-
 
             // Handle status update via AJAX
             $(document).on('change', '.update-status', function() {
