@@ -12,6 +12,8 @@
         <h1 class="h3 mb-0 text-gray-800">Daftar Pesanan</h1>
     </div>
 
+    <a class="btn btn-success mb-3" href="{{ route('meja.index') }}">Status Meja</a>
+
     <!-- Content Row -->
     <div class="row">
         <div class="col-md-12">
@@ -23,6 +25,7 @@
                                 <th></th>
                                 <th>Nama Pelanggan</th>
                                 <th>Kode</th>
+                                <th>Nomor Meja</th>
                                 <th class="align-middle text-center">Action</th>
                             </tr>
                         </thead>
@@ -64,6 +67,10 @@
                         name: 'kode'
                     },
                     {
+                        data: 'nomor_meja',
+                        name: 'nomor_meja'
+                    },
+                    {
                         data: null,
                         name: 'action',
                         className: 'centered-button',
@@ -86,23 +93,24 @@
                     // This row is already open - close it
                     row.child.hide();
                     tr.removeClass('shown');
-                    $(this).find('i').removeClass('fa-chevron-up').addClass('fa-chevron-down'); // Change icon to down
+                    $(this).find('i').removeClass('fa-chevron-up').addClass(
+                        'fa-chevron-down'); // Change icon to down
                 } else {
                     // Open this row
                     row.child(format(row.data())).show();
                     tr.addClass('shown');
-                    $(this).find('i').removeClass('fa-chevron-down').addClass('fa-chevron-up'); // Change icon to up
+                    $(this).find('i').removeClass('fa-chevron-down').addClass(
+                        'fa-chevron-up'); // Change icon to up
                 }
             });
 
             // Formatting function for row details
             function format(d) {
                 let ordersTable = '<table class="table table-bordered">';
-                ordersTable += '<thead><tr><th>Nama</th><th>Harga</th><th>Quantity</th><th>Catatan</th><th>Status</th><th>Action</th></tr></thead>';
+                ordersTable +=
+                    '<thead><tr><th>Nama</th><th>Quantity</th><th>Catatan</th><th>Status</th><th>Harga</th><th>Action</th></tr></thead>';
                 ordersTable += '<tbody>';
-
                 let totals = 0;
-
                 d.orders.forEach(function(order) {
                     let statusClass;
                     switch (order.status) {
@@ -121,28 +129,24 @@
                         default:
                             statusClass = 'badge-secondary';
                     }
-
-                    totals += (order.harga_menu * (1 - order.diskon / 100)) * order.jumlah;
-
+                    totals += (order.harga_menu * (1-order.diskon / 100)) * order.jumlah;
                     ordersTable += `<tr>
                         <td>${order.nama_menu}</td>
-                        <td>Rp. ${order.harga_menu}</td>
                         <td>${order.jumlah}</td>
                         <td>${(order.catatan == null)?'<i>Tidak Ada Catatan</i>':order.catatan}</td>
                         <td><span class="badge badge-pill ${statusClass}">${order.status}</span></td>
+                        <td>Rp. ${ (order.harga_menu * (1-order.diskon / 100)) * order.jumlah }</td>
                         <td class="centered-button">
                             <select class="form-control update-status" data-id="${order.id}">
                                 <option value="pending" ${order.status == 'pending' ? 'selected' : ''}>Pending</option>
                                 <option value="proses" ${order.status == 'proses' ? 'selected' : ''}>Proses</option>
                                 <option value="selesai" ${order.status == 'selesai' ? 'selected' : ''}>Selesai</option>
-                                <option value="cancel" ${order.status == 'cancel' ? 'selected' : ''}>Cancel</option>
                                 <option value="delete">Delete</option>
                             </select>
                         </td>
                     </tr>`;
                 });
                 ordersTable += `<tr><td colspan="4" class="font-weight-bold text-right">Total Harga : </td><td colspan="2" class="font-weight-bold">Rp. ${totals}</td></tr>`;
-                
                 ordersTable += '</tbody></table>';
                 return ordersTable;
             }
@@ -152,8 +156,8 @@
                 const orderId = $(this).data('id');
                 const status = $(this).val();
 
-                console.log('Order ID:', orderId);
-                console.log('Selected status:', status);
+                console.log('Order ID:', orderId); // Check if correct ID is selected
+                console.log('Selected status:', status); // Check if "cancel" is being sent
 
                 $.ajax({
                     url: `/admin/pesanan/${orderId}/update-status`,

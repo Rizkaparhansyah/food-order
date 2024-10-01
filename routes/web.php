@@ -11,7 +11,9 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\BahanController;
 use App\Http\Controllers\BahanKasirController;
 use App\Http\Controllers\Penerimaan_BarangController;
+use App\Http\Controllers\MejaController;
 use App\Models\Menu;
+use App\Models\Meja;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -73,7 +75,8 @@ Route::post('/user/auth', [AuthController::class,'checkAuth'])->name('check.auth
 Route::post('/user/auth-success', [AuthController::class,'ajaxLoginWithName'])->name('user.login');
 
 Route::get('/', function () {
-    return view('components.hero-component');
+    $mejas = Meja::where('status', 'kosong')->get();
+    return view('components.hero-component', ['mejas' => $mejas]);
 })->name('home');
 
 Route::post('/logout-user', [AuthController::class, 'logoutUser'])->name('logout.user');
@@ -81,7 +84,8 @@ Route::post('/logout-user', [AuthController::class, 'logoutUser'])->name('logout
 
 Route::get('menu', function () {
     $data = Menu::with('kategori')->get();
-    return view('components.menu-component', compact('data'));
+    $mejas = Meja::where('status', 'kosong')->get();
+    return view('components.menu-component', compact('data','mejas'));
 })->name('menu');
 
 // Search menu items
@@ -109,7 +113,8 @@ Route::get('/category/{category}', function ($category) {
 
 
 Route::get('cart', function () {
-    return view('components.cart-component');
+    $mejas = Meja::where('status', 'kosong')->get();
+    return view('components.cart-component', compact('mejas'));
 })->middleware('name.auth')->name('cart');
 
     //Menu
@@ -192,3 +197,7 @@ Route::get('cart', function () {
         Route::put('admin/penerimaan_barang/{id}', [Penerimaan_BarangController::class, 'update'])->name('admin.penerimaan_barang.update');
         Route::delete('admin/penerimaan_barang/{id}', [Penerimaan_BarangController::class, 'destroy'])->name('admin.penerimaan_barang.destroy');
     });
+
+    // Meja
+    Route::get('/admin/meja', [MejaController::class, 'index'])->name('meja.index');
+    Route::put('/mejas/{id}', [MejaController::class, 'updateMeja'])->name('meja.update');

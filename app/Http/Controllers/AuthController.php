@@ -44,6 +44,7 @@ class AuthController extends Controller
         return response()->json(['authenticated' => $request->session()->has('user_name')
         , 'auth_kode' => $request->session()->get('kode', false)
         , 'auth_name' => $request->session()->get('user_name', false)
+        , 'auth_meja' => $request->session()->get('meja', false)
     ]);
     }
 
@@ -59,12 +60,13 @@ class AuthController extends Controller
 
         if ($validator->fails()) {
             return response()->json([
-                'authenticated' => false,
+                'authenticated' => $request,
             ]);
         }else{
             $request->session()->put([
                 'user_name' => $request->name,
-                'kode' => generateFourDigitCode()
+                'kode' => generateFourDigitCode(),
+                'meja' => $request->meja
             ]);
             return response()->json(['authenticated' => true, 'authenticatedKode' => $request->session()->has('kode')]);
         }
@@ -75,6 +77,7 @@ class AuthController extends Controller
     {
         $request->session()->forget('user_name');
         $request->session()->forget('kode');
+        $request->session()->forget('meja');
 
         return response()->json(['authenticated' => false]);
     }
