@@ -24,6 +24,7 @@
                                 <th>Nama Pemasok</th>
                                 <th>Nomor Faktur</th>
                                 <th>Aksi</th>
+                                <th>Dokumen</th>
                             </tr>
                         </thead>
                         <tbody></tbody>
@@ -108,7 +109,16 @@
                 { data: 'tanggal_penerimaan', name: 'tanggal_penerimaan' },
                 { data: 'nama_pemasok', name: 'nama_pemasok' },
                 { data: 'nomor_faktur', name: 'nomor_faktur' },
-                { data: 'action', name: 'action', orderable: false, searchable: false }
+                { data: 'action', name: 'action', orderable: false, searchable: false },
+                {
+                    data: null,
+                    name: 'Dok',
+                    orderable: false,
+                    searchable: false,
+                    render: function(data, type, row) {
+                        return '<a href="/admin/penerimaan_barang/' + row.id + '/pdf" target="_blank" class="btn btn-primary btn-sm"><i class="fas fa-file-pdf"></i> PDF</a>';
+                    }
+                }
             ]
         });
 

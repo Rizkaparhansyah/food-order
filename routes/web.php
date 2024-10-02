@@ -179,6 +179,9 @@ Route::get('cart', function () {
         Route::get('admin/penerimaan_barang/{id}/edit', [Penerimaan_BarangController::class, 'edit'])->name('admin.penerimaan_barang.edit');
         Route::put('admin/penerimaan_barang/{id}', [Penerimaan_BarangController::class, 'update'])->name('admin.penerimaan_barang.update');
         Route::delete('admin/penerimaan_barang/{id}', [Penerimaan_BarangController::class, 'destroy'])->name('admin.penerimaan_barang.destroy');
+        // Route::get('admin/penerimaan_barang/{id}/pdf', [Penerimaan_BarangController::class, 'generatePDF'])->name('admin.penerimaan_barang.pdf');
+        Route::get('/admin/penerimaan_barang/{id}/pdf', [Penerimaan_BarangController::class, 'generatePdf'])->name('admin.penerimaan_barang.pdf');
+
     });
 
      // Klasifikasi Admin
