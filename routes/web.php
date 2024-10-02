@@ -12,6 +12,7 @@ use App\Http\Controllers\BahanController;
 use App\Http\Controllers\BahanKasirController;
 use App\Http\Controllers\Penerimaan_BarangController;
 use App\Http\Controllers\MejaController;
+use App\Http\Controllers\PenjualanController;
 use App\Models\Menu;
 use App\Models\Meja;
 use Illuminate\Support\Facades\Auth;
@@ -196,8 +197,13 @@ Route::get('cart', function () {
         Route::get('admin/penerimaan_barang/{id}/edit', [Penerimaan_BarangController::class, 'edit'])->name('admin.penerimaan_barang.edit');
         Route::put('admin/penerimaan_barang/{id}', [Penerimaan_BarangController::class, 'update'])->name('admin.penerimaan_barang.update');
         Route::delete('admin/penerimaan_barang/{id}', [Penerimaan_BarangController::class, 'destroy'])->name('admin.penerimaan_barang.destroy');
+        // Route::get('admin/penerimaan_barang/{id}/pdf', [Penerimaan_BarangController::class, 'generatePDF'])->name('admin.penerimaan_barang.pdf');
+        Route::get('/admin/penerimaan_barang/{id}/pdf', [Penerimaan_BarangController::class, 'generatePdf'])->name('admin.penerimaan_barang.pdf');
     });
 
     // Meja
     Route::get('/admin/meja', [MejaController::class, 'index'])->name('meja.index');
     Route::put('/mejas/{id}', [MejaController::class, 'updateMeja'])->name('meja.update');
+
+    // Data Penjualan
+    Route::get('/admin/data-penjualan',[PenjualanController::class,'index'])->name('data.penjualan');

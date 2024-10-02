@@ -141,6 +141,7 @@
                                 <option value="pending" ${order.status == 'pending' ? 'selected' : ''}>Pending</option>
                                 <option value="proses" ${order.status == 'proses' ? 'selected' : ''}>Proses</option>
                                 <option value="selesai" ${order.status == 'selesai' ? 'selected' : ''}>Selesai</option>
+                                <option value="cancel" ${order.status == 'cancel' ? 'selected' : ''}>Cancel</option>
                                 <option value="delete">Delete</option>
                             </select>
                         </td>

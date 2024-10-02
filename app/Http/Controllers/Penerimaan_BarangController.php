@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Penerimaan_Barang;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
+use Barryvdh\DomPDF\PDF;
+use Illuminate\Support\Facades\File;
 
 class Penerimaan_BarangController extends Controller
 {
@@ -48,5 +50,37 @@ class Penerimaan_BarangController extends Controller
         Penerimaan_Barang::destroy($id);
         return response()->json(['success' => 'Penerimaan Barang berhasil dihapus']);
     }
+
+    // public function generatePdf()
+    // {
+    //     $data = [
+    //         'title' => 'Contoh PDF',
+    //         'content' => 'Ini adalah contoh isi PDF',
+    //     ];
+
+    //     $pdf = app('dompdf.wrapper');
+    //     $pdf->loadView('admin.penerimaan_barang.pdf', $data);
+
+    //     return $pdf->stream('document.pdf'); // Ini akan menampilkan PDF di browser
+    // }
+
+    public function generatePdf($id)
+    {
+        // Retrieve the Penerimaan_Barang record by ID
+        $Penerimaan_Barang = Penerimaan_Barang::find($id);
+
+        // Check if the record exists
+        if (!$Penerimaan_Barang) {
+            return redirect()->back()->with('error', 'Data not found.');
+        }
+
+        // Pass the data to the view
+        $pdf = app('dompdf.wrapper');
+        $pdf->loadView('admin.penerimaan_barang.pdf', compact('Penerimaan_Barang'));
+
+        return $pdf->stream('document.pdf'); // Display PDF in the browser
+    }
+
+
 }
     

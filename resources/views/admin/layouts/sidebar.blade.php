@@ -51,7 +51,7 @@
     </li>
 
     <li class="nav-item">
-        <a class="nav-link" href="">
+        <a class="nav-link" href="{{ route('data.penjualan') }}">
             <i class="fas fa-fw fa-history"></i>
             <span>Data Penjualan</span></a>
     </li>

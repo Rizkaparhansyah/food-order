@@ -94,7 +94,7 @@ class PesananController extends Controller
                 'id_menu' => $keranjang->id_menu,
                 'jumlah' => $jumlah,
                 'kode' => $kode,
-                'status' => 'proses',
+                'status' => 'pending',
                 'catatan' => $catatan,
             ]);
         }
