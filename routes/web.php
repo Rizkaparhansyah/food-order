@@ -199,5 +199,13 @@ Route::get('cart', function () {
     Route::get('/admin/meja', [MejaController::class, 'index'])->name('meja.index');
     Route::put('/mejas/{id}', [MejaController::class, 'updateMeja'])->name('meja.update');
 
+    use App\Http\Controllers\BarangController;
 
-
+Route::prefix('admin')->group(function () {
+    Route::get('Barang', [BarangController::class, 'index'])->name('Barang.index');
+    Route::get('Barang/data', [BarangController::class, 'dataBarang'])->name('data.Barang');
+    Route::post('Barang', [BarangController::class, 'store'])->name('Barang.store');
+    Route::get('Barang/{id}/edit', [BarangController::class, 'edit'])->name('Barang.edit');
+    Route::put('Barang/{id}', [BarangController::class, 'update'])->name('Barang.update');
+    Route::delete('Barang/{id}', [BarangController::class, 'destroy'])->name('Barang.destroy');
+});

@@ -66,6 +66,14 @@
     </li>
 
     <li class="nav-item">
+        <a class="nav-link collapsed" href="{{ route('Barang.index') }}">
+            <i class="fas fa-fw fa-user"></i>
+            <span>Barang</span>
+        </a>
+        
+    </li>
+
+    <li class="nav-item">
         <a class="nav-link" href="{{ route('admin.bahanbaku.index') }}">
             <i class="fas fa-fw fa-barcode"></i>
             <span>Bahan Baku</span></a>
