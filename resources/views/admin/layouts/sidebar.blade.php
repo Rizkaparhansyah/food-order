@@ -62,6 +62,13 @@
             <i class="fas fa-fw fa-user"></i>
             <span>Penerimaan Barang</span>
         </a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="{{ route('admin.pesanan_pembelian') }}">
+            <i class="fas fa-fw fa-user"></i>
+            <span>Pesanan Pembelian</span>
+        </a>
         
     </li>
 

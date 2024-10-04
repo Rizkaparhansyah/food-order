@@ -11,6 +11,8 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\BahanController;
 use App\Http\Controllers\BahanKasirController;
 use App\Http\Controllers\Penerimaan_BarangController;
+use App\Http\Controllers\Pesanan_PembelianController;
+use App\Http\Controllers\BarangController;
 use App\Http\Controllers\MejaController;
 use App\Models\Menu;
 use App\Models\Meja;
@@ -181,6 +183,7 @@ Route::get('cart', function () {
         Route::delete('admin/penerimaan_barang/{id}', [Penerimaan_BarangController::class, 'destroy'])->name('admin.penerimaan_barang.destroy');
         // Route::get('admin/penerimaan_barang/{id}/pdf', [Penerimaan_BarangController::class, 'generatePDF'])->name('admin.penerimaan_barang.pdf');
         Route::get('/admin/penerimaan_barang/{id}/pdf', [Penerimaan_BarangController::class, 'generatePdf'])->name('admin.penerimaan_barang.pdf');
+        // Route::post('/admin/penerimaan_barang/verifikasi/{id}', [Penerimaan_BarangController::class, 'verifikasi'])->name('admin.penerimaan_barang.verifikasi');
 
     });
 
@@ -199,7 +202,7 @@ Route::get('cart', function () {
     Route::get('/admin/meja', [MejaController::class, 'index'])->name('meja.index');
     Route::put('/mejas/{id}', [MejaController::class, 'updateMeja'])->name('meja.update');
 
-    use App\Http\Controllers\BarangController;
+    
 
 Route::prefix('admin')->group(function () {
     Route::get('Barang', [BarangController::class, 'index'])->name('Barang.index');
@@ -208,4 +211,17 @@ Route::prefix('admin')->group(function () {
     Route::get('Barang/{id}/edit', [BarangController::class, 'edit'])->name('Barang.edit');
     Route::put('Barang/{id}', [BarangController::class, 'update'])->name('Barang.update');
     Route::delete('Barang/{id}', [BarangController::class, 'destroy'])->name('Barang.destroy');
+});
+
+
+
+ // Pesanan Pembelian
+Route::middleware('auth:admin')->group(function () {
+    Route::get('admin/pesanan_pembelian', [Pesanan_PembelianController::class, 'index'])->name('admin.pesanan_pembelian');
+    Route::get('admin/pesanan_pembelian/data', [Pesanan_PembelianController::class, 'pesanan_pembelian'])->name('admin.pesanan_pembelian.data');
+    Route::post('admin/pesanan_pembelian', [Pesanan_PembelianController::class, 'store'])->name('admin.pesanan_pembelian.store');
+    Route::get('admin/pesanan_pembelian/{id}/edit', [Pesanan_PembelianController::class, 'edit'])->name('admin.pesanan_pembelian.edit');
+    Route::put('admin/pesanan_pembelian/{id}', [Pesanan_PembelianController::class, 'update'])->name('admin.pesanan_pembelian.update');
+    Route::delete('admin/pesanan_pembelian/{id}', [Pesanan_PembelianController::class, 'destroy'])->name('admin.pesanan_pembelian.destroy');
+
 });

@@ -46,15 +46,19 @@
         </tr>
         <tr>
             <th>Harga Satuan</th>
-            <td>Rp. {{ number_format($Penerimaan_Barang->harga_satuan, 2, ',', '.') }}</td>
+            <td>Rp. {{ number_format($Penerimaan_Barang->harga_satuan, 0, ',', '.') }}</td>
         </tr>
         <tr>
             <th>Total Harga</th>
-            <td>Rp. {{ number_format($Penerimaan_Barang->total_harga, 2, ',', '.') }}</td>
+            <td>Rp. {{ number_format($Penerimaan_Barang->total_harga, 0, ',', '.') }}</td>
         </tr>
         <tr>
             <th>Tanggal Penerimaan</th>
             <td>{{ \Carbon\Carbon::parse($Penerimaan_Barang->tanggal_penerimaan)->format('d-m-Y') }}</td>
+        </tr>
+        <tr>
+            <th>Lokasi Penyimpanan</th>
+            <td>{{ $Penerimaan_Barang->lokasi }}</td>
         </tr>
     </table>
 

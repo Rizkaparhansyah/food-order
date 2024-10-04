@@ -18,6 +18,13 @@ class Penerimaan_Barang extends Model
         'total_harga', 
         'tanggal_penerimaan', 
         'nama_pemasok', 
-        'nomor_faktur'
+        'nomor_faktur',
+        'lokasi',
+        'nomor_pesanan'
     ];
+
+    public function pesananPembelian()
+    {
+        return $this->belongsTo(Pesanan_Pembelian::class, 'nomor_pesanan', 'nomor_pesanan');
+    }
 }
