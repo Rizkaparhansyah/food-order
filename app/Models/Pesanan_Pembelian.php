@@ -25,4 +25,5 @@ class Pesanan_Pembelian extends Model
     {
         return $this->hasMany(Penerimaan_Barang::class, 'nomor_pesanan', 'nomor_pesanan');
     }
+    
 }

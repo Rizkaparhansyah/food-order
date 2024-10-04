@@ -215,7 +215,7 @@ Route::prefix('admin')->group(function () {
 
 
 
- // Pesanan Pembelian
+ // Pesanan Pembelian/
 Route::middleware('auth:admin')->group(function () {
     Route::get('admin/pesanan_pembelian', [Pesanan_PembelianController::class, 'index'])->name('admin.pesanan_pembelian');
     Route::get('admin/pesanan_pembelian/data', [Pesanan_PembelianController::class, 'pesanan_pembelian'])->name('admin.pesanan_pembelian.data');
@@ -223,5 +223,4 @@ Route::middleware('auth:admin')->group(function () {
     Route::get('admin/pesanan_pembelian/{id}/edit', [Pesanan_PembelianController::class, 'edit'])->name('admin.pesanan_pembelian.edit');
     Route::put('admin/pesanan_pembelian/{id}', [Pesanan_PembelianController::class, 'update'])->name('admin.pesanan_pembelian.update');
     Route::delete('admin/pesanan_pembelian/{id}', [Pesanan_PembelianController::class, 'destroy'])->name('admin.pesanan_pembelian.destroy');
-
 });

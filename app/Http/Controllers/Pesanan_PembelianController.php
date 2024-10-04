@@ -50,4 +50,6 @@ class Pesanan_PembelianController extends Controller
         Pesanan_Pembelian::findOrFail($id)->delete();
         return response()->json(['message' => 'Pesanan Pembelian berhasil dihapus.']);
     }
+    
 }
+

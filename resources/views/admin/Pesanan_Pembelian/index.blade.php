@@ -127,7 +127,7 @@
             ]
         });
 
-        // Show modal for adding new pesanan
+        // Show modal untuk menambahkan pesanan baru
         $('#addPesananBtn').click(function () {
             $('#pesananForm')[0].reset();
             $('#pesananId').val('');
