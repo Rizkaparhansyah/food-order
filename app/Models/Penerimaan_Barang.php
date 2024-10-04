@@ -18,6 +18,7 @@ class Penerimaan_Barang extends Model
         'total_harga', 
         'tanggal_penerimaan', 
         'nama_pemasok', 
-        'nomor_faktur'
+        'nomor_faktur',
+        'nomor_pesanan'
     ];
 }
