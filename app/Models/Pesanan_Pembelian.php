@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Pesanan_Pembelian extends Model
 {
@@ -13,17 +12,13 @@ class Pesanan_Pembelian extends Model
     protected $table = 'pesanan_pembelian';
 
     protected $fillable = [
-        'nomor_pesanan',
-        'nama_supplier',
+        'nama_pemasok',
         'tanggal_pesanan',
-        'status',
+        'nama_barang',
+        'jumlah',
+        'harga_satuan',
         'total_harga',
-        'catatan'
+        'status_pesanan'
     ];
 
-    public function penerimaanBarang(): HasMany
-    {
-        return $this->hasMany(Penerimaan_Barang::class, 'nomor_pesanan', 'nomor_pesanan');
-    }
-    
 }

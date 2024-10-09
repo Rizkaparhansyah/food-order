@@ -2,27 +2,29 @@
 
 @section('content')
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Pesanan Pembelian</h1>
+        <h1 class="h3 mb-0 text-gray-800">Daftar Pesanan Pembelian</h1>
     </div>
 
     <div class="row">
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header">
-                    <button class="btn btn-primary" id="addPesananBtn">Tambah Pesanan Pembelian</button>
+                    <button class="btn btn-primary" id="tambahPesananBtn">Tambah Pesanan Pembelian</button>
                 </div>
                 <div class="card-body">
                     <table class="table table-bordered" id="pesananTable">
                         <thead>
                             <tr>
                                 <th>No</th>
-                                <th>Nomor Pesanan</th>
-                                <th>Nama Supplier</th>
+                                <th>Nama Pemasok</th>
                                 <th>Tanggal Pesanan</th>
-                                <th>Status</th>
+                                <th>Nama Barang</th>
+                                <th>Jumlah</th>
+                                <th>Harga Satuan</th>
                                 <th>Total Harga</th>
-                                <th>Catatan</th>
+                                <th>Status Pesanan</th>
                                 <th>Aksi</th>
+                                <th>Dokumen</th>
                             </tr>
                         </thead>
                         <tbody></tbody>
@@ -31,60 +33,62 @@
             </div>
         </div>
     </div>
-
-    <!-- Add/Edit Modal -->
-    <div class="modal fade" id="pesananModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
+    
+    <!-- Modal Tambah/Edit Pesanan -->
+    <div class="modal fade" id="pesananModal" tabindex="-1" role="dialog" aria-labelledby="pesananModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modalLabel">Tambah Pesanan Pembelian</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
                 <form id="pesananForm">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="pesananModalLabel">Tambah Pesanan Pembelian</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Tutup">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
                     <div class="modal-body">
-                        <input type="hidden" name="id" id="pesananId">
+                        <input type="hidden" id="pesananId"> <!-- Hidden field for ID -->
                         <div class="form-group">
-                            <label for="nomor_pesanan">Nomor Pesanan</label>
-                            <input type="text" class="form-control" name="nomor_pesanan" id="nomor_pesanan" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="nama_supplier">Nama Supplier</label>
-                            <input type="text" class="form-control" name="nama_supplier" id="nama_supplier" required>
+                            <label for="nama_pemasok">Nama Pemasok</label>
+                            <input type="text" class="form-control" id="nama_pemasok" name="nama_pemasok" required>
                         </div>
                         <div class="form-group">
                             <label for="tanggal_pesanan">Tanggal Pesanan</label>
-                            <input type="date" class="form-control" name="tanggal_pesanan" id="tanggal_pesanan" required>
+                            <input type="date" class="form-control" id="tanggal_pesanan" name="tanggal_pesanan" required>
                         </div>
                         <div class="form-group">
-                            <label for="status">Status</label>
-                            <select class="form-control" id="status" name="status" required>
-                                <option value="" disabled selected>Pilih Status</option>
-                                <option value="Pending">Pending</option>
-                                <option value="Diproses">Diproses</option>
-                                <option value="Selesai">Selesai</option>
-                                <option value="Dibatalkan">Dibatalkan</option>
-                            </select>
+                            <label for="nama_barang">Nama Barang</label>
+                            <input type="text" class="form-control" id="nama_barang" name="nama_barang" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="jumlah">Jumlah</label>
+                            <input type="number" class="form-control" id="jumlah" name="jumlah" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="harga_satuan">Harga Satuan</label>
+                            <input type="number" class="form-control" id="harga_satuan" name="harga_satuan" required>
                         </div>
                         <div class="form-group">
                             <label for="total_harga">Total Harga</label>
-                            <input type="number" class="form-control" name="total_harga" id="total_harga" required>
+                            <input type="number" class="form-control" id="total_harga" name="total_harga" required>
                         </div>
                         <div class="form-group">
-                            <label for="catatan">Catatan</label>
-                            <textarea class="form-control" name="catatan" id="catatan" required></textarea>
+                            <label for="status_pesanan">Status Pesanan</label>
+                            <select class="form-control" id="status_pesanan" name="status_pesanan" required>
+                                <option value="pending">Pending</option>
+                                <option value="diproses">Diproses</option>
+                                <option value="selesai">Selesai</option>
+                                <option value="dibatalkan">Dibatalkan</option>
+                            </select>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-                        <button type="submit" class="btn btn-primary" id="saveBtn">Simpan</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                        <button type="submit" class="btn btn-primary">Simpan</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
-
 @endsection
 
 @push('script')
@@ -96,60 +100,76 @@
     });
 
     $(document).ready(function () {
-        function formatRupiah(amount) {
-            const formatter = new Intl.NumberFormat('id-ID', {
-                style: 'currency',
-                currency: 'IDR',
-                minimumFractionDigits: 0,
-            });
-            return formatter.format(amount);
-        }
-
+    function formatRupiah(amount) {
+        const formatter = new Intl.NumberFormat('id-ID', {
+            style: 'currency',
+            currency: 'IDR',
+            minimumFractionDigits: 0,
+        });
+        return formatter.format(amount);
+    }
         var table = $('#pesananTable').DataTable({
             processing: true,
             serverSide: true,
             ajax: '{{ route('admin.pesanan_pembelian.data') }}',
             columns: [
                 { data: 'id', name: 'id' },
-                { data: 'nomor_pesanan', name: 'nomor_pesanan' },
-                { data: 'nama_supplier', name: 'nama_supplier' },
+                { data: 'nama_pemasok', name: 'nama_pemasok' },
                 { data: 'tanggal_pesanan', name: 'tanggal_pesanan' },
-                { data: 'status', name: 'status' },
-                {
-                    data: 'total_harga',
-                    name: 'total_harga',
-                    render: function (data) {
+                { data: 'nama_barang', name: 'nama_barang' },
+                { data: 'jumlah', name: 'jumlah' },
+                { data: 'harga_satuan', name: 'harga_satuan', render: function (data, type, row) {
                         return formatRupiah(data);
                     }
                 },
-                { data: 'catatan', name: 'catatan' },
+                { data: 'total_harga', name: 'total_harga', render: function (data, type, row) {
+                        return formatRupiah(data);
+                    }
+                },
+                { data: 'status_pesanan', name: 'status_pesanan' },
                 { data: 'action', name: 'action', orderable: false, searchable: false },
+                {
+                    data: null,
+                    name: 'Dok',
+                    orderable: false,
+                    searchable: false,
+                    render: function(data, type, row) {
+                        return '<a href="/admin/pesanan_pembelian/' + row.id + '/pdf" target="_blank" class="btn btn-primary btn-sm"><i class="fas fa-file-pdf"></i></a>';
+                    }
+                }
             ]
         });
 
-        // Show modal untuk menambahkan pesanan baru
-        $('#addPesananBtn').click(function () {
-            $('#pesananForm')[0].reset();
-            $('#pesananId').val('');
-            $('#modalLabel').text('Tambah Pesanan Barang');
-            $('#pesananModal').modal('show');
+        // Show modal to add a new Pesanan
+        $('#tambahPesananBtn').click(function () {
+            $('#pesananForm')[0].reset(); // Clear the form
+            $('#pesananModalLabel').text('Tambah Pesanan Pembelian'); // Set modal title
+            $('#pesananId').val(''); // Reset hidden ID field
+            $('#pesananModal').modal('show'); // Show modal
         });
 
-        // Save or Update Pesanan Barang
+        // Dynamic Total Price Calculation
+        $('#jumlah, #harga_satuan').on('input', function() {
+            var jumlah = parseFloat($('#jumlah').val()) || 0;
+            var hargaSatuan = parseFloat($('#harga_satuan').val()) || 0;
+            $('#total_harga').val(jumlah * hargaSatuan);
+        });
+
+        // Save or update Pesanan
         $('#pesananForm').submit(function (e) {
             e.preventDefault();
             var id = $('#pesananId').val();
             var url = id ? '{{ url('admin/pesanan_pembelian') }}/' + id : '{{ route('admin.pesanan_pembelian.store') }}';
-            var method = id ? 'PUT' : 'POST';
+            var type = id ? 'PUT' : 'POST';
 
             $.ajax({
-                type: method,
+                type: type,
                 url: url,
                 data: $(this).serialize(),
                 success: function (response) {
                     $('#pesananModal').modal('hide');
                     table.ajax.reload();
-                    alert('Data Pesanan Barang berhasil disimpan!');
+                    alert('Pesanan Pembelian berhasil disimpan!');
                 },
                 error: function (xhr) {
                     alert('Terjadi kesalahan, coba lagi nanti.');
@@ -157,23 +177,24 @@
             });
         });
 
-        // Edit Pesanan Barang
+        // Edit Pesanan
         $('#pesananTable').on('click', '.editPesanan', function () {
             var id = $(this).data('id');
             $.get('{{ url('admin/pesanan_pembelian') }}/' + id + '/edit', function (data) {
-                $('#modalLabel').text('Edit Pesanan Barang');
-                $('#pesananId').val(data.id);
-                $('#nomor_pesanan').val(data.nomor_pesanan);
-                $('#nama_supplier').val(data.nama_supplier);
+                $('#pesananModalLabel').text('Edit Pesanan Pembelian');
+                $('#nama_pemasok').val(data.nama_pemasok);
                 $('#tanggal_pesanan').val(data.tanggal_pesanan);
-                $('#status').val(data.status);
+                $('#nama_barang').val(data.nama_barang);
+                $('#jumlah').val(data.jumlah);
+                $('#harga_satuan').val(data.harga_satuan);
                 $('#total_harga').val(data.total_harga);
-                $('#catatan').val(data.catatan);
+                $('#status_pesanan').val(data.status_pesanan);
+                $('#pesananId').val(data.id); // Set ID for editing
                 $('#pesananModal').modal('show');
             });
         });
 
-        // Delete Pesanan Barang
+        // Delete Pesanan
         $('#pesananTable').on('click', '.deletePesanan', function () {
             var id = $(this).data('id');
             if (confirm('Apakah Anda yakin ingin menghapus data ini?')) {
@@ -182,7 +203,7 @@
                     url: '{{ url('admin/pesanan_pembelian') }}/' + id,
                     success: function (response) {
                         table.ajax.reload();
-                        alert('Data Pesanan Barang berhasil dihapus!');
+                        alert('Pesanan Pembelian berhasil dihapus!');
                     },
                     error: function (xhr) {
                         alert('Terjadi kesalahan, coba lagi nanti.');

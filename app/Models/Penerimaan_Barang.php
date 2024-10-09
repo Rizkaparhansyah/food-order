@@ -22,9 +22,4 @@ class Penerimaan_Barang extends Model
         'lokasi',
         'nomor_pesanan'
     ];
-
-    public function pesananPembelian()
-    {
-        return $this->belongsTo(Pesanan_Pembelian::class, 'nomor_pesanan', 'nomor_pesanan');
-    }
 }
