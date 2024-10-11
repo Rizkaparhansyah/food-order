@@ -144,6 +144,18 @@ class PesananController extends Controller
         }
     }
 
+    public function store(Request $request)
+    {
+        $orderItems = $request->items; // Array of ordered items (menu_id dan quantity)
+        
+        foreach ($orderItems as $item) {
+            $menu = Menu::find($item['menu_id']);
+            $menu->order_count += $item['quantity'];
+            $menu->save(); // Simpan perubahan manual
+        }
+    }
+    
+
     public function delete($id)
     {
         try {

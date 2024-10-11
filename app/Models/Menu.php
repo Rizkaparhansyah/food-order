@@ -11,6 +11,10 @@ class Menu extends Model
     protected $tabel = 'menus';
     protected $primaryKey = 'id';
     protected $guarded = [];
+
+    protected $fillable = [
+        'nama', 'kategori_id', 'deskripsi', 'foto', 'stok', 'harga', 'diskon', 'order_count'
+    ];
     
     public function kategori()
     {

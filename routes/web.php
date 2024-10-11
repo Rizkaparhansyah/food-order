@@ -207,3 +207,5 @@ Route::get('cart', function () {
 
     // Data Penjualan
     Route::get('/admin/data-penjualan',[PenjualanController::class,'index'])->name('data.penjualan');
+
+    Route::get('/menu/filter/{category}', [MenuController::class, 'filterByCategory']);

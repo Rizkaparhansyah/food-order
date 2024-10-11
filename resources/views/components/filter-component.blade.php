@@ -2,18 +2,23 @@
     <div class="d-flex justify-content-between flex-wrap gap-2">
         <div class="row">
             <div class="col-sm-12">
+                <!-- Category buttons -->
                 <button type="button" class="btn color-keempat" style="border-color: var(--warna-kedua)" data-category="Makanan">Makanan</button>
                 <button type="button" class="btn color-keempat" style="border-color: var(--warna-kedua)" data-category="Minuman">Minuman</button>
-                <button type="button" class="btn color-keempat" style="border-color: var(--warna-kedua)" data-category="Recomended">Recomended</button>
+                <button type="button" class="btn color-keempat" style="border-color: var(--warna-kedua)" data-category="Recomended">Recommended</button>
                 <button type="button" class="btn color-keempat" style="border-color: var(--warna-kedua)" data-category="Best Seller">Best Seller</button>
                 <button type="button" class="btn color-keempat" style="border-color: var(--warna-kedua)" data-category="Popular">Popular</button>
             </div>
         </div>
+        <!-- Search form -->
         <form class="d-flex" role="search" id="searchForm">
             <input class="form-control me-2 color-keempat" id="searchInput" type="search" placeholder="Search" aria-label="Search">
             <button class="btn color-utama bg-kedua" type="submit">Search</button>
         </form>
     </div>
+    
+    <!-- Container to display products -->
+    <div id="productContainer" class="row mt-4"></div>
 </div>
 
 <script>
@@ -34,7 +39,7 @@
     categoryButtons.forEach(button => {
         button.addEventListener('click', function() {
             const category = this.getAttribute('data-category');
-            fetch(`/category/${category}`)
+            fetch(`/menu/filter/${category}`) // Updated endpoint
                 .then(response => response.json())
                 .then(data => {
                     displayProducts(data);
@@ -44,7 +49,7 @@
 
     // Function to display products
     function displayProducts(data) {
-        const productContainer = document.querySelector('.container'); // Update with your actual container selector
+        const productContainer = document.getElementById('productContainer');
         productContainer.innerHTML = ''; // Clear previous items
 
         if (data.status === 'success') {
