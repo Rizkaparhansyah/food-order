@@ -14,6 +14,7 @@
                 <th>Subkategori</th>
                 <th>Penggunaan Bahan Baku</th>
                 <th>Khusus</th>
+                <th>Stok</th>
             </tr>
         </thead>
         <tbody>
@@ -24,6 +25,7 @@
                     <td>{{ $bahan->subkategori ?? 'Tidak ada subkategori' }}</td>
                     <td>{{ $bahan->penggunaan }}</td>
                     <td>{{ $bahan->khusus ? 'Ya' : 'Tidak' }}</td>
+                    <td>{{ $bahan->stok }}</td>
                 </tr>
             @endforeach
         </tbody>

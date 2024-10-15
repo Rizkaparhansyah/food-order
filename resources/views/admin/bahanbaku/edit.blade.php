@@ -35,6 +35,11 @@
             <label for="khusus">Digunakan untuk Acara Khusus</label>
             <input type="checkbox" name="khusus" value="1" {{ $bahanBaku->khusus ? 'checked' : '' }}>
         </div>
+        <div class="form-group">
+            <label for="stok">Stok</label>
+            <input type="number" name="stok" class="form-control" value="{{ $bahanBaku->stok }}" required>
+        </div>
+        
         <button type="submit" class="btn btn-primary">Update Bahan Baku</button>
     </form>
 </div>

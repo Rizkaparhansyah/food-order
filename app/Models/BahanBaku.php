@@ -11,5 +11,5 @@ class BahanBaku extends Model
 
     protected $table = 'bahanbaku';  // Correct table name without underscore
 
-    protected $fillable = ['jenis', 'subkategori', 'penggunaan', 'khusus'];
+    protected $fillable = ['jenis', 'subkategori', 'penggunaan', 'khusus', 'stok'];
 }

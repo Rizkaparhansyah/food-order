@@ -32,6 +32,7 @@
                     <td>{{ $bahan->subkategori ?? 'Tidak ada subkategori' }}</td>
                     <td>{{ $bahan->penggunaan }}</td>
                     <td>{{ $bahan->khusus ? 'Ya' : 'Tidak' }}</td>
+                    <td>{{ $bahan->stok }}</td>
                     <td>
                         <a href="{{ route('admin.bahanbaku.edit', $bahan->id) }}" class="btn btn-warning">Edit</a>
                         <form action="{{ route('admin.bahanbaku.destroy', $bahan->id) }}" method="POST" style="display:inline;">
@@ -64,6 +65,10 @@
             <label for="khusus">Digunakan untuk Acara Khusus</label>
             <input type="checkbox" name="khusus" value="1">
         </div>
+        <div class="form-group">
+            <label for="stok">Stok</label>
+            <input type="number" name="stok" class="form-control" required>
+        </div>       
         <button type="submit" class="btn btn-primary">Tambah Bahan Baku</button>
     </form>
 </div>
