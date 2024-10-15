@@ -16,7 +16,6 @@ class CreatePesananPembelianTable extends Migration
             $table->integer('jumlah');
             $table->decimal('harga_satuan', 8, 2);
             $table->decimal('total_harga', 10, 2);
-            $table->string('status_pesanan');
             $table->timestamps();
         });
     }
