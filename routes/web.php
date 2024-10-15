@@ -14,6 +14,8 @@ use App\Http\Controllers\Penerimaan_BarangController;
 use App\Http\Controllers\Pesanan_PembelianController;
 use App\Http\Controllers\BarangController;
 use App\Http\Controllers\MejaController;
+use App\Http\Controllers\penerimaannnnn_barangController;
+use App\Http\Controllers\Pesanannnnn_PembelianController;
 use App\Models\Menu;
 use App\Models\Meja;
 use Illuminate\Support\Facades\Auth;
@@ -224,4 +226,35 @@ Route::middleware('auth:admin')->group(function () {
     Route::put('admin/pesanan_pembelian/{id}', [Pesanan_PembelianController::class, 'update'])->name('admin.pesanan_pembelian.update');
     Route::delete('admin/pesanan_pembelian/{id}', [Pesanan_PembelianController::class, 'destroy'])->name('admin.pesanan_pembelian.destroy');
     Route::get('/admin/pesanan_pembelian/{id}/pdf', [Pesanan_PembelianController::class, 'generatePdf'])->name('admin.pesanan_pembelian.pdf');
+});
+
+// Route::prefix('admin')->group(function () {
+//     // Routes for Pesanannnnn_PembelianController
+//     Route::get('penerimaannnn_barang', [Penerimaannnnn_BarangController::class, 'index'])->name('admin.penerimaannnn_barang.index');
+//     Route::get('penerimaannnn_barang/create', [Penerimaannnnn_BarangController::class, 'create'])->name('admin.penerimaannnn_barang.create');
+//     Route::post('penerimaannnn_barang', [Penerimaannnnn_BarangController::class, 'store'])->name('admin.penerimaannnn_barang.store');
+// });
+
+Route::prefix('admin')->group(function () {
+    Route::get('penerimaannnn_barang', [Penerimaannnnn_BarangController::class, 'index'])->name('admin.penerimaannnn_barang.index');
+    Route::get('penerimaannnn_barang/data', [Penerimaannnnn_BarangController::class, 'penerimaannnn_barang'])->name('admin.penerimaannnn_barang.data');
+    Route::get('penerimaannnn_barang/create', [Penerimaannnnn_BarangController::class, 'create'])->name('admin.penerimaannnn_barang.create');
+    Route::post('penerimaannnn_barang', [Penerimaannnnn_BarangController::class, 'store'])->name('admin.penerimaannnn_barang.store');
+    Route::get('penerimaannnn_barang/{id}', [Penerimaannnnn_BarangController::class, 'show'])->name('admin.penerimaannnn_barang.show');
+    Route::get('penerimaannnn_barang/{id}/edit', [Penerimaannnnn_BarangController::class, 'edit'])->name('admin.penerimaannnn_barang.edit');
+    Route::put('penerimaannnn_barang/{id}', [Penerimaannnnn_BarangController::class, 'update'])->name('admin.penerimaannnn_barang.update');
+    Route::delete('penerimaannnn_barang/{id}', [Penerimaannnnn_BarangController::class, 'destroy'])->name('admin.penerimaannnn_barang.destroy');
+    Route::get('penerimaannnn_barang/{id}/pdf', [Penerimaannnnn_BarangController::class, 'generatePdf'])->name('admin.penerimaannnn_barang.pdf');
+});
+
+Route::prefix('admin')->group(function () {
+    Route::get('pesanannnnn_pembelian', [Pesanannnnn_PembelianController::class, 'index'])->name('admin.pesanannnnn_pembelian.index');
+    Route::get('pesanannnnn_pembelian/data', [Pesanannnnn_PembelianController::class, 'Pesanannnnn_Pembelian'])->name('admin.pesanannnnn_pembelian.data');
+    Route::get('pesanannnnn_pembelian/create', [Pesanannnnn_PembelianController::class, 'create'])->name('admin.pesanannnnn_pembelian.create');
+    Route::post('pesanannnnn_pembelian', [Pesanannnnn_PembelianController::class, 'store'])->name('admin.pesanannnnn_pembelian.store');
+    Route::get('pesanannnnn_pembelian/{id}', [Pesanannnnn_PembelianController::class, 'show'])->name('admin.pesanannnnn_pembelian.show');
+    Route::get('pesanannnnn_pembelian/{id}/edit', [Pesanannnnn_PembelianController::class, 'edit'])->name('admin.pesanannnnn_pembelian.edit');
+    Route::put('pesanannnnn_pembelian/{id}', [Pesanannnnn_PembelianController::class, 'update'])->name('admin.pesanannnnn_pembelian.update');
+    Route::delete('pesanannnnn_pembelian/{id}', [Pesanannnnn_PembelianController::class, 'destroy'])->name('admin.pesanannnnn_pembelian.destroy');
+    Route::get('pesanannnnn_pembelian/{id}/pdf', [Pesanannnnn_PembelianController::class, 'generatePdf'])->name('admin.pesanannnnn_pembelian.pdf');
 });

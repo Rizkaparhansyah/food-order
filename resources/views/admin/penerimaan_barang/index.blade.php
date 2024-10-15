@@ -47,9 +47,28 @@
                 <form id="penerimaanForm">
                     <div class="modal-body">
                         <input type="hidden" name="id" id="penerimaanId">
+                        <!-- Dropdown untuk memilih Pesanan Pembelian -->
                         <div class="form-group">
+                            <label for="pesanan_pembelian_id">Pilih Pesanan Pembelian</label>
+                            <select name="pesanan_pembelian_id" id="pesanan_pembelian_id" class="form-control" required>
+                                <option value="">-- Pilih Pesanan Pembelian --</option>
+                                @foreach($pesananPembelian as $pesanan)
+                                    <option value="{{ $pesanan->id }}" 
+                                            data-nama-barang="{{ $pesanan->nama_barang }}" 
+                                            data-nama-pemasok="{{ $pesanan->nama_pemasok }}">
+                                        {{ $pesanan->nama_pemasok }} - {{ $pesanan->nama_barang }} - {{ $pesanan->tanggal_pesanan }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        {{-- <div class="form-group">
                             <label for="nama_barang">Nama Barang</label>
                             <input type="text" class="form-control" name="nama_barang" id="nama_barang" required>
+                        </div> --}}
+                        <!-- Input untuk Nama Barang -->
+                        <div class="form-group">
+                            <label for="nama_barang">Nama Barang</label>
+                            <input type="text" name="nama_barang" id="nama_barang" class="form-control" readonly>
                         </div>
                         <div class="form-group">
                             <label for="jumlah">Jumlah</label>
@@ -67,9 +86,14 @@
                             <label for="tanggal_penerimaan">Tanggal Penerimaan</label>
                             <input type="date" class="form-control" name="tanggal_penerimaan" id="tanggal_penerimaan" required>
                         </div>
-                        <div class="form-group">
+                        {{-- <div class="form-group">
                             <label for="nama_pemasok">Nama Pemasok</label>
                             <input type="text" class="form-control" name="nama_pemasok" id="nama_pemasok" required>
+                        </div> --}}
+                        <!-- Input untuk Nama Pemasok -->
+                        <div class="form-group">
+                            <label for="nama_pemasok">Nama Pemasok</label>
+                            <input type="text" name="nama_pemasok" id="nama_pemasok" class="form-control" readonly>
                         </div>
                         <div class="form-group">
                             <label for="nomor_faktur">Nomor Faktur</label>
@@ -209,6 +233,27 @@
                     }
                 });
             }
+        });
+
+        // Ketika memilih pesanan pembelian
+        $('#pesanan_pembelian_id').change(function() {
+            var selectedOption = $(this).find('option:selected');
+            
+            // Ambil data nama barang dan nama pemasok dari option yang dipilih
+            var namaBarang = selectedOption.data('nama-barang');
+            var namaPemasok = selectedOption.data('nama-pemasok');
+            
+            // Isi kolom nama barang dan nama pemasok dengan data yang diambil
+            $('#nama_barang').val(namaBarang);
+            $('#nama_pemasok').val(namaPemasok);
+        });
+
+        // Update total harga ketika jumlah atau harga satuan diubah
+        $('#jumlah, #harga_satuan').on('input', function() {
+            var jumlah = parseFloat($('#jumlah').val()) || 0;
+            var hargaSatuan = parseFloat($('#harga_satuan').val()) || 0;
+            var totalHarga = jumlah * hargaSatuan;
+            $('#total_harga').val(totalHarga);
         });
     });
 </script>

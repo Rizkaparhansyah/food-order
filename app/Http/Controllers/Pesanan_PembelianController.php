@@ -26,11 +26,18 @@ class Pesanan_PembelianController extends Controller
         $data = Pesanan_Pembelian::all();
 
         return DataTables::of($data)
+            // ->addColumn('action', function($row) {
+            //     $editBtn = '<button class="editPesanan btn btn-success btn-sm" data-id="'.$row->id.'"><i class="fas fa-edit"></i></button>';
+            //     $deleteBtn = '<button class="deletePesanan btn btn-danger btn-sm" data-id="'.$row->id.'"><i class="fas fa-trash"></i></button>';
+            //     return $editBtn . ' ' . $deleteBtn;
+            // })
             ->addColumn('action', function($row) {
                 $editBtn = '<button class="editPesanan btn btn-success btn-sm" data-id="'.$row->id.'"><i class="fas fa-edit"></i></button>';
                 $deleteBtn = '<button class="deletePesanan btn btn-danger btn-sm" data-id="'.$row->id.'"><i class="fas fa-trash"></i></button>';
-                return $editBtn . ' ' . $deleteBtn;
+                $pdfBtn = '<a href="/admin/pesanan_pembelian/' . $row->id . '/pdf" target="_blank" class="btn btn-primary btn-sm"><i class="fas fa-file-pdf"></i></a>';
+                return $editBtn . ' ' . $deleteBtn . ' ' . $pdfBtn;
             })
+            
             // ->addColumn('document', function($row) {
             //     return '<a href="'.route('admin.pesanan_pembelian.pdf', $row->id).'" class="btn btn-primary btn-sm"><i class="fas fa-file-pdf"></i> PDF</a>';
             // })

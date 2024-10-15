@@ -21,4 +21,8 @@ class Pesanan_Pembelian extends Model
         'status_pesanan'
     ];
 
+    public function penerimaanBarang()
+    {
+        return $this->hasMany(Penerimaan_Barang::class, 'pesanan_pembelian_id');
+    }
 }

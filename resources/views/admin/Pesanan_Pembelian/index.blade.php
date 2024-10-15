@@ -24,7 +24,6 @@
                                 <th>Total Harga</th>
                                 <th>Status Pesanan</th>
                                 <th>Aksi</th>
-                                <th>Dokumen</th>
                             </tr>
                         </thead>
                         <tbody></tbody>
@@ -72,8 +71,8 @@
                             <input type="number" class="form-control" id="total_harga" name="total_harga" required>
                         </div>
                         <div class="form-group">
-                            <label for="status_pesanan">Status Pesanan</label>
-                            <select class="form-control" id="status_pesanan" name="status_pesanan" required>
+                            <label for="status">Status Pesanan</label>
+                            <select class="form-control" id="status" name="status" required>
                                 <option value="pending">Pending</option>
                                 <option value="diproses">Diproses</option>
                                 <option value="selesai">Selesai</option>
@@ -126,17 +125,18 @@
                         return formatRupiah(data);
                     }
                 },
-                { data: 'status_pesanan', name: 'status_pesanan' },
+                { data: 'status', name: 'status' },
                 { data: 'action', name: 'action', orderable: false, searchable: false },
-                {
-                    data: null,
-                    name: 'Dok',
-                    orderable: false,
-                    searchable: false,
-                    render: function(data, type, row) {
-                        return '<a href="/admin/pesanan_pembelian/' + row.id + '/pdf" target="_blank" class="btn btn-primary btn-sm"><i class="fas fa-file-pdf"></i></a>';
-                    }
-                }
+                // { data: 'action', name: 'action', orderable: false, searchable: false },
+                // {
+                //     data: null,
+                //     name: 'Dok',
+                //     orderable: false,
+                //     searchable: false,
+                //     render: function(data, type, row) {
+                //         return '<a href="/admin/pesanan_pembelian/' + row.id + '/pdf" target="_blank" class="btn btn-primary btn-sm"><i class="fas fa-file-pdf"></i></a>';
+                //     }
+                // }
             ]
         });
 
@@ -188,7 +188,7 @@
                 $('#jumlah').val(data.jumlah);
                 $('#harga_satuan').val(data.harga_satuan);
                 $('#total_harga').val(data.total_harga);
-                $('#status_pesanan').val(data.status_pesanan);
+                $('#status').val(data.status);
                 $('#pesananId').val(data.id); // Set ID for editing
                 $('#pesananModal').modal('show');
             });
