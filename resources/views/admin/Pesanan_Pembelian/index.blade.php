@@ -127,16 +127,6 @@
                 },
                 { data: 'status', name: 'status' },
                 { data: 'action', name: 'action', orderable: false, searchable: false },
-                // { data: 'action', name: 'action', orderable: false, searchable: false },
-                // {
-                //     data: null,
-                //     name: 'Dok',
-                //     orderable: false,
-                //     searchable: false,
-                //     render: function(data, type, row) {
-                //         return '<a href="/admin/pesanan_pembelian/' + row.id + '/pdf" target="_blank" class="btn btn-primary btn-sm"><i class="fas fa-file-pdf"></i></a>';
-                //     }
-                // }
             ]
         });
 

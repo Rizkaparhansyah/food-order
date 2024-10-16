@@ -13,10 +13,6 @@ use Illuminate\Support\Facades\Log;
 
 class Penerimaan_BarangController extends Controller
 {
-    // public function index()
-    // {
-    //     return view('admin.penerimaan_barang.index');
-    // }
 
     public function index()
     {
@@ -43,7 +39,7 @@ class Penerimaan_BarangController extends Controller
         // Mengambil pesanan pembelian yang belum diterima (belum memiliki penerimaan barang)
         $pesananPembelian = Pesanan_Pembelian::whereDoesntHave('penerimaanBarang')->get();
 
-        return view('admin.penerimaan_barang.create', compact('pesananPembelian'));
+        return view('admin.penerimaan_barang.index', compact('pesananPembelian'));
     }
 
 
