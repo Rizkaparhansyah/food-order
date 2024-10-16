@@ -3,137 +3,152 @@
 @section('content')
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Management User</h1>
+        <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
     </div>
 
     <!-- Content Row -->
-    <div class="row">
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-header">
-                    <button id="addUser" class="btn btn-primary"><i class="fa fa-plus"></i> Tambah</button>
-                </div> 
-                <div class="card-body">
-                    <table id="userTable" class="table table-bordered">
-                        <thead>
-                            <tr> 
-                                <th>No</th>
-                                <th>Nama</th>
-                                <th>Email</th>
-                                <th>Role</th>
-                                <th>Aksi</th>
-                            </tr>
-                        </thead>
-                    </table>
-                </div>
+    <div class="row" id="statistik-container">
+        
+    </div>
+    <div class="row d-flex">
+        <div class="card col-6">
+            <div class="card-body">
+                <canvas id="chartPendapatan"></canvas>
+            </div>
+        </div>
+        <div class="card col-6">
+            <div class="card-body">
+                <canvas id="chartStatus"></canvas>
             </div>
         </div>
     </div>
 
-    <!-- Modal -->
-<div class="modal fade" id="modalTambah" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">User</h5>
-                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">×</span>
-                </button>
-            </div>
-            <form id="userForm" action="" method="post">
-                <div class="modal-body">
-                        @csrf
+    
 
-                    <input type="hidden" class="form-control" id="idKondisi">
-                    <div class="form-group">
-                        <label for="nama">Nama</label>
-                        <input type="text" class="form-control" name="nama" id="nama">
-                    </div>
-                    <div class="form-group">
-                        <label for="email">Email</label>
-                        <input type="email" class="form-control" name="email" id="email">
-                    </div>
-                    <div class="form-group">
-                        <label for="password">Password</label>
-                        <input type="password" class="form-control" name="password" id="password">
-                    </div>
-                    <div class="form-group">
-                        <label for="role">Role</label>
-                        <select class="form-control" name="role" id="role">
-                            <option value="">-- Pilih Role --</option>
-                            <option value="admin">Admin</option>
-                            <option value="kasir">Kasir</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-                <button type="submit" class="btn btn-primary" id="simpanUser">Simpan</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
 
 @endsection
-
 @push('script')
-<script> 
-    $(document).ready(function () {
-        // Set up CSRF token for all AJAX requests
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-        $('#userTable').DataTable({
-        processing: true,
-        serverSide: true,
-        ajax: '{{ route('data.user') }}',
-        columns: [
-            { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
-            { data: 'name', name: 'name' },
-            { data: 'email', name: 'email' },
-            { data: 'role', name: 'role' },
-            { data: 'aksi', name: 'aksi' }
-        ],
-    }); 
-    $('#addUser').on('click', function(){
-        $('#idKondisi').val('');
-        $('#nama').val('')
-        $('#email').val('')
-        $('#password').val('')
-        $('#role').val('')
-        $('#modalTambah').modal('show');
-    })
-$('#userForm').on('submit', function(e){
-    e.preventDefault(); 
-console.log('test')
-    var formData = new FormData(this);
-    $.ajax({
-        type: 'POST', 
-        url: '{{ route('store.user') }}',
-        data: formData,
-        processData: false, 
-        contentType: false, 
-        success: function(data){
-            $('#modalTambah').modal('hide')
-            $('#userTable').DataTable().ajax.reload()
+<script>
+    $(document).ready(function() {
+        const FormatRupiah = num => {
+        return new Intl.NumberFormat('id-ID', {
+            style: 'currency',
+            currency: 'IDR',
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 0,
+        }).format(num);
         }
-    })
-})  
-$(document).on('click','.editMenu', function(){
-        const data = $(this).data('data');
-        $('#idKondisi').val(data.id);
-        $('#nama').val(data.name);
-        $('#email').val(data.email);
-        $('#password').val(data.password);
-        $('#role').val(data.role);
-        $('#modalTambah').modal('show');
-    })
-        });
+        // Your JavaScript code here
+        function headerStatistik() {
+            $.ajax({
+                url: "{{route('data.penjualan')}}",
+                type: 'GET',
+                data:{
+                    tab: true,
+                },
+                success: function(response) {
+                    const data = response;
+                    
+                    var labels = [];
+                    var datasetData = [];
+                    
+                    // Mengubah objek menjadi array
+                    const result = Object.values(response);
+                    
+                    console.log('data', result)
+                    // Menambahkan elemen-elemen hasil ke dalam HTML
+                    const container = document.getElementById('statistik-container');
+                    container.innerHTML = ''; // Mengosongkan container terlebih dahulu
+                    
+                    const chartPendapatan = document.getElementById('chartPendapatan');
+                    const chartStatus = document.getElementById('chartStatus');
+                
+                   
+                    result.forEach(data => {
+                    
+                        labels.push(data.status); // Asumsikan 'status' adalah field yang Anda inginkan
+                        datasetData.push(data.pendapatan);
+                        let warna;
+                        if(data.status == 'selesai'){
+                            warna = 'success';
+                        }else if(data.status == 'batal'){
+                            warna = 'secondary';
+                        }else if(data.status == 'pending'){
+                            warna = 'info';
+                        }else if(data.status == 'proses'){
+                            warna = 'warning';
+                        }
+                        const html = `
+                            <div class="col-xl-3 col-md-6 mb-4">
+                                <div class="card border-left-${warna} shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-xs font-weight-bold text-${warna} text-uppercase mb-1">
+                                                ${data.status}</div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800">${FormatRupiah(data.pendapatan)}</div>
+                                            </div>
+                                            <div class="col-auto">
+                                                QTY ${data.qty}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                        container.innerHTML += html;
+                    });
+                    const datas = {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Total',
+                            data:datasetData,
+                            backgroundColor: [
+                                'rgb(54, 162, 235)',
+                                'rgb(51, 204, 51)',
+                                'rgb(255, 205, 86)',
+                            ],
+                            hoverOffset: 4
+                        }]
+                    };
+                    const config = {
+                        type: 'doughnut',
+                        data: datas,
+                    };
+                    new Chart(chartStatus, config);
+                    new Chart(chartPendapatan, {
+                        type: 'bar',
+                        data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Grafik',
+                            data: datasetData,
+                            borderWidth: 1,
+                            backgroundColor: [
+                                'rgb(54, 162, 235)',
+                                'rgb(51, 204, 51)',
+                                'rgb(255, 205, 86)',
+                            ],
+                        }]
+                        },
+                        options: {
+                        scales: {
+                            y: {
+                            beginAtZero: true
+                            }
+                        }
+                        }
+                    });
+                }
+            });
+        }
+
+
+        headerStatistik();
+    
+    });
+
+        
+   
 </script>
-
-
 @endpush

@@ -77,7 +77,8 @@ Route::post('/logout-user', [AuthController::class, 'logoutUser'])->name('logout
 Route::get('menu', function () {
     $data = Menu::with('kategori')->get();
     return view('components.menu-component', compact('data'));
-})->name('menu');
+})->name('menu'); 
+Route::post('/admin/menu/tambah', [MenuController::class, 'tambah'])->name('menu.tambah');
 
 Route::middleware('auth:admin')->group(function () {
     Route::get('/admin/kategori', [KategoriController::class, 'index'])->name('list-kategori');
@@ -104,13 +105,19 @@ Route::middleware('auth:admin')->group(function () {
  
 
 
-Route::post('/checkout', [PesananController::class, 'checkout'])->name('pesanan.checkout');
+Route::post('/checkout', [PesananController::class, 'checkout'])->name('checkout');
 Route::get('/checkout/success', [PesananController::class, 'checkoutSuccess'])->name('checkout.success');
 
 Route::get('cart', [KeranjangController::class, 'index'])
     ->middleware('name.auth')
     ->name('cart');
-Route::post('/cart', [KeranjangController::class, 'addToCart'])->name('add.cart');
+Route::get('cart', [KeranjangController::class, 'index'])->middleware('name.auth')->name('cart'); 
+Route::get('cart/get', [KeranjangController::class, 'index'])->name('cart.get');  
+Route::get('cart/add', [KeranjangController::class, 'addCart'])->name('cart.add');
+Route::post('cart/del', [KeranjangController::class, 'clearCart'])->name('cart.del');
+Route::post('/cart/update', [KeranjangController::class, 'updateCart'])->name('cart.update');
 
 
+
+Route::get('/status-pesanan',[PesananController::class,'status'])->name('status.user');
 Route::get('/admin/data-penjualan',[PenjualanController::class,'index'])->name('data.penjualan');
