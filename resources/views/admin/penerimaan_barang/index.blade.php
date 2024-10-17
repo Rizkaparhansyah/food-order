@@ -199,6 +199,24 @@
             });
         });
 
+        // // Edit Penerimaan Barang
+        // $('#penerimaanTable').on('click', '.editPenerimaan', function () {
+        //     var id = $(this).data('id');
+        //     $.get('{{ url('admin/penerimaan_barang') }}/' + id + '/edit', function (data) {
+        //         $('#modalLabel').text('Edit Penerimaan Barang');
+        //         $('#penerimaanId').val(data.id);
+        //         $('#nama_barang').val(data.nama_barang);
+        //         $('#jumlah').val(data.jumlah);
+        //         $('#harga_satuan').val(data.harga_satuan);
+        //         $('#total_harga').val(data.total_harga);
+        //         $('#tanggal_penerimaan').val(data.tanggal_penerimaan);
+        //         $('#nama_pemasok').val(data.nama_pemasok);
+        //         $('#nomor_faktur').val(data.nomor_faktur);
+        //         $('#lokasi').val(data.lokasi);
+        //         $('#penerimaanModal').modal('show');
+        //     });
+        // });
+
         // Edit Penerimaan Barang
         $('#penerimaanTable').on('click', '.editPenerimaan', function () {
             var id = $(this).data('id');
@@ -213,9 +231,24 @@
                 $('#nama_pemasok').val(data.nama_pemasok);
                 $('#nomor_faktur').val(data.nomor_faktur);
                 $('#lokasi').val(data.lokasi);
+
+                // Nonaktifkan dropdown pesanan pembelian pada saat edit
+                $('#pesanan_pembelian_id').val(data.pesanan_pembelian_id).prop('disabled', true);
+                $('#pesanan_pembelian_id').closest('.form-group').hide(); // Sembunyikan dropdown
+                
                 $('#penerimaanModal').modal('show');
             });
         });
+
+        // Reset saat add penerimaan baru (mengembalikan dropdown pesanan pembelian)
+        $('#addPenerimaanBtn').click(function () {
+            $('#penerimaanForm')[0].reset();
+            $('#penerimaanId').val('');
+            $('#pesanan_pembelian_id').prop('disabled', false).closest('.form-group').show(); // Tampilkan dropdown
+            $('#modalLabel').text('Tambah Penerimaan Barang');
+            $('#penerimaanModal').modal('show');
+        });
+
 
         // Delete Penerimaan Barang
         $('#penerimaanTable').on('click', '.deletePenerimaan', function () {
