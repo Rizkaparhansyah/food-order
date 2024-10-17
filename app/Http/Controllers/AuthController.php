@@ -31,7 +31,7 @@ class AuthController extends Controller
             else if (Auth::guard('kasir')->attempt(['email' => $request->email, 'password' => $request->password, 'role' => 'kasir'])) {
                 return redirect()->intended('kasir');
             }
-     
+
         }
         return back()->withErrors([
             'mesg' => 'Email atau password anda salah!',
@@ -39,14 +39,14 @@ class AuthController extends Controller
     }
 
     public function logout() {
-       
+
         if (Auth::guard('admin')->check()) {
             Auth::guard('admin')->logout();
         }
         else if (Auth::guard('kasir')->check()) {
             Auth::guard('kasir')->logout();
         }
- 
+
         return redirect('/admin/login');
     }
 }
