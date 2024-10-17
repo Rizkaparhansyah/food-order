@@ -48,12 +48,12 @@
             <td>{{ $pesanan->nama_barang }}</td>
         </tr>
         <tr>
-            <th>Jumlah</th>
-            <td>{{ $pesanan->jumlah }}</td>
+            <th>Harga Satuan</th>
+            <td>Rp. {{ number_format($pesanan->harga_satuan, 0, ',', '.') }}</td>
         </tr>
         <tr>
-            <th>Harga Satuan</th>
-            <td>{{ $pesanan->harga_satuan }}</td>
+            <th>Total Harga</th>
+            <td>Rp. {{ number_format($pesanan->total_harga, 0, ',', '.') }}</td>
         </tr>
         <tr>
             <th>Total Harga</th>
