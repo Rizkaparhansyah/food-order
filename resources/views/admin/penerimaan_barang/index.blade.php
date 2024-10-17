@@ -55,7 +55,8 @@
                                 @foreach($pesananPembelian as $pesanan)
                                     <option value="{{ $pesanan->id }}" 
                                             data-nama-barang="{{ $pesanan->nama_barang }}" 
-                                            data-nama-pemasok="{{ $pesanan->nama_pemasok }}">
+                                            data-nama-pemasok="{{ $pesanan->nama_pemasok }}"
+                                            data-all="{{$pesanan}}">
                                         {{ $pesanan->nama_pemasok }} - {{ $pesanan->nama_barang }} - {{ $pesanan->tanggal_pesanan }}
                                     </option>
                                 @endforeach
@@ -99,14 +100,14 @@
                             <label for="nomor_faktur">Nomor Faktur</label>
                             <input type="text" class="form-control" name="nomor_faktur" id="nomor_faktur" required>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="lokasi">Lokasi Penyimpanan</label>
-                        <select class="form-control" id="lokasi" name="lokasi" required>
-                            <option value="" disabled selected>Pilih Lokasi Penyimpanan</option>
-                            <option value="Gudang">Gudang</option>
-                            <option value="Dapur">Dapur</option>
-                        </select>
+                        <div class="form-group">
+                            <label for="lokasi">Lokasi Penyimpanan</label>
+                            <select class="form-control" id="lokasi" name="lokasi" required>
+                                <option value="" disabled selected>Pilih Lokasi Penyimpanan</option>
+                                <option value="Gudang">Gudang</option>
+                                <option value="Dapur">Dapur</option>
+                            </select>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
@@ -271,12 +272,16 @@
         // Ketika memilih pesanan pembelian
         $('#pesanan_pembelian_id').change(function() {
             var selectedOption = $(this).find('option:selected');
-            
+            console.log('data ===>', selectedOption.data('all'))
             // Ambil data nama barang dan nama pemasok dari option yang dipilih
             var namaBarang = selectedOption.data('nama-barang');
             var namaPemasok = selectedOption.data('nama-pemasok');
-            
+            var data = selectedOption.data('all');
             // Isi kolom nama barang dan nama pemasok dengan data yang diambil
+            $('#jumlah').val(data.jumlah);
+            $('#harga_satuan').val(data.harga_satuan);
+            $('#total_harga').val(data.total_harga);
+            $('#tanggal_penerimaan').val(data.tanggal_pesanan);
             $('#nama_barang').val(namaBarang);
             $('#nama_pemasok').val(namaPemasok);
         });
