@@ -55,14 +55,6 @@
             <th>Total Harga</th>
             <td>Rp. {{ number_format($pesanan->total_harga, 0, ',', '.') }}</td>
         </tr>
-        <tr>
-            <th>Total Harga</th>
-            <td>{{ $pesanan->total_harga }}</td>
-        </tr>
-        <tr>
-            <th>Status Pesanan</th>
-            <td>{{ $pesanan->status_pesanan }}</td>
-        </tr>
     </table>
     {{-- <div class="signature">
         <p>Tanda Tangan: _____________________</p>
