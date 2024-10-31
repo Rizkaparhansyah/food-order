@@ -2,11 +2,14 @@
 
 use App\Http\Controllers\AcountController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BahanBakuController;
 use App\Http\Controllers\DaftarPesanan;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\KeranjangController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\PembelianBarangController;
+use App\Http\Controllers\PenerimaanBarangController;
 use App\Http\Controllers\PenjualanController;
 use App\Models\Menu;
 use Illuminate\Support\Facades\Auth;
@@ -62,6 +65,10 @@ Route::middleware('auth:admin')->group(function () {
 //OrderController
     Route::get('/admin/order',[OrderController::class,'index'])->name('order.index');
 
+//PembelianBarang
+    Route::resource('pembelian-barang', PembelianBarangController::class);
+    Route::resource('penerimaan-barang', PenerimaanBarangController::class);
+    Route::resource('bahan-baku', BahanBakuController::class);
 });
 
 // DATA USER

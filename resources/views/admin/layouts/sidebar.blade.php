@@ -50,11 +50,28 @@
     </li>
 
     <li class="nav-item">
+        <a class="nav-link" href="{{url('pembelian-barang')}}">
+            <i class="fas fa-fw fa-history"></i>
+            <span>Pesanan Pembelian</span></a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link" href="{{url('penerimaan-barang')}}">
+            <i class="fas fa-fw fa-history"></i>
+            <span>Penerimaan Barang</span></a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link" href="{{url('bahan-baku')}}">
+            <i class="fas fa-fw fa-history"></i>
+            <span>Bahan Baku</span></a>
+    </li>
+
+    <li class="nav-item">
         <a class="nav-link collapsed" href="{{route('data.user')}}">
             <i class="fas fa-fw fa-user"></i>
             <span>Management User</span>
         </a>
-        
     </li>
 
     <hr class="sidebar-divider d-none d-md-block">
