@@ -73,7 +73,7 @@
                         <div class="form-group">
                             <label for="status">Status Pesanan</label>
                             <select class="form-control" id="status" name="status" required>
-                                <option value="pending">Pending</option>
+                                <option value="diproses">Diproses</option>
                                 <option value="selesai">Selesai</option>
                             </select>
                         </div>

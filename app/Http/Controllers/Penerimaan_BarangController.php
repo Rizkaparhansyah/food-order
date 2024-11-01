@@ -16,7 +16,7 @@ class Penerimaan_BarangController extends Controller
 
     public function index()
     {
-        $pesananPembelian = Pesanan_Pembelian::where('status', 'pending')->get();
+        $pesananPembelian = Pesanan_Pembelian::where('status', 'diproses')->get();
         return view('admin.penerimaan_barang.index', compact('pesananPembelian'));
     }
 
