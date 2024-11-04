@@ -258,6 +258,7 @@ $(document).ready(function() {
             return false;
         }else{
             datas.forEach((item, index) => {
+                const namaPemesan = $('#namaPemesan').val();
                 const catatan = $(`.catatan${index}`).val();
                 const qty = $(`.qty${index}`).val();
                 datas[index].nama_pelanggan = namaPemesan;
@@ -309,9 +310,9 @@ $(document).ready(function() {
                         }
                 });} 
                 });
+            console.log('datas', datas)
         }
             
-        // console.log('datas', datas)
     });
 
     $(document).on('click', '#delete-datas', function(event){

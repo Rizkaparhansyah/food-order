@@ -115,7 +115,7 @@ class DaftarPesanan extends Controller
                 'id_menu' => isset($qty['nama_pelanggan']) ? $qty['id'] : $idMenu,   
                 'jumlah' => $qty['qty'],
                 'catatan' => $qty['catatan'],
-                'nama_pelanggan'=> isset($qty['nama_pelanggan']) ? isset($qty['nama_pelanggan']) : $namaPelanggan,
+                'nama_pelanggan'=> isset($qty['nama_pelanggan']) ? $qty['nama_pelanggan'] : $namaPelanggan,
                 'kode_pelanggan' => isset($qty['nama_pelanggan']) ? $qty['kode_pelanggan']  : $kodePelanggan,
                 'status' => 'pending',
             ]);

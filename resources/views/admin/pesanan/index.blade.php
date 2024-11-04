@@ -10,6 +10,9 @@
     <div class="row">
         <div class="col-md-12">
             <div class="card">
+                <div class="card-header">
+                    <a href="{{route('order.index')}}" class="btn btn-primary">Tambah Pesanan</a>
+                </div>
                 <div class="card-body">
 
                     <table id="example" class="display table table-bordered" style="width:100%">

@@ -20,7 +20,7 @@ class Transaksi extends Model
     public static function getStatistics()
     {
         // Mengambil data transaksi dan menghitung statistik berdasarkan status
-        return self::selectRaw('status, SUM(jumlah) as qty, SUM(harga * jumlah) as pendapatan')
+        return self::selectRaw('status, SUM(jumlah) as qty, SUM(harga) as pendapatan')
                     ->groupBy('status')
                     ->get()
                     ->mapWithKeys(function ($item) {

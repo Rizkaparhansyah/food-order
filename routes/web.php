@@ -56,14 +56,14 @@ Route::middleware('auth:admin')->group(function () {
     Route::delete('/admin/kategori-hapus/{id}', [KategoriController::class, 'hapus'])->name('hapus.kategori');
 
     Route::get('/admin/data-penjualan',[PenjualanController::class,'index'])->name('data.penjualan');
+//OrderController
+    Route::get('/admin/order',[OrderController::class,'index'])->name('order.index');
 
 //AcountController
     Route::get('/admin/management-user',[AcountController::class,'index'])->name('data.user');
     Route::post('/admin/tambah-user',[AcountController::class,'tambah'])->name('tambah.user');
     Route::delete('/admin/user-hapus/{id}',[AcountController::class,'delete'])->name('delete.user');
 
-//OrderController
-    Route::get('/admin/order',[OrderController::class,'index'])->name('order.index');
 
 //PembelianBarang
     Route::resource('pembelian-barang', PembelianBarangController::class);
@@ -78,16 +78,29 @@ Route::get('list-menu', [MenuController::class, 'menu'])->name('data.menu');
 Route::middleware('auth:kasir')->group(function () {
     
     Route::get('/kasir', function(){
-        return view('kasir.index');
-    })->name('kasir');
+        return view('admin.index');
+    })->name('admin');
 
-    Route::get('/kasir/menu', function(){
-        return view('kasir.menu.index');
-    })->name('menumenuKasir');
+    //DaftarPesananController
+    Route::get('/kasir/daftar-pesanan', [DaftarPesanan::class, 'index'])->name('pesanan.list');
+    Route::post('/kasir/daftar-pesanan/aksi', [DaftarPesanan::class, 'aksi'])->name('pesanan.aksi');
+    Route::post('/kasir/daftar-pesanan/aksi-perdata', [DaftarPesanan::class, 'perData'])->name('pesanan.aksi-perdata');
 
-    Route::get('/kasir/menu/tambah', function(){
-        return view('kasir.menu.tambah');
-    })->name('menuTambahKasir');
+    //MenuController
+
+        Route::get('/kasir/menu', [MenuController::class, 'index'])->name('list.menu');
+        Route::post('/kasir/menu/tambah', [MenuController::class, 'tambah'])->name('menu.tambah');
+        Route::delete('/kasir/menu-hapus/{id}', [MenuController::class, 'hapus'])->name('hapus.menu');
+
+    //KategoriesController
+
+    Route::get('/kasir/kategori', [KategoriController::class, 'index'])->name('list.kategori');
+    Route::post('/kasir/kategori-tambah', [KategoriController::class, 'tambah'])->name('tambah.kategori');
+    Route::delete('/kasir/kategori-hapus/{id}', [KategoriController::class, 'hapus'])->name('hapus.kategori');
+
+    Route::get('/kasir/data-penjualan',[PenjualanController::class,'index'])->name('data.penjualan');
+//OrderController
+    Route::get('/kasir/order',[OrderController::class,'index'])->name('order.index');
 
 });
 

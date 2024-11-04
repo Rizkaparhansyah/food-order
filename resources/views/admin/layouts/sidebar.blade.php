@@ -4,7 +4,7 @@
         <div class="sidebar-brand-icon rotate-n-15">
             <i class="fas fa-laugh-wink"></i>
         </div>
-        <div class="sidebar-brand-text mx-3">Admin</div>
+        <div class="sidebar-brand-text mx-3">{{Auth::user()->role}}</div>
     </a>
     <hr class="sidebar-divider my-0">
 
@@ -48,7 +48,8 @@
             <i class="fas fa-fw fa-history"></i>
             <span>Data Penjualan</span></a>
     </li>
-
+    
+    @if(Auth::user()->role != 'kasir')
     <li class="nav-item">
         <a class="nav-link" href="{{url('pembelian-barang')}}">
             <i class="fas fa-fw fa-history"></i>
@@ -60,20 +61,19 @@
             <i class="fas fa-fw fa-history"></i>
             <span>Penerimaan Barang</span></a>
     </li>
-
+    
     <li class="nav-item">
         <a class="nav-link" href="{{url('bahan-baku')}}">
             <i class="fas fa-fw fa-history"></i>
             <span>Bahan Baku</span></a>
-    </li>
-
+        </li>
     <li class="nav-item">
         <a class="nav-link collapsed" href="{{route('data.user')}}">
             <i class="fas fa-fw fa-user"></i>
             <span>Management User</span>
         </a>
     </li>
-
+@endif
     <hr class="sidebar-divider d-none d-md-block">
     <!-- Sidebar Toggler (Sidebar) -->
     <div class="text-center d-none d-md-inline">
