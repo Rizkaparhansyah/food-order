@@ -21,6 +21,7 @@
                 <th>Subkategori</th>
                 <th>Penggunaan Bahan Baku</th>
                 <th>Khusus</th>
+                <th>Stok</th>
                 <th>Aksi</th>
             </tr>
         </thead>

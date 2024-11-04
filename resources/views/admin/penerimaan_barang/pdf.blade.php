@@ -42,7 +42,8 @@
         </tr>
         <tr>
             <th>Jumlah Diterima</th>
-            <td>{{ $Penerimaan_Barang->jumlah }} Unit</td>
+            {{-- <td>{{ $Penerimaan_Barang->jumlah }} Unit</td> --}}
+            <td>{{ $Penerimaan_Barang->jumlah }}</td>
         </tr>
         <tr>
             <th>Harga Satuan</th>
@@ -73,10 +74,10 @@
         </tr>
     </table>
 
-    {{-- <div class="signature">
+    <div class="signature">
         <p>Yang Menerima,</p>
         <br><br><br>
         <p></p>
-    </div> --}}
+    </div>
 </body>
 </html>

@@ -16,7 +16,6 @@
                         <thead>
                             <tr>
                                 <th>No</th>
-                                <th>Nomor Pesanan</th>
                                 <th>Nama Barang / Bahan Baku</th>
                                 <th>Jumlah</th>
                                 <th>Harga Satuan</th>
@@ -26,7 +25,6 @@
                                 <th>Nomor Faktur</th>
                                 <th>Lokasi Penyimpanan</th>
                                 <th>Aksi</th>
-                                <th>Dokumen</th>
                             </tr>
                         </thead>
                         <tbody></tbody>
@@ -49,13 +47,29 @@
                 <form id="penerimaanForm">
                     <div class="modal-body">
                         <input type="hidden" name="id" id="penerimaanId">
+                        <!-- Dropdown untuk memilih Pesanan Pembelian -->
                         <div class="form-group">
-                            <label for="nomor_pesanan">Nomor Pesanan</label>
-                            <input type="text" class="form-control" name="nomor_pesanan" id="nomor_pesanan" required>
+                            <label for="pesanan_pembelian_id">Pilih Pesanan Pembelian</label>
+                            <select name="pesanan_pembelian_id" id="pesanan_pembelian_id" class="form-control" required>
+                                <option value="">-- Pilih Pesanan Pembelian --</option>
+                                @foreach($pesananPembelian as $pesanan)
+                                    <option value="{{ $pesanan->id }}" 
+                                            data-nama-barang="{{ $pesanan->nama_barang }}" 
+                                            data-nama-pemasok="{{ $pesanan->nama_pemasok }}"
+                                            data-all="{{$pesanan}}">
+                                        {{ $pesanan->nama_pemasok }} - {{ $pesanan->nama_barang }} - {{ $pesanan->tanggal_pesanan }}
+                                    </option>
+                                @endforeach
+                            </select>
                         </div>
-                        <div class="form-group">
+                        {{-- <div class="form-group">
                             <label for="nama_barang">Nama Barang</label>
                             <input type="text" class="form-control" name="nama_barang" id="nama_barang" required>
+                        </div> --}}
+                        <!-- Input untuk Nama Barang -->
+                        <div class="form-group">
+                            <label for="nama_barang">Nama Barang</label>
+                            <input type="text" name="nama_barang" id="nama_barang" class="form-control" readonly>
                         </div>
                         <div class="form-group">
                             <label for="jumlah">Jumlah</label>
@@ -73,35 +87,32 @@
                             <label for="tanggal_penerimaan">Tanggal Penerimaan</label>
                             <input type="date" class="form-control" name="tanggal_penerimaan" id="tanggal_penerimaan" required>
                         </div>
-                        <div class="form-group">
+                        {{-- <div class="form-group">
                             <label for="nama_pemasok">Nama Pemasok</label>
                             <input type="text" class="form-control" name="nama_pemasok" id="nama_pemasok" required>
+                        </div> --}}
+                        <!-- Input untuk Nama Pemasok -->
+                        <div class="form-group">
+                            <label for="nama_pemasok">Nama Pemasok</label>
+                            <input type="text" name="nama_pemasok" id="nama_pemasok" class="form-control" readonly>
                         </div>
                         <div class="form-group">
                             <label for="nomor_faktur">Nomor Faktur</label>
                             <input type="text" class="form-control" name="nomor_faktur" id="nomor_faktur" required>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="lokasi">Lokasi Penyimpanan</label>
-                        <select class="form-control" id="lokasi" name="lokasi" required>
-                            <option value="" disabled selected>Pilih Lokasi Penyimpanan</option>
-                            <option value="Gudang">Gudang</option>
-                            <option value="Dapur">Dapur</option>
-                        </select>
+                        <div class="form-group">
+                            <label for="lokasi">Lokasi Penyimpanan</label>
+                            <select class="form-control" id="lokasi" name="lokasi" required>
+                                <option value="" disabled selected>Pilih Lokasi Penyimpanan</option>
+                                <option value="Gudang">Gudang</option>
+                                <option value="Dapur">Dapur</option>
+                            </select>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
                         <button type="submit" class="btn btn-primary" id="saveBtn">Simpan</button>
                     </div>
-                    {{-- @if(!$penerimaanBarang->is_verified)
-                        <form action="{{ route('penerimaan-barang.verifikasi', $penerimaanBarang->id) }}" method="POST">
-                            @csrf
-                            <button type="submit">Verifikasi Barang</button>
-                        </form>
-                    @else
-                        <p>Barang sudah diverifikasi</p>
-                    @endif --}}
 
                 </form>
             </div>
@@ -134,7 +145,6 @@
             ajax: '{{ route('admin.penerimaan_barang.data') }}',
             columns: [
                 { data: 'id', name: 'id' },
-                { data: 'nomor_pesanan', name: 'nomor_pesanan' },
                 { data: 'nama_barang', name: 'nama_barang' },
                 { data: 'jumlah', name: 'jumlah' },
                 { data: 'harga_satuan', name: 'harga_satuan', render: function (data, type, row) {
@@ -150,15 +160,6 @@
                 { data: 'nomor_faktur', name: 'nomor_faktur' },
                 { data: 'lokasi', name: 'lokasi' },
                 { data: 'action', name: 'action', orderable: false, searchable: false },
-                {
-                    data: null,
-                    name: 'Dok',
-                    orderable: false,
-                    searchable: false,
-                    render: function(data, type, row) {
-                        return '<a href="/admin/penerimaan_barang/' + row.id + '/pdf" target="_blank" class="btn btn-primary btn-sm"><i class="fas fa-file-pdf"></i> PDF</a>';
-                    }
-                }
             ]
         });
 
@@ -168,6 +169,13 @@
             $('#penerimaanId').val('');
             $('#modalLabel').text('Tambah Penerimaan Barang');
             $('#penerimaanModal').modal('show');
+        });
+
+        // Dynamic Total Price Calculation
+        $('#jumlah, #harga_satuan').on('input', function() {
+            var jumlah = parseFloat($('#jumlah').val()) || 0;
+            var hargaSatuan = parseFloat($('#harga_satuan').val()) || 0;
+            $('#total_harga').val(jumlah * hargaSatuan);
         });
 
         // Save or Update Penerimaan Barang
@@ -192,13 +200,30 @@
             });
         });
 
+        // // Edit Penerimaan Barang
+        // $('#penerimaanTable').on('click', '.editPenerimaan', function () {
+        //     var id = $(this).data('id');
+        //     $.get('{{ url('admin/penerimaan_barang') }}/' + id + '/edit', function (data) {
+        //         $('#modalLabel').text('Edit Penerimaan Barang');
+        //         $('#penerimaanId').val(data.id);
+        //         $('#nama_barang').val(data.nama_barang);
+        //         $('#jumlah').val(data.jumlah);
+        //         $('#harga_satuan').val(data.harga_satuan);
+        //         $('#total_harga').val(data.total_harga);
+        //         $('#tanggal_penerimaan').val(data.tanggal_penerimaan);
+        //         $('#nama_pemasok').val(data.nama_pemasok);
+        //         $('#nomor_faktur').val(data.nomor_faktur);
+        //         $('#lokasi').val(data.lokasi);
+        //         $('#penerimaanModal').modal('show');
+        //     });
+        // });
+
         // Edit Penerimaan Barang
         $('#penerimaanTable').on('click', '.editPenerimaan', function () {
             var id = $(this).data('id');
             $.get('{{ url('admin/penerimaan_barang') }}/' + id + '/edit', function (data) {
                 $('#modalLabel').text('Edit Penerimaan Barang');
                 $('#penerimaanId').val(data.id);
-                $('#nomor_pesanan').val(data.nomor_pesanan);
                 $('#nama_barang').val(data.nama_barang);
                 $('#jumlah').val(data.jumlah);
                 $('#harga_satuan').val(data.harga_satuan);
@@ -207,9 +232,24 @@
                 $('#nama_pemasok').val(data.nama_pemasok);
                 $('#nomor_faktur').val(data.nomor_faktur);
                 $('#lokasi').val(data.lokasi);
+
+                // Nonaktifkan dropdown pesanan pembelian pada saat edit
+                $('#pesanan_pembelian_id').val(data.pesanan_pembelian_id).prop('disabled', true);
+                $('#pesanan_pembelian_id').closest('.form-group').hide(); // Sembunyikan dropdown
+                
                 $('#penerimaanModal').modal('show');
             });
         });
+
+        // Reset saat add penerimaan baru (mengembalikan dropdown pesanan pembelian)
+        $('#addPenerimaanBtn').click(function () {
+            $('#penerimaanForm')[0].reset();
+            $('#penerimaanId').val('');
+            $('#pesanan_pembelian_id').prop('disabled', false).closest('.form-group').show(); // Tampilkan dropdown
+            $('#modalLabel').text('Tambah Penerimaan Barang');
+            $('#penerimaanModal').modal('show');
+        });
+
 
         // Delete Penerimaan Barang
         $('#penerimaanTable').on('click', '.deletePenerimaan', function () {
@@ -227,6 +267,31 @@
                     }
                 });
             }
+        });
+
+        // Ketika memilih pesanan pembelian
+        $('#pesanan_pembelian_id').change(function() {
+            var selectedOption = $(this).find('option:selected');
+            console.log('data ===>', selectedOption.data('all'))
+            // Ambil data nama barang dan nama pemasok dari option yang dipilih
+            var namaBarang = selectedOption.data('nama-barang');
+            var namaPemasok = selectedOption.data('nama-pemasok');
+            var data = selectedOption.data('all');
+            // Isi kolom nama barang dan nama pemasok dengan data yang diambil
+            $('#jumlah').val(data.jumlah);
+            $('#harga_satuan').val(data.harga_satuan);
+            $('#total_harga').val(data.total_harga);
+            $('#tanggal_penerimaan').val(data.tanggal_pesanan);
+            $('#nama_barang').val(namaBarang);
+            $('#nama_pemasok').val(namaPemasok);
+        });
+
+        // Update total harga ketika jumlah atau harga satuan diubah
+        $('#jumlah, #harga_satuan').on('input', function() {
+            var jumlah = parseFloat($('#jumlah').val()) || 0;
+            var hargaSatuan = parseFloat($('#harga_satuan').val()) || 0;
+            var totalHarga = jumlah * hargaSatuan;
+            $('#total_harga').val(totalHarga);
         });
     });
 </script>

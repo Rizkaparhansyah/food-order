@@ -51,6 +51,13 @@
     </li>
 
     <li class="nav-item">
+        <a class="nav-link collapsed" href="{{ route('admin.pesanan_pembelian') }}">
+            <i class="fas fa-fw fa-user"></i>
+            <span>Pesanan Pembelian</span>
+        </a>
+    </li>
+
+    <li class="nav-item">
         <a class="nav-link" href="{{ route('data.penjualan') }}">
             <i class="fas fa-fw fa-history"></i>
             <span>Data Penjualan</span></a>

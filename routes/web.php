@@ -11,6 +11,7 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\BahanController;
 use App\Http\Controllers\BahanKasirController;
 use App\Http\Controllers\Penerimaan_BarangController;
+use App\Http\Controllers\Pesanan_PembelianController;
 use App\Http\Controllers\MejaController;
 use App\Http\Controllers\PenjualanController;
 use App\Models\Menu;
@@ -197,9 +198,19 @@ Route::get('cart', function () {
         Route::get('admin/penerimaan_barang/{id}/edit', [Penerimaan_BarangController::class, 'edit'])->name('admin.penerimaan_barang.edit');
         Route::put('admin/penerimaan_barang/{id}', [Penerimaan_BarangController::class, 'update'])->name('admin.penerimaan_barang.update');
         Route::delete('admin/penerimaan_barang/{id}', [Penerimaan_BarangController::class, 'destroy'])->name('admin.penerimaan_barang.destroy');
-        // Route::get('admin/penerimaan_barang/{id}/pdf', [Penerimaan_BarangController::class, 'generatePDF'])->name('admin.penerimaan_barang.pdf');
         Route::get('/admin/penerimaan_barang/{id}/pdf', [Penerimaan_BarangController::class, 'generatePdf'])->name('admin.penerimaan_barang.pdf');
     });
+
+    // Pesanan Pembelian/
+Route::middleware('auth:admin')->group(function () {
+    Route::get('admin/pesanan_pembelian', [Pesanan_PembelianController::class, 'index'])->name('admin.pesanan_pembelian');
+    Route::get('admin/pesanan_pembelian/data', [Pesanan_PembelianController::class, 'pesanan_pembelian'])->name('admin.pesanan_pembelian.data');
+    Route::post('admin/pesanan_pembelian', [Pesanan_PembelianController::class, 'store'])->name('admin.pesanan_pembelian.store');
+    Route::get('admin/pesanan_pembelian/{id}/edit', [Pesanan_PembelianController::class, 'edit'])->name('admin.pesanan_pembelian.edit');
+    Route::put('admin/pesanan_pembelian/{id}', [Pesanan_PembelianController::class, 'update'])->name('admin.pesanan_pembelian.update');
+    Route::delete('admin/pesanan_pembelian/{id}', [Pesanan_PembelianController::class, 'destroy'])->name('admin.pesanan_pembelian.destroy');
+    Route::get('/admin/pesanan_pembelian/{id}/pdf', [Pesanan_PembelianController::class, 'generatePdf'])->name('admin.pesanan_pembelian.pdf');
+});
 
     // Meja
     Route::get('/admin/meja', [MejaController::class, 'index'])->name('meja.index');
