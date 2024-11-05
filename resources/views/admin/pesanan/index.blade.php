@@ -77,7 +77,7 @@
         var table = $('#example').DataTable({
             processing: true,
             serverSide: true,
-            ajax: "{{ route('pesanan.list') }}",
+            ajax: "{{ route( Auth::user()->role == 'admin' ? 'pesanan.list' : 'kasir.pesanan.list') }}",
             columns: [
                 {
                     className: 'details-control',

@@ -3,7 +3,7 @@
 @section('content')
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Daftar Makanan</h1>
+        <h1 class="h3 mb-0 text-gray-800">Daftar Menu</h1>
     </div>
 
     <!-- Content Row -->
@@ -126,7 +126,7 @@ aria-hidden="true">
                 scrollable: true,
                 processing: true,
                 serverSide: true,
-                ajax: '{{ route('list.menu') }}',
+                ajax: `{{ route(Auth::user()->role == 'admin' ? 'list.menu' : 'kasir.list.menu') }}`,
                 columns: [
                     { data: 'id', name: 'id', visible: false},
                     { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },

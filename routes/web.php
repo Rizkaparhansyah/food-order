@@ -65,10 +65,45 @@ Route::middleware('auth:admin')->group(function () {
     Route::delete('/admin/user-hapus/{id}',[AcountController::class,'delete'])->name('delete.user');
 
 
-//PembelianBarang
-    Route::resource('pembelian-barang', PembelianBarangController::class);
-    Route::resource('penerimaan-barang', PenerimaanBarangController::class);
-    Route::resource('bahan-baku', BahanBakuController::class);
+// PembelianBarang
+Route::resource('pembelian-barang', PembelianBarangController::class, [
+    'names' => [
+        'index' => 'admin.pembelian.index',
+        'create' => 'admin.pembelian.create',
+        'store' => 'admin.pembelian.store',
+        'show' => 'admin.pembelian.show',
+        'edit' => 'admin.pembelian.edit',
+        'update' => 'admin.pembelian.update',
+        'destroy' => 'admin.pembelian.destroy',
+    ]
+]);
+
+// PenerimaanBarang
+Route::resource('penerimaan-barang', PenerimaanBarangController::class, [
+    'names' => [
+        'index' => 'admin.penerimaan.index',
+        'create' => 'admin.penerimaan.create',
+        'store' => 'admin.penerimaan.store',
+        'show' => 'admin.penerimaan.show',
+        'edit' => 'admin.penerimaan.edit',
+        'update' => 'admin.penerimaan.update',
+        'destroy' => 'admin.penerimaan.destroy',
+    ]
+]);
+
+// BahanBaku
+Route::resource('bahan-baku', BahanBakuController::class, [
+    'names' => [
+        'index' => 'admin.bahan.index',
+        'create' => 'admin.bahan.create',
+        'store' => 'admin.bahan.store',
+        'show' => 'admin.bahan.show',
+        'edit' => 'admin.bahan.edit',
+        'update' => 'admin.bahan.update',
+        'destroy' => 'admin.bahan.destroy',
+    ]
+]);
+
 });
 
 // DATA USER
@@ -79,28 +114,28 @@ Route::middleware('auth:kasir')->group(function () {
     
     Route::get('/kasir', function(){
         return view('admin.index');
-    })->name('admin');
+    })->name('kasir');
 
     //DaftarPesananController
-    Route::get('/kasir/daftar-pesanan', [DaftarPesanan::class, 'index'])->name('pesanan.list');
-    Route::post('/kasir/daftar-pesanan/aksi', [DaftarPesanan::class, 'aksi'])->name('pesanan.aksi');
-    Route::post('/kasir/daftar-pesanan/aksi-perdata', [DaftarPesanan::class, 'perData'])->name('pesanan.aksi-perdata');
+    Route::get('/kasir/daftar-pesanan', [DaftarPesanan::class, 'index'])->name('kasir.pesanan.list');
+    Route::post('/kasir/daftar-pesanan/aksi', [DaftarPesanan::class, 'aksi'])->name('kasir.pesanan.aksi');
+    Route::post('/kasir/daftar-pesanan/aksi-perdata', [DaftarPesanan::class, 'perData'])->name('kasir.pesanan.aksi-perdata');
 
     //MenuController
 
-        Route::get('/kasir/menu', [MenuController::class, 'index'])->name('list.menu');
-        Route::post('/kasir/menu/tambah', [MenuController::class, 'tambah'])->name('menu.tambah');
-        Route::delete('/kasir/menu-hapus/{id}', [MenuController::class, 'hapus'])->name('hapus.menu');
+        Route::get('/kasir/menu', [MenuController::class, 'index'])->name('kasir.list.menu');
+        Route::post('/kasir/menu/tambah', [MenuController::class, 'tambah'])->name('kasir.menu.tambah');
+        Route::delete('/kasir/menu-hapus/{id}', [MenuController::class, 'hapus'])->name('kasir.hapus.menu');
 
     //KategoriesController
 
-    Route::get('/kasir/kategori', [KategoriController::class, 'index'])->name('list.kategori');
-    Route::post('/kasir/kategori-tambah', [KategoriController::class, 'tambah'])->name('tambah.kategori');
-    Route::delete('/kasir/kategori-hapus/{id}', [KategoriController::class, 'hapus'])->name('hapus.kategori');
+    Route::get('/kasir/kategori', [KategoriController::class, 'index'])->name('kasir.list.kategori');
+    Route::post('/kasir/kategori-tambah', [KategoriController::class, 'tambah'])->name('kasir.tambah.kategori');
+    Route::delete('/kasir/kategori-hapus/{id}', [KategoriController::class, 'hapus'])->name('kasir.hapus.kategori');
 
-    Route::get('/kasir/data-penjualan',[PenjualanController::class,'index'])->name('data.penjualan');
+    Route::get('/kasir/data-penjualan',[PenjualanController::class,'index'])->name('kasir.data.penjualan');
 //OrderController
-    Route::get('/kasir/order',[OrderController::class,'index'])->name('order.index');
+    Route::get('/kasir/order',[OrderController::class,'index'])->name('kasir.order.index');
 
 });
 

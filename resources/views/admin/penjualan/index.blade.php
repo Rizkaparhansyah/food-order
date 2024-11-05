@@ -48,7 +48,7 @@ $(document).ready(function() {
     var table = $('#penjualanTable').DataTable({
             processing: true,
             serverSide: true,
-            ajax: "{{ route('data.penjualan') }}",
+            ajax: "{{ route(Auth::user()->role == 'admin' ? 'data.penjualan' : 'kasir.data.penjualan') }}",
             columns: [
                 { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
                 {
