@@ -74,17 +74,17 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h2 id="productModalLabel1" class="text-center w-100 color-utama"></h2>
+                <h2 id="productModalLabel1" class="text-center w-100 color-keempat"></h2>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <img id="productImage" style="height: 400px; object-fit:cover" src="" alt="Product Image" class="rounded img-fluid  mb-3 w-100">
-                <h5 class="modal-title mb-3 color-utama" id="productModalLabel"></h5>
+                <h5 class="modal-title mb-3 color-keempat" id="productModalLabel"></h5>
                 <div class="d-flex gap-2 flex-wrap">
                     <p class="card-text text-success"><strong id="productHargaDiskon"></strong></p>
                     <p class="card-text text-danger" id="disc"><small><del id="productHarga"></del></small></p>
                 </div>
-                <p id="productDescription" class="color-utama mb-3"></p>
+                <p id="productDescription" class="color-keempat mb-3"></p>
                 <button class="btn bg-kedua color-keempat w-100 addToCart" id="addToCart">
                     <i class="fa-solid fa-cart-shopping color-keempat me-2"></i> Keranjang
                 </button>

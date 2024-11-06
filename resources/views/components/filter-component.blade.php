@@ -1,4 +1,4 @@
-<div class="container">
+{{-- <div class="container">
     <div class="d-flex justify-content-between flex-wrap gap-2">
         <div class="row">
             <div class="col-sm-12 ">
@@ -21,7 +21,7 @@
         event.preventDefault();
         let query = document.getElementById('searchInput').value;
 
-        fetch(`/search?query=${query}`)
+        fetch(/search?query=${query})
             .then(response => response.json())
             .then(data => {
                 if (data.status === 'success') {
@@ -35,4 +35,4 @@
                 }
             });
     });
-</script>
+</script> --}}

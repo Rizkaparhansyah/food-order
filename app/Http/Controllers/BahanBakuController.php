@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Auth;
 use App\Models\BahanBaku;
 use Illuminate\Http\Request;
 
@@ -18,6 +19,9 @@ class BahanBakuController extends Controller
             // dd($bahanBakus);
             return datatables()->of($bahanBakus)
                 ->addColumn('action', function($row){
+                    Auth::user()->role == 'kasir' ? 
+                    $btn = ''
+                    :
                     $btn = '<a href="javascript:void(0)" class="btn btn-warning btn-sm edit"
                         data-info="' . htmlspecialchars(json_encode([
                             'id' => $row->id,

@@ -23,7 +23,7 @@
             :root{
                 --warna-utama : #F8EDE3;
                 --warna-kedua : #DFD3C3;
-                --warna-ketiga : #D0B8A8;
+                --warna-ketiga : #c3aa9a;
                 --warna-keempat : #8D493A;
             }
             a {

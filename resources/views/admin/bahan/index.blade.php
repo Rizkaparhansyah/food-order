@@ -28,7 +28,11 @@
                             <th>Subkategori</th>
                             <th>Penggunaan Bahan Baku</th>
                             <th>Acara Khusus</th>
-                            <th></th>
+                            
+                            @if(Auth::user()->role == 'admin')
+                            
+                                <th></th>
+                            @endif
                         </tr>
                     </thead>
                 </table>
@@ -144,8 +148,7 @@ $(document).ready(function() {
                         return data == 'on' ? 'Ya' : 'Tidak';
                     }
                 },
-                { data: 'action', name: 'action', 
-                }
+                { data: 'action', name: 'action',}
             ]
         })
 

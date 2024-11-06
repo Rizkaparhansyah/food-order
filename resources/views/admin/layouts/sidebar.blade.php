@@ -11,7 +11,7 @@ $menuItems = [
         ['name' => 'Data Penjualan', 'route' => 'data.penjualan', 'icon' => 'fa fa-history'],
         ['name' => 'Pesanan Pembelian', 'route' => 'admin.pembelian.index', 'icon' => 'fa fa-list'],
         ['name' => 'Penerimaan Barang', 'route' => 'admin.penerimaan.index', 'icon' => 'fa fa-list'],
-        ['name' => 'Bahan Baku', 'route' => 'admin.bahan.index', 'icon' => 'fa fa-list'],
+        ['name' => 'Bahan Baku', 'route' => 'kasir.bahan.index', 'icon' => 'fa fa-list'],
         ['name' => 'Manajemen User', 'route' => 'data.user', 'icon' => 'fa fa-user'],
     ],
     'kasir' => [
@@ -20,6 +20,7 @@ $menuItems = [
         ['name' => 'Menu', 'route' => 'kasir.list.menu', 'icon' => 'fa fa-list'],
         ['name' => 'Kategori', 'route' => 'kasir.list.kategori', 'icon' => 'fa fa-barcode'],
         ['name' => 'Data Penjualan', 'route' => 'kasir.data.penjualan', 'icon' => 'fa fa-history'],
+        ['name' => 'Bahan Baku', 'route' => 'kasir.bahan.index', 'icon' => 'fa fa-barcode'],
     ],
 ];
 

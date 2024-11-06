@@ -116,6 +116,17 @@ Route::middleware('auth:kasir')->group(function () {
         return view('admin.index');
     })->name('kasir');
 
+    // BahanBaku
+Route::resource('bahan-baku', BahanBakuController::class, [
+    'names' => [
+        'index' => 'kasir.bahan.index',
+        'create' => 'kasir.bahan.create',
+        'store' => 'kasir.bahan.store',
+        'show' => 'kasir.bahan.show',
+        'edit' => 'kasir.bahan.edit',
+    ]
+]);
+
     //DaftarPesananController
     Route::get('/kasir/daftar-pesanan', [DaftarPesanan::class, 'index'])->name('kasir.pesanan.list');
     Route::post('/kasir/daftar-pesanan/aksi', [DaftarPesanan::class, 'aksi'])->name('kasir.pesanan.aksi');
