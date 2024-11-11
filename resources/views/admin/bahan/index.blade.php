@@ -11,14 +11,15 @@
 <div class="row">
     <div class="col-md-12">
         <div class="card">
+            <?php if (Auth::user()->role == 'admin'){ ?>
             <div class="card-header">
                 <!-- Button trigger modal -->
                 <button type="button" id="addBahan" class="btn btn-primary" data-toggle="modal"
                 data-target="#modalTambah">
                     Tambah Bahan Baku
                 </button>
-                
             </div>
+            <?php } ?>
             <div class="card-body">
                 <table id="bahanTable" class="table table-bordered">
                     <thead>
