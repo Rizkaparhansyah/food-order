@@ -14,6 +14,7 @@ use App\Http\Controllers\PenjualanController;
 use App\Models\Menu;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -154,7 +155,31 @@ Route::get('menu', function () {
     return view('components.menu-component', compact('data'));
 })->name('menu');
 
+Route::get('menu/filter', function (Request $request) {
+    $query = Menu::with('kategori');
 
+    if ($request->has('search') && $request->search) {
+        $query->where('menus.nama', 'like', '%' . $request->search . '%');
+    }
+
+    if ($request->has('kategori') && $request->kategori == 'best_seller') {
+        $query->whereIn('id', function ($subQuery) {
+            $subQuery->select('id_menu')
+                     ->from('transaksis')
+                     ->groupBy('id_menu')
+                     ->orderByRaw('COUNT(*) DESC');
+        });
+    } elseif ($request->has('kategori') && $request->kategori != 'semua' && $request->kategori != '') {
+        $query->whereHas('kategori', function ($q) use ($request) {
+            $q->where('kategoris.nama', $request->kategori);
+        });
+    }
+
+    $data = $query->get();
+
+    return response()->json(['data' => $data]);
+
+})->name('menu.filter');
 
 //KeranjangController
 Route::get('cart', [KeranjangController::class, 'index'])->middleware('name.auth')->name('cart');

@@ -1,38 +1,21 @@
-{{-- <div class="container">
+<div class="container">
     <div class="d-flex justify-content-between flex-wrap gap-2">
         <div class="row">
-            <div class="col-sm-12 ">
-                <button type="button" class="btn color-keempat" style="border-color: var(--warna-keempat)">Makanan</button>
-                <button type="button" class="btn color-keempat" style="border-color: var(--warna-keempat)">Minuman</button>
-                <button type="button" class="btn color-keempat" style="border-color: var(--warna-keempat)">Recomended</button>
-                <button type="button" class="btn color-keempat" style="border-color: var(--warna-keempat)">Best Seller</button>
-                <button type="button" class="btn color-keempat" style="border-color: var(--warna-keempat)">Popular</button>
+            <div class="col-sm-12">
+                <button id="kategori_semua" type="button" class="btn color-keempat kategori-filter" data-kategori="semua"
+                    style="border-color: var(--warna-keempat)">Semua</button>
+                <button id="kategori_makanan" type="button" class="btn color-keempat kategori-filter" data-kategori="Makanan"
+                    style="border-color: var(--warna-keempat)">Makanan</button>
+                <button id="kategori_minuman" type="button" class="btn color-keempat kategori-filter" data-kategori="Minuman"
+                    style="border-color: var(--warna-keempat)">Minuman</button>
+                <button id="kategori_best_seller" type="button" class="btn color-keempat kategori-filter" data-kategori="best_seller"
+                    style="border-color: var(--warna-keempat)">Best Seller</button>
             </div>
         </div>
         <form class="d-flex" role="search" id="searchForm">
-            <input class="form-control me-2 color-keempat" id="searchInput" type="search" placeholder="Search" aria-label="Search"  style="border-color: var(--warna-keempat)">
+            <input class="form-control me-2 color-keempat" id="searchInput" type="search" placeholder="Search"
+                aria-label="Search" style="border-color: var(--warna-keempat)">
             <button class="btn color-keempat bg-kedua" type="submit">Search</button>
         </form>
     </div>
 </div>
-
-<script>
-    document.getElementById('searchForm').addEventListener('submit', function(event) {
-        event.preventDefault();
-        let query = document.getElementById('searchInput').value;
-
-        fetch(/search?query=${query})
-            .then(response => response.json())
-            .then(data => {
-                if (data.status === 'success') {
-                    let product = data.product;
-                    document.getElementById('productModalLabel').textContent = product.name;
-                    document.getElementById('productImage').src = product.image_url;
-                    document.getElementById('productDescription').textContent = product.description;
-                    new bootstrap.Modal(document.getElementById('productModal')).show();
-                } else {
-                    alert(data.message);
-                }
-            });
-    });
-</script> --}}
