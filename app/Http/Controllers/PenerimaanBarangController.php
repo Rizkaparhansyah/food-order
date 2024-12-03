@@ -61,7 +61,7 @@ class PenerimaanBarangController extends Controller
             
             ->make(true);
         }
-        $pesananPembelian = PembelianBarang::where('status', 'pending')->get();
+        $pesananPembelian = PembelianBarang::where('status', 'diproses')->get();
         return view('admin.penerimaan.index', compact('pesananPembelian'));
     }
 
