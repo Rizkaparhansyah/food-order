@@ -41,7 +41,7 @@
         // Your JavaScript code here
         function headerStatistik() {
             $.ajax({
-                url: "{{route('data.penjualan')}}",
+                url: "{{Auth::user()->role == 'kasir' ? route('kasir.data.penjualan') : route('data.penjualan')}}",
                 type: 'GET',
                 data:{
                     tab: true,
