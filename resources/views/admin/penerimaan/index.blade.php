@@ -296,6 +296,11 @@
 
         $('#penerimaanTable').on('click', '.print', function() {
             var data = $(this).data('info'); // Ambil data-info
+
+            // Format the harga_satuan and total_harga with "Rp" prefix
+            var hargaSatuanFormatted = FormatRupiah(data.harga_satuan);
+            var totalHargaFormatted = FormatRupiah(data.total_harga);
+
             // Buat konten untuk dicetak
             var printContent = `
                 <div style="text-align:center; margin-top:100px">
@@ -312,11 +317,11 @@
                         </tr>
                         <tr>
                             <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Harga Satuan</th>
-                            <td style="border: 1px solid #ddd; padding: 8px;">${data.harga_satuan}</td>
+                            <td style="border: 1px solid #ddd; padding: 8px;">${hargaSatuanFormatted}</td>
                         </tr>
                         <tr>
                             <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Total</th>
-                            <td style="border: 1px solid #ddd; padding: 8px;">${data.total_harga}</td>
+                            <td style="border: 1px solid #ddd; padding: 8px;">${totalHargaFormatted}</td>
                         </tr>
                         <tr>
                             <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Tanggal Penerimaan</th>
